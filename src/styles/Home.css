@@ -152,3 +152,9 @@
         border-radius: 6px;
     }
 }
+
+@media(max-width: 420px){
+    .homeHeroHeading h1{
+        font-size: 23px;
+    }
+}

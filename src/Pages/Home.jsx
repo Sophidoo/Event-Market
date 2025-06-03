@@ -7,7 +7,14 @@ import { useState } from 'react'
 
 const Home = () => {
     const [showMenu, setShowMenu] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [showResponsiveMenu, setShowResponsiveMenu] = useState(false)
+    const [searchDetails, setSearchDetails] = useState({
+        category: "",
+        start_date: "",
+        end_date: "",
+        location: ""
+    })
 
     const decideMenuToShow = (decision) => {
         if(decision === "menu"){
@@ -18,7 +25,18 @@ const Home = () => {
             setShowMenu(false)
         }
     }
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setLoading(true)
+    }
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setSearchDetails((prev) => ({
+            ...prev,
+            [name]: value, 
+        }));
+    };
     return <>
         <section className="homeHeroSection">
             <nav className="text-white flex justify-between">
@@ -106,12 +124,12 @@ const Home = () => {
                 <p className='text-gray-200'>Everything You Need to Make Events Unforgettable.</p>
             </div>
 
-            <form className="homeHeroForm bg-white">
+            <form className="homeHeroForm bg-white" onSubmit={handleSearch}>
                 <div className="inputWrapper border-r-gray-200">
                     <label htmlFor="" className='text-gray-600'>
                         CATEGORY
                     </label>
-                    <select name="" id="">
+                    <select name="category" id="" value={searchDetails.category} onChange={handleChange}>
                         <option value="" >Select Category</option>
                     </select>
                 </div>
@@ -119,26 +137,30 @@ const Home = () => {
                     <label htmlFor=""  className='text-gray-600'>
                         RENT START DATE
                     </label>
-                    <input type="date" name="" id="" />
+                    <input type="date" name="start_date" id="" value={searchDetails.start_date} onChange={handleChange}/>
                 </div>
                 <div className="inputWrapper border-r-gray-200">
                     <label htmlFor=""  className='text-gray-600'>
                         RENT END DATE
                     </label>
-                    <input type="date" name="" id="" />
+                    <input type="date" name="end_date" id="" value={searchDetails.end_date} onChange={handleChange}/>
                 </div>
                 <div className="inputWrapper">
                     <label htmlFor=""  className='text-gray-600'>
                         LOCATION
                     </label>
-                    <select name="" id="">
+                    <select name="location" id="" value={searchDetails.location} onChange={handleChange}>
                         <option value="">
                             Select Location
                         </option>
                     </select>
                 </div>
-                <button className='bg-[#0B5850] text-white'><MagnifyingGlassIcon/> Search</button>
+                <button type='submit' disabled={loading} className='bg-[#0B5850] text-white'> {loading ? "Loading..." : (<> <MagnifyingGlassIcon/> Search</>)}</button>
             </form>
+        </section>
+
+        <section className='itemsWrapper'>
+            
         </section>
     </>
 
