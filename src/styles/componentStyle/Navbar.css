@@ -57,3 +57,48 @@ nav .userProfile img{
     height: 30px;
     border-radius: 100%;
 }
+
+nav .navMenu{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 59px;
+    right: 0px;
+    padding: 15px 15px;
+    min-width: 400px;
+    row-gap: 10px;
+    box-shadow: 0px 4px 10px rgb(232, 232, 232);
+}
+nav .navMenu a{
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+nav .navMenu a:hover{
+    background-color: rgb(11, 84, 76, 0.11);
+}
+nav .navMenu2 a svg{
+    width: auto;
+    height: 16px;
+    margin-bottom: 3px;
+}
+nav .menuIcon{
+    display: none;
+}
+
+@media(max-width: 870px){
+    nav .leftNav ul{
+        display: none;
+    }
+    nav .menuIcon{
+        display: flex;
+    }
+}
+@media(max-width: 400px){
+    nav .navMenu{
+        width: 100%;
+    }
+}
