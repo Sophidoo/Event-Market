@@ -1,0 +1,59 @@
+nav{
+    padding: 10px 5%;
+}
+nav .leftNav img{
+    width: 120px;
+    height: 30px;
+    background-color: gray;
+}
+nav .leftNav{
+    display: flex;
+    align-items: center;
+    column-gap: 60px;
+}
+nav .leftNav ul{
+    display: flex;
+    column-gap: 20px;
+    font-size: 13px;
+}
+nav .leftNav ul li{
+    padding: 4px 11px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    column-gap: 6px;
+    font-weight: 500;
+    cursor: pointer;
+}
+nav li svg{
+    margin-bottom: 2px;
+    width: 15x;
+    height: 15px;
+}
+nav .leftNav ul li:hover{
+}
+nav .rightNav{
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+}
+nav .rightNav svg{
+    height: 20px;
+    width: auto;
+}
+nav .userProfile{
+    display: flex;
+    column-gap: 19px;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 30px;
+}
+nav .userProfile svg{
+    height: 15px;
+    width: auto;
+}
+nav .userProfile img{
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
