@@ -1,0 +1,154 @@
+.homeHeroSection {
+    background-image: linear-gradient(to bottom, #052825, #0c5a51, #128D7F);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.homeHeroHeading{
+    margin-top: 140px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 9px;
+    text-align: center;
+    align-items: center;
+    padding: 0px 5%;
+}
+.homeHeroHeading h1{
+    font-size: 35px;
+    font-weight: 700;
+}
+.homeHeroHeading p{
+    font-size: 16px;
+    font-weight: 400;
+}
+.homeHeroForm{
+    box-shadow: 0px 3.5px 0px rgb(0, 0, 0, 0.11);
+    border-radius: 12px;
+    display: flex;
+    width: 70%;
+    margin-top: 41px;
+    margin-bottom: -40px;
+}
+.homeHeroForm .inputWrapper{
+    padding: 21px;
+    display: flex;
+    flex-direction: column;
+    width: 22%;
+    border-right: 1px solid rgb(211, 211, 211);
+}
+.homeHeroForm label{
+    font-size: 11px;
+}
+.homeHeroForm input{
+    width: 100%;
+    font-size: 14px;
+    padding: 5px 0px;
+    font-weight: 500;
+    outline: none;
+    border: 0px;
+}
+.homeHeroForm select{
+    width: 100%;
+    outline: none;
+    font-size: 14px;
+    padding: 5px 0px;
+    font-weight: 500;
+}
+.homeHeroForm button{
+    display: flex;
+    border-radius: 10px;
+    align-items: center;
+    column-gap: 4px;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 12%;
+    margin: 11px;
+    align-items: center;
+    justify-content: center;
+}
+.homeHeroForm button svg{
+    width: auto;
+    height: 14px;
+}
+
+@media(max-width: 1300px){
+    .homeHeroForm{
+        width: 90%;
+    }
+}
+@media(max-width: 1000px){
+    .homeHeroForm .inputWrapper{
+        padding: 16px;
+    }
+    .homeHeroForm input{
+        font-size: 13px;
+    }
+    .homeHeroForm select{
+        font-size: 13px;
+        border: 0px;
+    }
+}
+@media(max-width: 870px){
+    .homeHeroForm{
+        width: 94%;
+    }
+    
+}
+@media(max-width: 800px){
+    .homeHeroForm {
+        flex-wrap: wrap;
+        margin-bottom: -100px;
+    }
+    .homeHeroForm .inputWrapper{
+        width: 50%;
+        padding: 12px;
+        border-bottom: 1px solid rgb(211, 211, 211);
+    }
+    .homeHeroForm .inputWrapper:nth-child(2){
+        border-right: 0px;
+    }
+    .homeHeroForm .inputWrapper:nth-child(4){
+        border-right: 0px;
+    }
+    .homeHeroForm button{
+        height: 45px;
+        width: 100%;
+    }
+}
+@media(max-width: 750px){
+    .homeHeroHeading h1{
+        font-size: 30px;
+    }
+    .homeHeroHeading p{
+        font-size: 14px;
+    }
+}
+@media(max-width: 500px){
+    .homeHeroHeading h1{
+        font-size: 25px;
+    }
+    .homeHeroHeading p{
+        font-size: 13px;
+    }
+    .homeHeroForm label{
+        font-size: 10px;
+    }
+    .homeHeroForm input{
+        font-size: 12px;
+    }
+    .homeHeroForm input{
+        font-size: 12px;
+    }
+    .homeHeroForm select{
+        font-size: 12px;
+    }
+    .homeHeroForm .inputWrapper{
+        padding: 10px;
+    }
+    .homeHeroForm button{
+        font-size: 12px;
+        height: 30px;
+        border-radius: 6px;
+    }
+}

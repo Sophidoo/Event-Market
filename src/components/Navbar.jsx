@@ -23,10 +23,22 @@ const Navbar = () => {
             <div className="leftNav">
                 <img src="" alt="" />
                 <ul>
-                    <NavLink><li className='hover:bg-white hover:text-[#0B5850]'><HomeIcon/> Home</li></NavLink>
-                    <NavLink><li className='hover:bg-white hover:text-[#0B5850]'><CalendarDateRangeIcon/> Rentals</li></NavLink>
-                    <NavLink><li className='hover:bg-white hover:text-[#0B5850]'><BriefcaseIcon/> Services</li></NavLink>
-                    <NavLink><li className='hover:bg-white hover:text-[#0B5850]'><InboxStackIcon/> Packages</li></NavLink>
+                    <NavLink
+                        to="/"
+                        className={({isActive}) => `${isActive ? 'bg-white text-[#0B5850] rounded-[25px]' : ''}`}
+                    ><li className='hover:bg-white hover:text-[#0B5850]'><HomeIcon/> Home</li></NavLink>
+                    <NavLink
+                        to="/rentals"
+                        className={({isActive}) => `${isActive ? 'bg-white text-[#0B5850] rounded-[25px]' : ''}`}
+                    ><li className='hover:bg-white hover:text-[#0B5850]'><CalendarDateRangeIcon/> Rentals</li></NavLink>
+                    <NavLink
+                        to="/services"
+                        className={({isActive}) => `${isActive ? 'bg-white text-[#0B5850] rounded-[25px]' : ''}`}
+                    ><li className='hover:bg-white hover:text-[#0B5850]'><BriefcaseIcon/> Services</li></NavLink>
+                    <NavLink
+                        to="/packages"
+                        className={({isActive}) => `${isActive ? 'bg-white text-[#0B5850] rounded-[25px]' : ''}`}
+                    ><li className='hover:bg-white hover:text-[#0B5850]'><InboxStackIcon/> Packages</li></NavLink>
                 </ul>
             </div>
 
@@ -38,19 +50,23 @@ const Navbar = () => {
                     <ChevronDownIcon className='cursor-pointer' onClick={() => decideMenuToShow("menu")}/>
                     <div className={showMenu ? "navMenu" : "hide" }>
                         <NavLink 
-                            className="text-[#0B5850] hover:bg-[rgb(11, 84, 76, 0.11)]"
+                            to="/dashboard"
+                            className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                         ><Squares2X2Icon/> Dashboard</NavLink>
                         {/* <hr className='border-[0.5px] border-gray-100'/> */}
                         <NavLink 
-                            className="text-[#0B5850] hover:bg-[rgb(11, 84, 76, 0.11)]"
+                            to="/bookings"
+                            className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                         ><ClipboardDocumentCheckIcon/> Bookings</NavLink>
                         {/* <hr className='border-[0.5px] border-gray-100'/> */}
                         <NavLink
-                            className="text-[#0B5850] hover:bg-[rgb(11, 84, 76, 0.11)]"
+                            to="/wishlist"
+                            className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                         ><HeartIcon/> Wishlist</NavLink>
                         {/* <hr className='border-[0.5px] border-gray-100'/> */}
                         <NavLink
-                            className="text-[#0B5850] hover:bg-[rgb(11, 84, 76, 0.11)]"
+                            to="/profile"
+                            className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                         ><UserCircleIcon/> Profile</NavLink>
                     </div>
                 </div>
@@ -65,16 +81,20 @@ const Navbar = () => {
 
             <div className={showResponsiveMenu && window.innerWidth <= 870 ? "navMenu navMenu2" : "hide"}>
                 <NavLink
-                    className="text-[#0B5850] hover:bg-[rgb(11, 84, 76, 0.11)]"
+                    to="/"
+                    className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                 ><HomeIcon/> Home</NavLink>
                 <NavLink
-                    className="text-[#0B5850] hover:bg-[rgb(11, 84, 76, 0.11)]"
+                    to="/rentals"
+                    className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                 ><CalendarDateRangeIcon/> Rentals</NavLink>
                 <NavLink
-                    className="text-[#0B5850] hover:bg-[rgb(11, 84, 76, 0.11)]"
+                    to="/services"
+                    className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                 ><BriefcaseIcon/> Services</NavLink>
                 <NavLink
-                    className="text-[#0B5850] hover:bg-[rgb(11, 84, 76, 0.11)]"
+                    to="/packages"
+                    className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                 ><InboxStackIcon/> Packages</NavLink>
             </div>
         </nav>

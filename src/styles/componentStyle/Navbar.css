@@ -1,5 +1,9 @@
 nav{
     padding: 10px 5%;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    z-index: 20;
 }
 nav .leftNav img{
     width: 120px;
@@ -29,8 +33,6 @@ nav li svg{
     margin-bottom: 2px;
     width: 15x;
     height: 15px;
-}
-nav .leftNav ul li:hover{
 }
 nav .rightNav{
     display: flex;
@@ -69,6 +71,7 @@ nav .navMenu{
     row-gap: 10px;
     box-shadow: 0px 4px 10px rgb(232, 232, 232);
 }
+
 nav .navMenu a{
     padding: 10px 15px;
     font-size: 14px;
@@ -88,6 +91,9 @@ nav .navMenu2 a svg{
 nav .menuIcon{
     display: none;
 }
+.heroNavMenu{
+    box-shadow: none !important;
+}
 
 @media(max-width: 870px){
     nav .leftNav ul{
@@ -96,9 +102,12 @@ nav .menuIcon{
     nav .menuIcon{
         display: flex;
     }
+    nav{
+        padding: 10px 3%;
+    }
 }
 @media(max-width: 400px){
     nav .navMenu{
-        width: 100%;
+        min-width: 100%;
     }
 }
