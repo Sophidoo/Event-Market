@@ -394,7 +394,7 @@ const Home = () => {
                         // when the window width is >= 320px
                         100: {
                         slidesPerView: 1.5,
-                        spaceBetween: 10,
+                        spaceBetween: 15,
                         },
                         500: {
                         slidesPerView: 2,
@@ -464,7 +464,7 @@ const Home = () => {
                         // when the window width is >= 320px
                         100: {
                         slidesPerView: 1.5,
-                        spaceBetween: 10,
+                        spaceBetween: 15,
                         },
                         500: {
                         slidesPerView: 2,
@@ -514,6 +514,195 @@ const Home = () => {
                 </Swiper>
             </div>
         </section>
+
+        <section className='vendorWrapper'>
+            <div className="leftVendorWrapper">
+                <small className='leftVendorTitle text-gray-600'>Vendor of the month</small>
+                <h2>K&M Part Rentals & Decor</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+
+                <div className="leftVendorDetails">
+                    <div className="starRating">
+                        <StarIcon className='text-yellow-600'/>
+                        <StarIcon className='text-yellow-600'/>
+                        <StarIcon className='text-yellow-600'/>
+                        <StarIcon className='text-yellow-600'/>
+                        <StarIcon className='text-yellow-600'/>
+                        <small>(320)</small>
+                    </div>
+                    <p>Trusted by 500+ clients since 2018</p>
+                    <div className="vendorSocialIcons">
+                        <i class="bi bi-whatsapp"></i>
+                        <i class="bi bi-instagram"></i>
+                        <i class="bi bi-twitter-x"></i>
+                        <i class="bi bi-facebook"></i>
+                    </div>
+                </div>
+            </div>
+            <iframe  src="https://www.youtube.com/embed/YOlM1Ijkoao?si=RKOMVOn0MAHO1Psf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+
+        <section className='itemsWrapper itemsWrapper2'>
+            <div className="itemsHolder">
+                <div className="itemsWrapperHeading">
+                    <h2>Most Booked Rentals <ChevronRightIcon/></h2>
+                    <div className="itemsArrow">
+                        <ChevronLeftIcon className='border-gray-300 text-gray-400 hover:bg-gray-200'  onClick={() => swiperRef.current?.slidePrev()}/>
+                        <ChevronRightIcon className='border-gray-300 text-gray-400 hover:bg-gray-200'  onClick={() => swiperRef.current?.slideNext()}/>
+                    </div>
+                </div>
+                <Swiper
+                    modules={[Navigation, A11y]}
+                    spaceBetween={30}
+                    className="mySwiper"
+                    slidesPerView={5}
+                    onBeforeInit={(swiper) => {
+                        swiperRef.current = swiper;
+                    }}
+                    breakpoints={{
+                        // when the window width is >= 320px
+                        100: {
+                        slidesPerView: 1.5,
+                        spaceBetween: 15,
+                        },
+                        500: {
+                        slidesPerView: 2,
+                        spaceBetween: 15,
+                        },
+                        // when the window width is >= 640px
+                        600: {
+                        slidesPerView: 3,
+                        spaceBetween: 20,
+                        },
+                        // when the window width is >= 1024px
+                        1000: {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                        },
+                    }}
+                    onSwiper={(swiper) => console.log(swiper)}
+                    onSlideChange={() => console.log('slide change')}
+                >
+                {
+                    rentalItems.map((el) => {
+                        return <SwiperSlide >
+                        <div className="itemCard">
+                            <img src={el.image} alt="" />
+                            <HeartIcon className='saveIcon text-black hover:text-red-600'/>
+                            <div className="itemCardDetails">
+                                <h3>{el.title}</h3>
+                                <small className='text-gray-600'>{el.unitsAvailable} units available</small>
+                                <p>
+                                    <span>
+                                        <StarIcon className='text-yellow-600'/>
+                                        {el.rating}
+                                        <small className='text-gray-600'>({el.numberOfRatings})</small>
+                                    </span>
+                                    <span>
+                                        N{el.price}
+                                        <small className='text-gray-600'>/{el.pricingType}</small>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </SwiperSlide>
+                    })
+                }
+                    
+                    
+                </Swiper>
+            </div>
+
+            <div className="itemsHolder">
+                <div className="itemsWrapperHeading">
+                    <h2>Canopies and Tents <ChevronRightIcon/></h2>
+                    <div className="itemsArrow">
+                        <ChevronLeftIcon className='border-gray-300 text-gray-400 hover:bg-gray-200'  onClick={() => swiperRef.current?.slidePrev()}/>
+                        <ChevronRightIcon className='border-gray-300 text-gray-400 hover:bg-gray-200'  onClick={() => swiperRef.current?.slideNext()}/>
+                    </div>
+                </div>
+                <Swiper
+                    modules={[Navigation, A11y]}
+                    spaceBetween={30}
+                    className="mySwiper"
+                    slidesPerView={5}
+                    onBeforeInit={(swiper) => {
+                        swiperRef.current = swiper;
+                    }}
+                    breakpoints={{
+                        // when the window width is >= 320px
+                        100: {
+                        slidesPerView: 1.5,
+                        spaceBetween: 15,
+                        },
+                        500: {
+                        slidesPerView: 2,
+                        spaceBetween: 15,
+                        },
+                        // when the window width is >= 640px
+                        600: {
+                        slidesPerView: 3,
+                        spaceBetween: 20,
+                        },
+                        // when the window width is >= 1024px
+                        1000: {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                        },
+                    }}
+                    onSwiper={(swiper) => console.log(swiper)}
+                    onSlideChange={() => console.log('slide change')}
+                >
+                {
+                    rentalItems2.map((el) => {
+                        return <SwiperSlide >
+                        <div className="itemCard">
+                            <img src={el.image} alt="" />
+                            <HeartIcon className='saveIcon text-black hover:text-red-600'/>
+                            <div className="itemCardDetails">
+                                <h3>{el.title}</h3>
+                                <small className='text-gray-600'>{el.unitsAvailable} units available</small>
+                                <p>
+                                    <span>
+                                        <StarIcon className='text-yellow-600'/>
+                                        {el.rating}
+                                        <small className='text-gray-600'>({el.numberOfRatings})</small>
+                                    </span>
+                                    <span>
+                                        N{el.price}
+                                        <small className='text-gray-600'>/{el.pricingType}</small>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </SwiperSlide>
+                    })
+                }
+                    
+                    
+                </Swiper>
+            </div>
+        </section>
+
+        <footer>
+            <p>
+                <span>&copy; All Rights Reserved. 2025 Rentopia.</span>
+                <i className="bi bi-circle-fill"></i>
+                <span>Privacy</span>
+                <i className="bi bi-circle-fill"></i>
+                <span>Terms</span>
+                <i className="bi bi-circle-fill"></i>
+                <span>Help Center</span>
+            </p>
+            <div className="footerSocialIcons">
+                <i class="bi bi-whatsapp"></i>
+                <i class="bi bi-instagram"></i>
+                <i class="bi bi-twitter-x"></i>
+                <i class="bi bi-facebook"></i>
+            </div>
+        </footer>
     </>
 
 }

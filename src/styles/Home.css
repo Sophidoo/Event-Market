@@ -284,6 +284,9 @@
     .itemsWrapper{
         padding-top: 160px;
     }
+    .itemsWrapper2{
+        padding-top: 105px !important;
+    }
 }
 @media(max-width: 500px){
     .itemsWrapperHeading h2{
@@ -335,5 +338,112 @@
     }
     .itemCardDetails small{
         font-size: 11px;
+    }
+}
+@media(max-width: 870px){
+    .itemsWrapper{
+        padding: 105px 3%;
+        padding-top: 160px;
+    }
+}
+
+.vendorWrapper{
+    background-color: #F3F3F3;
+    display: flex;
+}
+.leftVendorWrapper{
+    padding: 54px 5%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 22px;
+    align-items: flex-start;
+    text-align: left;
+    width: 45%;
+}
+.leftVendorWrapper small{
+    font-size: 12px;
+}
+.leftVendorTitle{
+    margin-bottom: -10px;
+}
+.leftVendorWrapper h2{
+    font-size: 25px;
+    font-weight: 600;
+}
+.leftVendorWrapper p{
+    font-size: 13px;
+}
+.leftVendorDetails{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+    align-items: flex-end;
+    width: 100%;
+}
+.leftVendorDetails .starRating{
+    display: flex;
+    column-gap: 4px;
+}
+.leftVendorDetails svg{
+    height: 15px;
+    width: 15px;
+}
+.leftVendorDetails small{
+    font-size: 11px;
+    padding-top: 1px;
+}
+.leftVendorDetails i{
+    font-size: 14px;
+}
+.vendorSocialIcons{
+    display: flex;
+    column-gap: 15px;
+}
+.vendorWrapper iframe{
+    width: 55%;
+    
+  clip-path: polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+@media(max-width: 1300px){
+    .leftVendorWrapper small{
+        font-size: 11px;
+    }
+    .leftVendorWrapper{
+        padding: 40px 5%;
+    }
+    .leftVendorWrapper h2{
+        font-size: 20px;
+    }
+    .leftVendorWrapper p{
+        font-size: 12px;
+    }
+    .leftVendorDetails i{
+        font-size: 13px;
+    }
+}
+@media(max-width: 870px){
+    .leftVendorWrapper{
+        padding: 35px 3%;
+    }
+    .vendorWrapper{
+        flex-direction: column;
+    }
+    .leftVendorWrapper{
+        width: 100%;
+    }
+    .vendorWrapper iframe{
+        width: 100%;
+        height: 300px;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+}
+@media(max-width: 500px){
+    .leftVendorWrapper h2{
+        font-size: 17px;
+    }
+    .vendorWrapper iframe{
+        height: 250px;
     }
 }
