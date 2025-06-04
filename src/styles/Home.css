@@ -217,10 +217,123 @@
 }
 .itemCard{
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    position: relative;
+}
+.itemCard .saveIcon{
+    background-color: white;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 3px;
+    height: 25px;
+    border-radius: 100%;
+    cursor: pointer;
 }
 .itemCard img{
     width: 100%;
     background-color: gray;
     height: 200px;
+    border-radius: 11px;
+}
+.itemCardDetails{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 3px;
+    padding: 0px 10px;
+}
+.itemCardDetails h3{
+    font-size: 15.5px;
+    font-weight: 500;
+}
+.itemCardDetails p{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: 5px;
+    font-size: 15px;
+    width: 100%;
+    font-weight: 500;
+}
+.itemCardDetails small{
+    font-size: 13px;
+    font-weight: 400;
+}
+.itemCardDetails span{
+    display: flex;
+    column-gap: 2px;
+    align-items: flex-end;
+}
+.itemCardDetails span svg{
+    height: 17px;
+    width: 17px;
+    margin-bottom: 5px;
+
 }
 
+
+@media(max-width: 1300px){
+    .itemsWrapperHeading h2{
+        font-size: 18px;
+    }
+}
+@media(max-width: 800px){
+    .itemsWrapper{
+        padding-top: 160px;
+    }
+}
+@media(max-width: 500px){
+    .itemsWrapperHeading h2{
+        font-size: 16px;
+    }
+    .itemsArrow svg{
+        height: 24px;
+        padding: 4px;
+    }
+    .itemsArrow{
+        column-gap: 5px;
+    }
+}
+
+@media(max-width: 1100px){
+    .itemCard img{
+        height: 160px;
+    }
+    .itemCardDetails{
+        padding: 0px 7px;
+        text-align: left;
+    }
+    .itemCardDetails h3{
+        font-size: 14px;
+    }
+    .itemCardDetails p{
+        font-size: 14px;
+    }
+    .itemCardDetails span svg{
+        height: 15px;
+        margin-bottom: 5px;
+    }
+    .itemCard .saveIcon{
+        height: 20px;
+    }
+}
+@media(max-width: 900px){
+    .itemCard img{
+        height: 140px;
+    }
+    .itemCardDetails h3{
+        font-size: 13px;
+    }
+    .itemCardDetails{
+        row-gap: 5px;
+    }
+    .itemCardDetails p{
+        font-size: 13px;
+    }
+    .itemCardDetails small{
+        font-size: 11px;
+    }
+}

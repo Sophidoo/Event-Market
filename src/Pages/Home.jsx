@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon, HeartIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, HomeIcon, CalendarDateRangeIcon, BriefcaseIcon, InboxStackIcon, Squares2X2Icon, ClipboardDocumentCheckIcon, UserCircleIcon, Bars3Icon, MagnifyingGlassIcon} from '@heroicons/react/24/solid'
+import { ChevronDownIcon, HomeIcon, CalendarDateRangeIcon, BriefcaseIcon, InboxStackIcon, Squares2X2Icon, ClipboardDocumentCheckIcon, UserCircleIcon, Bars3Icon, MagnifyingGlassIcon, StarIcon} from '@heroicons/react/24/solid'
 import "../styles/componentStyle/Navbar.css"
 import "../styles/Home.css"
 import { NavLink } from 'react-router-dom'
@@ -62,6 +62,195 @@ const Home = () => {
             [name]: value, 
         }));
     };
+
+    const rentalItems = [
+        {
+          image: "https://example.com/images/wedding-chairs.jpg",
+          title: "Chiavari Wedding Chairs",
+          unitsAvailable: 150,
+          rating: 4.8,
+          numberOfRatings: 120,
+          price: 2.5,
+          pricingType: "per unit"
+        },
+        {
+          image: "https://example.com/images/canopy-tent.jpg",
+          title: "20x20ft Canopy Tent",
+          unitsAvailable: 10,
+          rating: 4.6,
+          numberOfRatings: 85,
+          price: 150,
+          pricingType: "per day"
+        },
+        {
+          image: "https://example.com/images/speaker-set.jpg",
+          title: "Portable Speaker Set",
+          unitsAvailable: 5,
+          rating: 4.7,
+          numberOfRatings: 95,
+          price: 80,
+          pricingType: "per day"
+        },
+        {
+          image: "https://example.com/images/photo-booth.jpg",
+          title: "Photo Booth Setup",
+          unitsAvailable: 2,
+          rating: 4.9,
+          numberOfRatings: 47,
+          price: 250,
+          pricingType: "per event"
+        },
+        {
+          image: "https://example.com/images/round-table.jpg",
+          title: "Round Banquet Table",
+          unitsAvailable: 60,
+          rating: 4.5,
+          numberOfRatings: 73,
+          price: 8,
+          pricingType: "per unit"
+        },
+        {
+          image: "https://example.com/images/decor-lighting.jpg",
+          title: "LED Decorative Lighting",
+          unitsAvailable: 20,
+          rating: 4.4,
+          numberOfRatings: 55,
+          price: 25,
+          pricingType: "per day"
+        },
+        {
+          image: "https://example.com/images/stage-platform.jpg",
+          title: "Modular Stage Platform",
+          unitsAvailable: 3,
+          rating: 4.6,
+          numberOfRatings: 33,
+          price: 300,
+          pricingType: "per event"
+        },
+        {
+          image: "https://example.com/images/popcorn-machine.jpg",
+          title: "Popcorn Machine",
+          unitsAvailable: 4,
+          rating: 4.8,
+          numberOfRatings: 41,
+          price: 60,
+          pricingType: "per day"
+        },
+        {
+          image: "https://example.com/images/red-carpet.jpg",
+          title: "Red Carpet Roll",
+          unitsAvailable: 6,
+          rating: 4.7,
+          numberOfRatings: 29,
+          price: 45,
+          pricingType: "per event"
+        },
+        {
+          image: "https://example.com/images/cocktail-table.jpg",
+          title: "Cocktail Table with Cover",
+          unitsAvailable: 25,
+          rating: 4.3,
+          numberOfRatings: 38,
+          price: 10,
+          pricingType: "per unit"
+        }
+    ];
+
+    const rentalItems2 = [
+        {
+          image: "https://example.com/images/glassware.jpg",
+          title: "Crystal Glassware Set",
+          unitsAvailable: 200,
+          rating: 4.7,
+          numberOfRatings: 89,
+          price: 1.2,
+          pricingType: "per unit"
+        },
+        {
+          image: "https://example.com/images/dj-booth.jpg",
+          title: "DJ Booth & Lighting",
+          unitsAvailable: 1,
+          rating: 4.9,
+          numberOfRatings: 64,
+          price: 400,
+          pricingType: "per event"
+        },
+        {
+          image: "https://example.com/images/heater.jpg",
+          title: "Outdoor Patio Heater",
+          unitsAvailable: 12,
+          rating: 4.5,
+          numberOfRatings: 51,
+          price: 35,
+          pricingType: "per day"
+        },
+        {
+          image: "https://example.com/images/flower-arch.jpg",
+          title: "Floral Wedding Arch",
+          unitsAvailable: 3,
+          rating: 4.8,
+          numberOfRatings: 44,
+          price: 120,
+          pricingType: "per event"
+        },
+        {
+          image: "https://example.com/images/tablecloth.jpg",
+          title: "Satin Tablecloth",
+          unitsAvailable: 100,
+          rating: 4.4,
+          numberOfRatings: 39,
+          price: 3,
+          pricingType: "per unit"
+        },
+        {
+          image: "https://example.com/images/ice-sculpture.jpg",
+          title: "Custom Ice Sculpture",
+          unitsAvailable: 2,
+          rating: 4.9,
+          numberOfRatings: 18,
+          price: 500,
+          pricingType: "per event"
+        },
+        {
+          image: "https://example.com/images/stanchion.jpg",
+          title: "Stanchion & Velvet Rope",
+          unitsAvailable: 30,
+          rating: 4.3,
+          numberOfRatings: 26,
+          price: 7,
+          pricingType: "per unit"
+        },
+        {
+          image: "https://example.com/images/kids-bounce-house.jpg",
+          title: "Kids Bounce House",
+          unitsAvailable: 2,
+          rating: 4.6,
+          numberOfRatings: 33,
+          price: 150,
+          pricingType: "per day"
+        },
+        {
+          image: "https://example.com/images/chafing-dish.jpg",
+          title: "Stainless Chafing Dish",
+          unitsAvailable: 40,
+          rating: 4.5,
+          numberOfRatings: 41,
+          price: 12,
+          pricingType: "per unit"
+        },
+        {
+          image: "https://example.com/images/led-dance-floor.jpg",
+          title: "LED Dance Floor",
+          unitsAvailable: 1,
+          rating: 4.9,
+          numberOfRatings: 22,
+          price: 600,
+          pricingType: "per event"
+        }
+      ];
+      
+      
+
     return <>
         <section className="homeHeroSection">
             <nav className={`text-white flex justify-between ${scrolled ? "bg-[#0B5850]" : ""}`}>
@@ -205,56 +394,123 @@ const Home = () => {
                         // when the window width is >= 320px
                         100: {
                         slidesPerView: 1.5,
-                        spaceBetween: 20,
+                        spaceBetween: 10,
                         },
                         500: {
                         slidesPerView: 2,
-                        spaceBetween: 20,
+                        spaceBetween: 15,
                         },
                         // when the window width is >= 640px
-                        650: {
-                        slidesPerView: 4,
-                        spaceBetween: 30,
+                        600: {
+                        slidesPerView: 3,
+                        spaceBetween: 20,
                         },
                         // when the window width is >= 1024px
-                        1024: {
+                        1000: {
                         slidesPerView: 4,
-                        spaceBetween: 40,
+                        spaceBetween: 30,
                         },
                     }}
                     onSwiper={(swiper) => console.log(swiper)}
                     onSlideChange={() => console.log('slide change')}
                 >
-                    <SwiperSlide >
+                {
+                    rentalItems.map((el) => {
+                        return <SwiperSlide >
                         <div className="itemCard">
-                            <img src="" alt="" />
+                            <img src={el.image} alt="" />
+                            <HeartIcon className='saveIcon text-black hover:text-red-600'/>
+                            <div className="itemCardDetails">
+                                <h3>{el.title}</h3>
+                                <small className='text-gray-600'>{el.unitsAvailable} units available</small>
+                                <p>
+                                    <span>
+                                        <StarIcon className='text-yellow-600'/>
+                                        {el.rating}
+                                        <small className='text-gray-600'>({el.numberOfRatings})</small>
+                                    </span>
+                                    <span>
+                                        N{el.price}
+                                        <small className='text-gray-600'>/{el.pricingType}</small>
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     </SwiperSlide>
-                    <SwiperSlide >
+                    })
+                }
+                    
+                    
+                </Swiper>
+            </div>
+
+            <div className="itemsHolder">
+                <div className="itemsWrapperHeading">
+                    <h2>Canopies and Tents <ChevronRightIcon/></h2>
+                    <div className="itemsArrow">
+                        <ChevronLeftIcon className='border-gray-300 text-gray-400 hover:bg-gray-200'  onClick={() => swiperRef.current?.slidePrev()}/>
+                        <ChevronRightIcon className='border-gray-300 text-gray-400 hover:bg-gray-200'  onClick={() => swiperRef.current?.slideNext()}/>
+                    </div>
+                </div>
+                <Swiper
+                    modules={[Navigation, A11y]}
+                    spaceBetween={30}
+                    className="mySwiper"
+                    slidesPerView={5}
+                    onBeforeInit={(swiper) => {
+                        swiperRef.current = swiper;
+                    }}
+                    breakpoints={{
+                        // when the window width is >= 320px
+                        100: {
+                        slidesPerView: 1.5,
+                        spaceBetween: 10,
+                        },
+                        500: {
+                        slidesPerView: 2,
+                        spaceBetween: 15,
+                        },
+                        // when the window width is >= 640px
+                        600: {
+                        slidesPerView: 3,
+                        spaceBetween: 20,
+                        },
+                        // when the window width is >= 1024px
+                        1000: {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                        },
+                    }}
+                    onSwiper={(swiper) => console.log(swiper)}
+                    onSlideChange={() => console.log('slide change')}
+                >
+                {
+                    rentalItems2.map((el) => {
+                        return <SwiperSlide >
                         <div className="itemCard">
-                            <img src="" alt="" />
+                            <img src={el.image} alt="" />
+                            <HeartIcon className='saveIcon text-black hover:text-red-600'/>
+                            <div className="itemCardDetails">
+                                <h3>{el.title}</h3>
+                                <small className='text-gray-600'>{el.unitsAvailable} units available</small>
+                                <p>
+                                    <span>
+                                        <StarIcon className='text-yellow-600'/>
+                                        {el.rating}
+                                        <small className='text-gray-600'>({el.numberOfRatings})</small>
+                                    </span>
+                                    <span>
+                                        N{el.price}
+                                        <small className='text-gray-600'>/{el.pricingType}</small>
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     </SwiperSlide>
-                    <SwiperSlide >
-                        <div className="itemCard">
-                            <img src="" alt="" />
-                        </div>
-                    </SwiperSlide>
-                    <SwiperSlide >
-                        <div className="itemCard">
-                            <img src="" alt="" />
-                        </div>
-                    </SwiperSlide>
-                    <SwiperSlide >
-                        <div className="itemCard">
-                            <img src="" alt="" />
-                        </div>
-                    </SwiperSlide>
-                    <SwiperSlide >
-                        <div className="itemCard">
-                            <img src="" alt="" />
-                        </div>
-                    </SwiperSlide>
+                    })
+                }
+                    
+                    
                 </Swiper>
             </div>
         </section>
