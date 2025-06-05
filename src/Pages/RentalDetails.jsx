@@ -1,9 +1,15 @@
 import { StarIcon } from "@heroicons/react/16/solid"
 import "../styles/Details.css"
+import { useState } from "react"
+import SuccessfullRentModal from "../components/Modals/SuccessfullRentModal"
 
 const RentalDetails = () => {
+    const [modal, setModal] = useState(false)
 
     return<>
+    {
+        modal ? <SuccessfullRentModal/> : ""
+    }
         <section className="topRentalDetails">
             <div className="leftRentalDetails">
                 <div className="smallImageRentalDetails">
@@ -62,7 +68,7 @@ const RentalDetails = () => {
                 <h4 className="totalRentalPrice">Total: N5200</h4>
 
                 <div className="buttonHolder">
-                    <button className="bg-[#0B5850] border-[1px] border-[#0B5850] font-medium text-white hover:bg-[#128D7F]">Rent Now</button>
+                    <button className="bg-[#0B5850] border-[1px] border-[#0B5850] font-medium text-white hover:bg-[#128D7F]" onClick={() => setModal(true)}>Rent Now</button>
                     <button className="border-[1px] border-[#0B5850] text-[#0B5850] font-medium hover:bg-[#128D7F] hover:text-white">Save for Later</button>
                 </div>
             </div>

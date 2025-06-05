@@ -170,6 +170,7 @@ const Packages = () => {
 
 
     return<>
+    
         <form className="rentalsHeroForm bg-white border-[1px] border-gray-200 cursor-pointer" onSubmit={handleSearch}>
             <div className="inputWrapper border-r-gray-200">
                 <label htmlFor="" className='text-gray-600'>

@@ -1,7 +1,10 @@
 import { CheckCircleIcon, XMarkIcon } from "@heroicons/react/16/solid"
 import "../../styles/componentStyle/SuccessfullRentModal.css"
+import { useNavigate } from "react-router"
 
 const SuccessfullRentModal = () => {
+
+    const navigate = useNavigate();
 
     return<>
         <div className="modalContainer">
@@ -17,8 +20,8 @@ const SuccessfullRentModal = () => {
                     You can also view your booked items to get the vendor contact details and track your rental.</span>
                 </p>
                 <div className="modalButtonHolder">
-                    <button className="bg-[#0B5850] text-white border-[1px] border-[#0B5850] cursor-pointer hover:bg-[#128D7F] hover:border-[#128D7F]">View My Bookings</button>
-                    <button className="border-[1px] border-[#0B5850] cursor-pointer text-[#0B5850] hover:bg-[#128D7F] hover:border-[#128D7F] hover:text-white ">Continue Shopping</button>
+                    <button className="bg-[#0B5850] text-white border-[1px] border-[#0B5850] cursor-pointer hover:bg-[#128D7F] hover:border-[#128D7F]"  onClick={() => navigate("/my-bookings")}>View My Bookings</button>
+                    <button className="border-[1px] border-[#0B5850] cursor-pointer text-[#0B5850] hover:bg-[#128D7F] hover:border-[#128D7F] hover:text-white" onClick={() => navigate("/")}>Continue Shopping</button>
                 </div>
             </div>
 
