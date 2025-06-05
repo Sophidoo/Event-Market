@@ -3,6 +3,7 @@ import "../styles/Rentals.css"
 import { useState } from "react"
 import { StarIcon } from "@heroicons/react/24/solid"
 import { useNavigate } from "react-router"
+import SuccessfullRentModal from "../components/Modals/SuccessfullRentModal"
 
 const Rentals = () => {
     const [loading, setLoading] = useState(false)
@@ -150,6 +151,7 @@ const Rentals = () => {
 
 
     return<>
+    <SuccessfullRentModal/>
         <form className="rentalsHeroForm bg-white border-[1px] border-gray-200" onSubmit={handleSearch}>
             <div className="inputWrapper border-r-gray-200">
                 <label htmlFor="" className='text-gray-600'>
