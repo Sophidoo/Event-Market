@@ -7,6 +7,8 @@ import Rentals from './Pages/Rentals'
 import Services from './Pages/Services'
 import Packages from './Pages/Packages'
 import RentalDetails from './Pages/RentalDetails'
+import ServiceDetails from './Pages/ServiceDetails'
+import PackageDetails from './Pages/PackageDetails'
 
 
 function App() {
@@ -17,7 +19,9 @@ function App() {
         <Route path='rentals' element={<Rentals/>}/>
         <Route path='services' element={<Services/>}/>
         <Route path='packages' element={<Packages/>}/>
-        <Route path='details/:id' element={<RentalDetails/>}/>
+        <Route path='rental/details/:id' element={<RentalDetails/>}/>
+        <Route path='service/details/:id' element={<ServiceDetails/>}/>
+        <Route path='package/details/:id' element={<PackageDetails/>}/>
       </Route>
       <Route index element={<Home/>}/>
     </Routes> 

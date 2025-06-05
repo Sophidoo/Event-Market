@@ -2,6 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon, HeartIcon, MagnifyingGlassIcon } fro
 import "../styles/Rentals.css"
 import { useState } from "react"
 import { StarIcon } from "@heroicons/react/24/solid"
+import { useNavigate } from "react-router"
 
 const Rentals = () => {
     const [loading, setLoading] = useState(false)
@@ -128,6 +129,8 @@ const Rentals = () => {
         }
     ];
 
+    const navigate = useNavigate()
+
 
     const goToPage = (pageNum) => {
         setPagination({...pagination, current_page: pageNum})
@@ -185,7 +188,7 @@ const Rentals = () => {
         <section className="rentalsWrapper">
             {
                 rentalItems.map((el) => {
-                    return <div className="rentalCard">
+                    return <div className="rentalCard" onClick={() => navigate("/details/1")}>
                         <img src={el.image} alt="" />
                         <HeartIcon className='saveIcon text-black hover:text-red-600'/>
                         <div className="rentalCardDetails">

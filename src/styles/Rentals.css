@@ -131,6 +131,7 @@
     flex-direction: column;
     row-gap: 8px;
     position: relative;
+    cursor: pointer;
 }
 .rentalCard .saveIcon{
     background-color: white;
