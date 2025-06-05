@@ -1,0 +1,252 @@
+.rentalsHeroForm{
+    box-shadow: 0px 4.12px 4.12px rgb(0, 0, 0, 0.08);
+    border-radius: 12px;
+    display: flex;
+    width: 94%;
+    margin: 30px 3%;
+}
+.rentalsHeroForm .inputWrapper{
+    padding: 21px;
+    display: flex;
+    flex-direction: column;
+    width: 22%;
+    border-right: 1px solid rgb(211, 211, 211);
+}
+.rentalsHeroForm label{
+    font-size: 11px;
+}
+.rentalsHeroForm input{
+    width: 100%;
+    font-size: 14px;
+    padding: 5px 0px;
+    font-weight: 500;
+    outline: none;
+    border: 0px;
+}
+.rentalsHeroForm select{
+    width: 100%;
+    outline: none;
+    font-size: 14px;
+    padding: 5px 0px;
+    font-weight: 500;
+}
+.rentalsHeroForm button{
+    display: flex;
+    border-radius: 10px;
+    align-items: center;
+    column-gap: 4px;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 12%;
+    margin: 11px;
+    align-items: center;
+    justify-content: center;
+}
+.rentalsHeroForm button svg{
+    width: auto;
+    height: 14px;
+}
+
+@media(max-width: 1300px){
+    .rentalsHeroForm{
+        width: 90%;
+    }
+}
+@media(max-width: 1000px){
+    .rentalsHeroForm .inputWrapper{
+        padding: 16px;
+    }
+    .rentalsHeroForm input{
+        font-size: 13px;
+    }
+    .rentalsHeroForm select{
+        font-size: 13px;
+        border: 0px;
+    }
+}
+@media(max-width: 870px){
+    .rentalsHeroForm{
+        width: 94%;
+    }
+    
+}
+@media(max-width: 800px){
+    .rentalsHeroForm {
+        flex-wrap: wrap;
+        margin-bottom: -100px;
+    }
+    .rentalsHeroForm .inputWrapper{
+        width: 50%;
+        padding: 12px;
+        border-bottom: 1px solid rgb(211, 211, 211);
+    }
+    .rentalsHeroForm .inputWrapper:nth-child(2){
+        border-right: 0px;
+    }
+    .rentalsHeroForm .inputWrapper:nth-child(4){
+        border-right: 0px;
+    }
+    .rentalsHeroForm button{
+        height: 45px;
+        width: 100%;
+    }
+}
+@media(max-width: 500px){
+    .rentalsHeroForm label{
+        font-size: 10px;
+    }
+    .rentalsHeroForm input{
+        font-size: 12px;
+    }
+    .rentalsHeroForm input{
+        font-size: 12px;
+    }
+    .rentalsHeroForm select{
+        font-size: 12px;
+    }
+    .rentalsHeroForm .inputWrapper{
+        padding: 10px;
+    }
+    .rentalsHeroForm button{
+        font-size: 12px;
+        height: 30px;
+        border-radius: 6px;
+    }
+}
+
+
+
+.rentalsWrapper{
+    display: flex;
+    row-gap: 30px;
+    flex-wrap: wrap;
+    padding: 50px 3%;
+    column-gap: 1.5%;
+    padding-top: 30px;
+}
+.rentalCard{
+    width: 15.4%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    position: relative;
+}
+.rentalCard .saveIcon{
+    background-color: white;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 3px;
+    height: 21px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+.rentalCard img{
+    width: 100%;
+    background-color: gray;
+    height: 160px;
+    border-radius: 11px;
+}
+.rentalCardDetails{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 3px;
+    padding: 0px 10px;
+}
+.rentalCardDetails h3{
+    font-size: 13.5px;
+    font-weight: 500;
+}
+.rentalCardDetails p{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: 5px;
+    font-size: 13.5px;
+    width: 100%;
+    font-weight: 500;
+}
+.rentalCardDetails small{
+    font-size: 11px;
+    font-weight: 400;
+}
+.rentalCardDetails span{
+    display: flex;
+    column-gap: 2px;
+    align-items: flex-end;
+}
+.rentalCardDetails span svg{
+    height: 13px;
+    width: 13px;
+    margin-bottom: 5px;
+}
+.pagination{
+    padding: 0px 3%;
+    padding-bottom: 50px;
+}
+
+@media(max-width: 1300px){
+    .rentalCard{
+        width: 18.5%;
+    }
+}
+@media(max-width: 1100px){
+    .rentalCard{
+        width: 23.125%;
+    }
+}
+@media(max-width: 850px){
+    .rentalCard{
+        width: 32.3%;
+    }
+}
+@media(max-width: 800px){
+    .rentalsWrapper{
+        padding-top: 150px;
+    }
+}
+@media(max-width: 600px){
+    .rentalsWrapper{
+        column-gap: 2%;
+    }
+    .rentalCard{
+        width: 49%;
+    }
+}
+@media(max-width: 500px){
+    .rentalCardDetails h3{
+        font-size: 12.5px;
+    }
+    .rentalCardDetails p{
+        font-size: 12.5px;
+    }
+}
+@media(max-width: 410px){
+    .rentalCard img{
+        height: 140px;
+    }
+    .rentalCardDetails{
+        padding: 0px 5px;
+    }
+    .rentalCardDetails small{
+        font-size: 10px;
+    }
+    .rentalCardDetails span svg{
+        height: 12.5px;
+        width: 12.5px;
+        margin-bottom: 4px;
+    }
+}
+@media(max-width: 390px){
+    .rentalCard img{
+        height: 130px;
+    }
+    .rentalCard .saveIcon{
+        top: 10px;
+        right: 10px;
+        height: 19px;
+        padding: 2px;
+    }
+}

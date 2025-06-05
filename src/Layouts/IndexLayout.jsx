@@ -1,5 +1,6 @@
 import { Outlet } from "react-router"
 import Navbar from "../components/Navbar"
+import Footer from "../components/Footer"
 
 
 const IndexLayout = () => {
@@ -7,9 +8,11 @@ const IndexLayout = () => {
     return<>
         <Navbar/>
 
-        <main className="bg-white">
+        <main className="indexPagesMain bg-white">
             <Outlet/>
         </main>
+
+        <Footer/>
 
     </>
 
