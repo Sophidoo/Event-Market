@@ -6,6 +6,7 @@ import Home from './Pages/Home'
 import Rentals from './Pages/Rentals'
 import Services from './Pages/Services'
 import Packages from './Pages/Packages'
+import RentalDetails from './Pages/RentalDetails'
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path='rentals' element={<Rentals/>}/>
         <Route path='services' element={<Services/>}/>
         <Route path='packages' element={<Packages/>}/>
+        <Route path='details/:id' element={<RentalDetails/>}/>
       </Route>
       <Route index element={<Home/>}/>
     </Routes> 

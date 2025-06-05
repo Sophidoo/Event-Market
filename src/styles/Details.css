@@ -1,0 +1,253 @@
+.topRentalDetails{
+    padding: 50px 3%;
+    display: flex;
+    column-gap: 40px;
+}
+.leftRentalDetails{
+    display: flex;
+    width: 45%;
+    column-gap: 2%;
+}
+.smallImageRentalDetails{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    width: 18%;
+}
+.smallImageRentalDetails img{
+    width: 100%;
+    height: 90px;
+    background-color: gray;
+}
+.leftRentalDetails .bigImage{
+    width: 80%;
+    height: 500px;
+    background-color: gray;
+}
+.rightRentalDetails{
+    width: 52%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 10px 0px;
+}
+.rightRentalDetailsHeading{
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+.rightRentalDetailsHeading small{
+    font-size: 11px;
+}
+.rightRentalDetailsHeading h1{
+    font-size: 24px;
+    font-weight: 500;
+}
+.rightRentalRatingSystem{
+    display: flex;
+    align-items: flex-end;
+    column-gap: 3px;
+}
+.rightRentalRatingSystem svg{
+    height: 15px;
+    margin-bottom: 3px;
+}
+.rightRentalRatingSystem small{
+    padding-left: 5px;
+}
+.rightRentalDetails h3{
+    font-size: 20px;
+}
+.rightRentalDetails h3 small{
+    font-size: 13px;
+}
+.detailsHolder{
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+}
+.detailsHolder h4{
+    font-size: 13.5px;
+    font-weight: 500;
+}
+.detailsHolder p{
+    font-size: 13px;
+}
+.detailsHolder p{
+    font-size: 13px;
+}
+.detailsHolder ul{
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+    font-size: 13px;
+    list-style-type: disc;
+    margin-left: 18px;
+}
+.detailsHolder .inputContainer{
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+.detailsHolder input{
+    width: 100%;
+    font-size: 12px;
+    padding: 7px 10px;
+    border-radius: 3px;
+}
+.totalRentalPrice{
+    font-weight: 500;
+    font-size: 14px;
+}
+.buttonHolder{
+    display: flex;
+    column-gap: 10px;
+}
+.buttonHolder button{
+    width: 100%;
+    font-size: 12px;
+    padding: 6px;
+    cursor: pointer;
+    transition: 500ms;
+    border-radius: 3px;
+}
+.rentalDetailLine{
+    margin: 0px 2.5%;
+}
+
+.bottomRentalDetails{
+    padding: 30px 3%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.bottomRentalDetails h2{
+    font-size: 22px;
+    font-weight: 500;
+    display: flex;
+    column-gap: 40px;
+}
+.bottomRentalDetailsHolder{
+    display: flex;
+    column-gap: 40px;
+}
+.leftRentalDetailsRatings{
+
+    display: flex;
+    column-gap: 35px;
+    align-items: flex-start;
+}
+.ratingHeadline{
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+.ratingHeadline h1{
+    font-size: 70px;
+    font-weight: 600;
+    display: flex;
+    align-items: flex-end;
+}
+.ratingHeadline small{
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 25px;
+}
+.ratingHeadlineStars{
+    display: flex;
+    column-gap: 5px;
+}
+.ratingHeadlineStars svg{
+    height: 18px;
+}
+.ratingHeadline p{
+    font-size: 15px;
+    margin-top: 10px;
+}
+.ratingHeadlineProgress{
+    display: flex;
+    flex-direction: column;
+    row-gap: 17px;
+}
+.headlineProgressWrap{
+    display: flex;
+    align-items: center;
+    column-gap: 18px;
+}
+.headlineProgressStar{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    column-gap: 3px;
+}
+.headlineProgressStar svg{
+    height: 15px;
+    margin-bottom: 3px;
+}
+.headlineProgressWrap span{
+    font-size: 14px;
+}
+.headlineProgress{
+    width: 350px;
+    height: 6px;
+}
+.headlineInnerProgress{
+    height: 100%;
+}
+
+.leftRentalDetailsRatings{
+    width: 45%;
+}
+.rightDetailsRatingsWrapper{
+    width: 52%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+.rightDetailsRatings{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.rightDetailsRatingsInfoDetails{
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+}
+.rightDetailsRatingsInfo{
+    border-radius: 100%;
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+.rightDetailsRatingsInfo img{
+    width: 55px;
+    background-color: gray;
+    border-radius: 100%;
+    height: 55px;
+}
+.rightDetailsRatingsInfoDetails h3{
+    font-size: 16px;
+    font-weight: 500;
+}
+.rightDetailsRatingsInfoDetails small{
+    font-size: 12px;
+}
+.rightStarRating{
+    display: flex;
+    column-gap: 3px;
+    align-items: center;
+}
+.rightStarRating svg{
+    height: 14px;
+    margin-bottom: 3px;
+}
+.rightStarRating small{
+    margin-left: 10px;
+}
+.rightDetailsRatings p{
+    font-size: 13px;
+}
+.detailsPagination{
+    margin-top: 50px;
+}

@@ -15,3 +15,8 @@
 .indexPagesMain{
   padding-top: 60px;
 }
+
+.pagination{
+  padding: 0px 3%;
+  padding-bottom: 50px;
+}
