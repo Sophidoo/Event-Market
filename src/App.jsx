@@ -5,6 +5,7 @@ import IndexLayout from './Layouts/IndexLayout'
 import Home from './Pages/Home'
 import Rentals from './Pages/Rentals'
 import Services from './Pages/Services'
+import Packages from './Pages/Packages'
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Route path='/' element={<IndexLayout/>}>
         <Route path='rentals' element={<Rentals/>}/>
         <Route path='services' element={<Services/>}/>
+        <Route path='packages' element={<Packages/>}/>
       </Route>
       <Route index element={<Home/>}/>
     </Routes> 

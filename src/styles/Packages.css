@@ -117,7 +117,7 @@
 
 
 
-.rentalsWrapper{
+.packagesWrapper{
     display: flex;
     row-gap: 30px;
     flex-wrap: wrap;
@@ -125,14 +125,14 @@
     column-gap: 1.5%;
     padding-top: 30px;
 }
-.rentalCard{
-    width: 15.4%;
+.packageCard{
+    width: 18.8%;
     display: flex;
     flex-direction: column;
     row-gap: 8px;
     position: relative;
 }
-.rentalCard .saveIcon{
+.packageCard .saveIcon{
     background-color: white;
     position: absolute;
     top: 14px;
@@ -142,24 +142,24 @@
     border-radius: 100%;
     cursor: pointer;
 }
-.rentalCard img{
+.packageCard img{
     width: 100%;
     background-color: gray;
     height: 160px;
     border-radius: 11px;
 }
-.rentalCardDetails{
+.packageCardDetails{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     row-gap: 3px;
     padding: 0px 10px;
 }
-.rentalCardDetails h3{
+.packageCardDetails h3{
     font-size: 13.5px;
     font-weight: 500;
 }
-.rentalCardDetails p{
+.packageCardDetails p{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -168,27 +168,27 @@
     width: 100%;
     font-weight: 500;
 }
-.rentalCardDetails small{
-    font-size: 11px;
+.packageCardDetails small{
+    font-size: 12px;
     font-weight: 400;
 }
-.rentalCardDetails span{
+.packageCardDetails span{
     display: flex;
     column-gap: 2px;
     align-items: flex-end;
 }
-.rentalCardDetails span svg{
+.packageCardDetails span svg{
     height: 13px;
     width: 13px;
     margin-bottom: 5px;
 }
-.rentalCardDetails small{
+.packageCardDetails small{
     display: flex;
     column-gap: 10px;
     align-items: flex-end;
 }
 
-.rentalCardDetails small svg{
+.packageCardDetails small svg{
     height: 12px;
     width: 12px;
     margin-bottom: 3px;
@@ -199,67 +199,70 @@
 }
 
 @media(max-width: 1300px){
-    .rentalCard{
-        width: 18.5%;
+    .packageCard{
+        width: 23.875%;
     }
 }
 @media(max-width: 1100px){
-    .rentalCard{
-        width: 23.125%;
+    .packageCard small{
+        font-size: 11px;
+    }
+    .packageCard h3{
+        font-size: 13px;
     }
 }
 @media(max-width: 850px){
-    .rentalCard{
+    .packageCard{
         width: 32.3%;
     }
 }
 @media(max-width: 800px){
-    .rentalsWrapper{
+    .packagesWrapper{
         padding-top: 150px;
     }
 }
 @media(max-width: 600px){
-    .rentalsWrapper{
+    .packagesWrapper{
         column-gap: 2%;
     }
-    .rentalCard{
+    .packageCard{
         width: 49%;
     }
 }
 @media(max-width: 500px){
-    .rentalCardDetails h3{
+    .packageCardDetails h3{
         font-size: 12px;
     }
-    .rentalCardDetails p{
+    .packageCardDetails p{
         font-size: 12px;
     }
 }
 @media(max-width: 410px){
-    .rentalCard img{
+    .packageCard img{
         height: 140px;
     }
-    .rentalCardDetails{
+    .packageCardDetails{
         padding: 0px 5px;
     }
-    .rentalCardDetails small{
+    .packageCardDetails small{
         font-size: 11px;
     }
-    .rentalCardDetails span svg{
+    .packageCardDetails span svg{
         height: 12.5px;
         width: 12.5px;
         margin-bottom: 4px;
     }
-    .rentalCardDetails small svg{
+    .packageCardDetails small svg{
         height: 12px;
         width: 12px;
         margin-bottom: 3px;
     }
 }
 @media(max-width: 390px){
-    .rentalCard img{
+    .packageCard img{
         height: 130px;
     }
-    .rentalCard .saveIcon{
+    .packageCard .saveIcon{
         top: 10px;
         right: 10px;
         height: 19px;
