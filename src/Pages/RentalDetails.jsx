@@ -77,7 +77,7 @@ const RentalDetails = () => {
             <div className="bottomRentalDetailsHolder">
                 <div className="leftRentalDetailsRatings">
                     <div className="ratingHeadline">
-                        <h1>4.8 <small className="text-gray-700">/ 5</small></h1>
+                        <h1>4.8 <small className="text-gray-700"> /5</small></h1>
                         <div className="ratingHeadlineStars">
                             <StarIcon className="text-yellow-600"/>
                             <StarIcon className="text-yellow-600"/>

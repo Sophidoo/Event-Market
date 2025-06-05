@@ -120,6 +120,7 @@
     display: flex;
     flex-direction: column;
     row-gap: 10px;
+    
 }
 .bottomRentalDetails h2{
     font-size: 22px;
@@ -132,10 +133,10 @@
     column-gap: 40px;
 }
 .leftRentalDetailsRatings{
-
     display: flex;
     column-gap: 35px;
     align-items: flex-start;
+    width: 45%;
 }
 .ratingHeadline{
     display: flex;
@@ -168,11 +169,13 @@
     display: flex;
     flex-direction: column;
     row-gap: 17px;
+    width: 100%;
 }
 .headlineProgressWrap{
     display: flex;
     align-items: center;
     column-gap: 18px;
+    width: 100%;
 }
 .headlineProgressStar{
     display: flex;
@@ -188,16 +191,15 @@
     font-size: 14px;
 }
 .headlineProgress{
-    width: 350px;
+    /* width: 350px; */
+    width: 100%;
     height: 6px;
 }
 .headlineInnerProgress{
     height: 100%;
 }
 
-.leftRentalDetailsRatings{
-    width: 45%;
-}
+
 .rightDetailsRatingsWrapper{
     width: 52%;
     display: flex;
@@ -250,4 +252,159 @@
 }
 .detailsPagination{
     margin-top: 50px;
+}
+
+@media(max-width: 1100px){
+    .leftRentalDetails .bigImage{
+        height: 400px;
+    }
+    .leftRentalDetails{
+        width: 50%;
+    }
+    .smallImageRentalDetails img{
+        height: 70px;
+    }
+    .rightRentalDetails{
+        width: 50%;
+    }
+    .rightRentalDetailsHeading small{
+        font-size: 11px;
+    }
+    .rightRentalDetailsHeading h1{
+        font-size: 22px;
+    }
+    .rightRentalRatingSystem svg{
+        height: 14px;
+    }
+    .rightRentalDetails h3{
+        font-size: 18px;
+    }
+    .detailsHolder h4{
+        font-size: 13px;
+    }
+    .detailsHolder p{
+        font-size: 12.5px;
+    }
+    .bottomRentalDetailsHolder{
+        flex-direction: column;
+        row-gap: 30px;
+    }
+    .leftRentalDetailsRatings{
+        width: 100%;
+    }
+    .rightDetailsRatingsWrapper{
+        width: 100%;
+    }
+    .bottomRentalDetails h2{
+        font-size: 20px;
+    }
+    .ratingHeadline h1{
+        font-size: 60px;
+    }
+    .ratingHeadline small{
+        font-size: 14px;
+    }
+    .ratingHeadlineStars svg{
+        height: 16px;
+    }
+    .ratingHeadline p{
+        font-size: 14px;
+    }
+    .ratingHeadlineProgress{
+        row-gap: 14px;
+    }
+    .rightDetailsRatingsWrapper{
+        padding-top: 30px;
+    }
+    .rightDetailsRatingsInfo img{
+        width: 50px;
+        height: 50px;
+    }
+    .rightDetailsRatingsInfoDetails h3{
+        font-size: 14px;
+    }
+    .rightDetailsRatingsInfoDetails small{
+        font-size: 11px;
+    }
+    .rightDetailsRatings p{
+        font-size: 12px;
+    }
+}
+
+@media(max-width: 850px){
+    .topRentalDetails{
+        flex-direction: column;
+        row-gap: 30px;
+    }
+    .leftRentalDetails{
+        width: 100%;
+        flex-direction: column-reverse;
+        row-gap: 10px;
+    }
+    .leftRentalDetails .bigImage{
+        width: 100%;
+    }
+    .smallImageRentalDetails{
+        flex-direction: row;
+        column-gap: 10px;
+        width: 100%;
+        flex-wrap: wrap;
+        row-gap: 8px;
+    }
+    .smallImageRentalDetails img{
+        width: 120px;
+        height: 70px;
+    }
+    .rightRentalDetails{
+        width: 100%;
+    }
+}
+
+@media(max-width: 700px){
+    .leftRentalDetails .bigImage{
+        height: 300px;
+    }
+}
+@media(max-width: 500px){
+    .rightRentalDetailsHeading h1{
+        font-size: 20px;
+    }
+    .bottomRentalDetails h2{
+        font-size: 18px;
+    }
+    .ratingHeadline h1{
+        font-size: 50px;
+    }
+    .ratingHeadline small{
+        font-size: 15px;
+        margin-bottom: 15px;
+    }
+    .leftRentalDetailsRatings{
+        flex-direction: column;
+        row-gap: 20px;
+    }
+    .leftRentalDetails .bigImage{
+        height: 250px;
+    }
+    .smallImageRentalDetails img{
+        width: 80px;
+        height: 55px;
+    }
+    .headlineProgressWrap span {
+        font-size: 13px;
+    }
+    .headlineProgressStar{
+        font-size: 13px;
+    }
+}
+@media(max-width: 350px){
+    .leftRentalDetails .bigImage{
+        height: 220px;
+    }
+    .smallImageRentalDetails{
+        column-gap: 5px;
+    }
+    .rightRentalDetailsHeading h1{
+        font-size: 18px;
+    }
 }
