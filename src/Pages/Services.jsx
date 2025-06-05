@@ -2,6 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon, HeartIcon, MagnifyingGlassIcon } fro
 import "../styles/Rentals.css"
 import { useState } from "react"
 import { StarIcon } from "@heroicons/react/24/solid"
+import { useNavigate } from "react-router"
 
 const Services = () => {
     const [loading, setLoading] = useState(false)
@@ -26,6 +27,8 @@ const Services = () => {
             state: searchDetails
         });
     }
+
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -226,7 +229,7 @@ const Services = () => {
         <section className="rentalsWrapper">
             {
                 rentalItems.map((el) => {
-                    return <div className="rentalCard">
+                    return <div className="rentalCard cursor-pointer" onClick={() => navigate("/service/details/1")}>
                         <img src={el.image} alt="" />
                         <HeartIcon className='saveIcon text-black hover:text-red-600'/>
                         <div className="rentalCardDetails">

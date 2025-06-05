@@ -2,6 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon, HeartIcon, MagnifyingGlassIcon } fro
 import "../styles/Packages.css"
 import { useState } from "react"
 import { StarIcon } from "@heroicons/react/24/solid"
+import { useNavigate } from "react-router"
 
 const Packages = () => {
     const [loading, setLoading] = useState(false)
@@ -19,6 +20,7 @@ const Packages = () => {
         last_page: 0,
         total: 0
     })
+    const navigate = useNavigate();
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -168,7 +170,7 @@ const Packages = () => {
 
 
     return<>
-        <form className="rentalsHeroForm bg-white border-[1px] border-gray-200" onSubmit={handleSearch}>
+        <form className="rentalsHeroForm bg-white border-[1px] border-gray-200 cursor-pointer" onSubmit={handleSearch}>
             <div className="inputWrapper border-r-gray-200">
                 <label htmlFor="" className='text-gray-600'>
                     PACKAGE TYPE
@@ -206,7 +208,7 @@ const Packages = () => {
         <section className="packagesWrapper">
             {
                 rentalItems.map((el) => {
-                    return <div className="packageCard">
+                    return <div className="packageCard" onClick={() => navigate("/package/details/1")}>
                         <img src={el.image} alt="" />
                         <HeartIcon className='saveIcon text-black hover:text-red-600'/>
                         <div className="packageCardDetails">

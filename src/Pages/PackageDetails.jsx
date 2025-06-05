@@ -16,7 +16,7 @@ const PackageDetails = () => {
 
             <div className="rightRentalDetails">
                 <div className="rightRentalDetailsHeading">
-                    <small className="text-gray-600">PACKAGE</small>
+                    <small className="text-gray-600">WEDDING</small>
                     <h1>Wedding Package</h1>
                     <div className="rightRentalRatingSystem">
                         <StarIcon className="text-yellow-600"/>
@@ -28,7 +28,7 @@ const PackageDetails = () => {
                         <small className="text-[#0B5850] font-medium">500 reviews</small>
                     </div>
                 </div>
-                <h3 className="text-[#0B5850] font-medium"><small className="text-gray-600 font-medium">From:</small> N3000 </h3>
+                <h3 className="text-[#0B5850] font-medium"> N300,000 </h3>
                 <div className="detailsHolder">
                     <h4>Description:</h4>
                     <p className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>

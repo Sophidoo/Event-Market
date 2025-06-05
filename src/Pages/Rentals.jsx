@@ -188,7 +188,7 @@ const Rentals = () => {
         <section className="rentalsWrapper">
             {
                 rentalItems.map((el) => {
-                    return <div className="rentalCard" onClick={() => navigate("/details/1")}>
+                    return <div className="rentalCard" onClick={() => navigate("/rental/details/1")}>
                         <img src={el.image} alt="" />
                         <HeartIcon className='saveIcon text-black hover:text-red-600'/>
                         <div className="rentalCardDetails">
