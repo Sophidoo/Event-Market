@@ -228,10 +228,10 @@
 }
 @media(max-width: 500px){
     .rentalCardDetails h3{
-        font-size: 12.5px;
+        font-size: 12px;
     }
     .rentalCardDetails p{
-        font-size: 12.5px;
+        font-size: 12px;
     }
 }
 @media(max-width: 410px){
