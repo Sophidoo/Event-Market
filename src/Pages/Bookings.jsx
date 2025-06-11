@@ -28,7 +28,7 @@ const Bookings = () => {
         </section>
 
         <section className="bookings">
-            <div className="bookingHolder border-b-[1px] border-gray-200">
+            <div className="bookingHolder border-b-[1px] border-gray-300">
                 <h2><CalendarDaysIcon/> Today, Dec 22nd, 2025</h2>
 
                 <div className="bookingInformationContainer">
