@@ -1,12 +1,18 @@
 import { HeartIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, HomeIcon, CalendarDateRangeIcon, BriefcaseIcon, InboxStackIcon, Squares2X2Icon, ClipboardDocumentCheckIcon, UserCircleIcon, Bars3Icon} from '@heroicons/react/24/solid'
 import "../styles/componentStyle/Navbar.css"
-import { NavLink } from 'react-router-dom'
-import { useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 const Navbar = () => {
     const [showMenu, setShowMenu] = useState(false)
     const [showResponsiveMenu, setShowResponsiveMenu] = useState(false)
+    const location = useLocation();
+
+    useEffect(() => {
+        setShowMenu(false)
+        setShowResponsiveMenu(false)
+    }, [location.pathname])
 
     const decideMenuToShow = (decision) => {
         if(decision === "menu"){
@@ -55,7 +61,7 @@ const Navbar = () => {
                         ><Squares2X2Icon/> Dashboard</NavLink>
                         {/* <hr className='border-[0.5px] border-gray-100'/> */}
                         <NavLink 
-                            to="/bookings"
+                            to="/my-bookings"
                             className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                         ><ClipboardDocumentCheckIcon/> Bookings</NavLink>
                         {/* <hr className='border-[0.5px] border-gray-100'/> */}

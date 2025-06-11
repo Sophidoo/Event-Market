@@ -9,6 +9,7 @@ import Packages from './Pages/Packages'
 import RentalDetails from './Pages/RentalDetails'
 import ServiceDetails from './Pages/ServiceDetails'
 import PackageDetails from './Pages/PackageDetails'
+import Bookings from './Pages/Bookings'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path='rental/details/:id' element={<RentalDetails/>}/>
         <Route path='service/details/:id' element={<ServiceDetails/>}/>
         <Route path='package/details/:id' element={<PackageDetails/>}/>
+        <Route path='my-bookings' element={<Bookings/>}/>
       </Route>
       <Route index element={<Home/>}/>
     </Routes> 
