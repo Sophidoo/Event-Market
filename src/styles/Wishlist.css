@@ -1,0 +1,475 @@
+.wishlistWrapper{
+    padding: 30px 3%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+}
+.wishlistHeading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.leftwishlistHeading{
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+}
+.leftwishlistHeading h1{
+    font-size: 25px;
+    font-weight: 600;
+}
+.leftwishlistHeading p{
+    font-weight: 400;
+    font-size: 13px;
+}
+.wishlistHeading form{
+    border-radius: 25px;
+    padding: 12px 20px;
+    width: 400px;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+.wishlistHeading form input{
+    outline: none;
+    font-size: 13px;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+}
+.wishlistHeading svg{
+    width: 15px;
+    height: auto;
+}
+
+@media(max-width: 1000px){
+    .leftwishlistHeading h1{
+        font-size: 20px;
+    }
+    .leftwishlistHeading p{
+        font-size: 12px;
+    }
+    .wishlistHeading{
+        row-gap: 20px;
+    }
+    .wishlistHeading form{
+        padding: 8px 12px;
+    }
+}
+@media(max-width: 600px){
+    .wishlistHeading form{
+        width: 100%;
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+@media(max-width: 450px){
+    .wishlistHeading form{
+        padding: 6px 12px;
+    }
+    .wishlistHeading form input{
+        font-size: 12px;
+    }
+    .wishlistHeading svg{
+        height: 14px;
+    }
+    .leftwishlistHeading h1{
+        font-size: 19px;
+    }
+    .leftwishlistHeading p{
+        font-size: 12px;
+    }
+}
+
+
+.wishlistHeroForm{
+    box-shadow: 0px 4.12px 4.12px rgb(0, 0, 0, 0.08);
+    border-radius: 12px;
+    display: flex;
+    width: 100%;
+}
+.wishlistHeroForm .inputWrapper{
+    padding: 21px;
+    display: flex;
+    flex-direction: column;
+    width: 22%;
+    border-right: 1px solid rgb(211, 211, 211);
+}
+.wishlistHeroForm label{
+    font-size: 11px;
+}
+.wishlistHeroForm input{
+    width: 100%;
+    font-size: 14px;
+    padding: 5px 0px;
+    font-weight: 500;
+    outline: none;
+    border: 0px;
+}
+.wishlistHeroForm select{
+    width: 100%;
+    outline: none;
+    font-size: 14px;
+    padding: 5px 0px;
+    font-weight: 500;
+}
+.wishlistHeroForm button{
+    display: flex;
+    border-radius: 10px;
+    align-items: center;
+    column-gap: 4px;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 12%;
+    margin: 11px;
+    align-items: center;
+    justify-content: center;
+}
+.wishlistHeroForm button svg{
+    width: auto;
+    height: 14px;
+}
+
+@media(max-width: 1300px){
+    .wishlistHeroForm{
+        width: 100%;
+    }
+}
+@media(max-width: 1000px){
+    .wishlistHeroForm .inputWrapper{
+        padding: 16px;
+    }
+    .wishlistHeroForm input{
+        font-size: 13px;
+    }
+    .wishlistHeroForm select{
+        font-size: 13px;
+        border: 0px;
+    }
+}
+@media(max-width: 800px){
+    .wishlistHeroForm {
+        flex-wrap: wrap;
+        margin-bottom: 0px;
+    }
+    .wishlistHeroForm .inputWrapper{
+        width: 50%;
+        padding: 12px;
+        border-bottom: 1px solid rgb(211, 211, 211);
+    }
+    .wishlistHeroForm .inputWrapper:nth-child(2){
+        border-right: 0px;
+    }
+    .wishlistHeroForm .inputWrapper:nth-child(4){
+        border-right: 0px;
+    }
+    .wishlistHeroForm button{
+        height: 45px;
+        width: 100%;
+    }
+}
+@media(max-width: 500px){
+    .wishlistHeroForm label{
+        font-size: 10px;
+    }
+    .wishlistHeroForm input{
+        font-size: 12px;
+    }
+    .wishlistHeroForm input{
+        font-size: 12px;
+    }
+    .wishlistHeroForm select{
+        font-size: 12px;
+    }
+    .wishlistHeroForm .inputWrapper{
+        padding: 10px;
+    }
+    .wishlistHeroForm button{
+        font-size: 12px;
+        height: 30px;
+        border-radius: 6px;
+    }
+}
+
+
+
+
+.wishlistItemsWrapper{
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+}
+.wishlistItemsHeading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.wishlistItemsHeading h2{
+    font-size: 20px;
+    font-weight: 600;
+}
+.wishlistArrows{
+    display: flex;
+    align-items: center;
+    column-gap: 3px;
+}
+.wishlistArrows svg{
+    border-width: 1px;
+    padding: 5px;
+    border-radius: 100%;
+    height: 27px;
+    width: auto;
+    cursor: pointer;
+}
+.wishlistSwiper{
+    height: 100%;
+}
+.wishlistRentalCard{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    height: fit-content;
+    position: relative;
+    cursor: pointer;
+}
+.wishlistRentalCard .saveIcon{
+    background-color: white;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 3px;
+    height: 21px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+.wishlistRentalCard img{
+    width: 100%;
+    background-color: gray;
+    height: 160px;
+    border-radius: 11px;
+}
+.wishlistRentalCardDetails{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 3px;
+    padding: 0px 10px;
+}
+.wishlistRentalCardDetails h3{
+    font-size: 13.5px;
+    font-weight: 500;
+    text-align: left;
+}
+.wishlistRentalCardDetails p{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: 5px;
+    font-size: 13.5px;
+    width: 100%;
+    font-weight: 500;
+}
+.wishlistRentalCardDetails small{
+    font-size: 11px;
+    font-weight: 400;
+}
+.wishlistRentalCardDetails span{
+    display: flex;
+    column-gap: 2px;
+    align-items: flex-end;
+}
+.wishlistRentalCardDetails span svg{
+    height: 13px;
+    width: 13px;
+    margin-bottom: 5px;
+}
+.wishlistRentalCardDetails small{
+    display: flex;
+    column-gap: 10px;
+    align-items: flex-end;
+}
+
+.wishlistRentalCardDetails small svg{
+    height: 12px;
+    width: 12px;
+    margin-bottom: 3px;
+}
+.pagination{
+    padding: 0px 3%;
+    padding-bottom: 50px;
+}
+
+@media(max-width: 500px){
+    .wishlistRentalCardDetails h3{
+        font-size: 12px;
+    }
+    .wishlistRentalCardDetails p{
+        font-size: 12px;
+    }
+    .wishlistItemsHeading h{
+        font-size: 17px;
+    }
+}
+@media(max-width: 410px){
+    .wishlistRentalCard img{
+        height: 140px;
+    }
+    .wishlistRentalCardDetails{
+        padding: 0px 5px;
+    }
+    .wishlistRentalCardDetails small{
+        font-size: 11px;
+    }
+    .wishlistRentalCardDetails span svg{
+        height: 12.5px;
+        width: 12.5px;
+        margin-bottom: 4px;
+    }
+    .wishlistRentalCardDetails small svg{
+        height: 12px;
+        width: 12px;
+        margin-bottom: 3px;
+    }
+}
+@media(max-width: 390px){
+    .wishlistRentalCard img{
+        height: 130px;
+    }
+    .wishlistRentalCard .saveIcon{
+        top: 10px;
+        right: 10px;
+        height: 19px;
+        padding: 2px;
+    }
+}
+
+
+
+
+.wishlistPackageCard{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    position: relative;
+}
+.wishlistPackageCard .saveIcon{
+    background-color: white;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 3px;
+    height: 21px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+.wishlistPackageCard img{
+    width: 100%;
+    background-color: gray;
+    height: 160px;
+    border-radius: 11px;
+}
+.wishlistPackageCardDetails{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 3px;
+    text-align: left;
+    padding: 0px 10px;
+}
+.wishlistPackageCardDetails h3{
+    font-size: 13.5px;
+    font-weight: 500;
+    text-align: left;
+}
+.wishlistPackageCardDetails p{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: 5px;
+    text-align: left;
+    font-size: 13.5px;
+    width: 100%;
+    font-weight: 500;
+}
+.wishlistPackageCardDetails small{
+    font-size: 12px;
+    font-weight: 400;
+}
+.wishlistPackageCardDetails span{
+    display: flex;
+    column-gap: 2px;
+    align-items: flex-end;
+}
+.wishlistPackageCardDetails span svg{
+    height: 13px;
+    width: 13px;
+    margin-bottom: 5px;
+}
+.wishlistPackageCardDetails small{
+    display: flex;
+    column-gap: 10px;
+    align-items: flex-end;
+}
+
+.wishlistPackageCardDetails small svg{
+    height: 12px;
+    width: 12px;
+    margin-bottom: 3px;
+}
+.pagination{
+    padding: 0px 3%;
+    padding-bottom: 50px;
+}
+
+@media(max-width: 1100px){
+    .wishlistPackageCard small{
+        font-size: 11px;
+    }
+    .wishlistPackageCard h3{
+        font-size: 13px;
+    }
+}
+@media(max-width: 500px){
+    .wishlistPackageCardDetails h3{
+        font-size: 12px;
+    }
+    .wishlistPackageCardDetails p{
+        font-size: 12px;
+    }
+}
+@media(max-width: 410px){
+    .wishlistPackageCard img{
+        height: 140px;
+    }
+    .wishlistPackageCardDetails{
+        padding: 0px 5px;
+    }
+    .wishlistPackageCardDetails small{
+        font-size: 11px;
+    }
+    .wishlistPackageCardDetails span svg{
+        height: 12.5px;
+        width: 12.5px;
+        margin-bottom: 4px;
+    }
+    .wishlistPackageCardDetails small svg{
+        height: 12px;
+        width: 12px;
+        margin-bottom: 3px;
+    }
+}
+@media(max-width: 390px){
+    .wishlistPackageCard img{
+        height: 130px;
+    }
+    .wishlistPackageCard .saveIcon{
+        top: 10px;
+        right: 10px;
+        height: 19px;
+        padding: 2px;
+    }
+}

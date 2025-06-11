@@ -233,6 +233,68 @@ const Bookings = () => {
                 </div>
             </div>
         </section>
+        <div className="pagination flex flex-col items-end sm:items-end w-full">
+            <div className="flex flex-wrap justify-center sm:justify-end items-center gap-1">
+                {/* Previous Button */}
+                <button
+                className="inline-flex items-center justify-center py-2 px-4 rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent border-transparent hover:bg-stone-800/5 hover:border-stone-800/5 transition disabled:opacity-50"
+                >
+                <svg
+                    className="mr-1.5 h-4 w-4 stroke-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                    d="M15 6L9 12L15 18"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    />
+                </svg>
+                Previous
+                </button>
+
+                {/* Page Buttons */}
+                <button className="inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md  text-xs sm:text-sm font-medium text-stone-800 bg-transparent hover:bg-stone-800/5 transition">
+                1
+                </button>
+
+                <button className="inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium bg-[#0B5850] text-white hover:bg-stone-700 transition">
+                2
+                </button>
+
+                <button className="hidden sm:inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent hover:bg-stone-800/5 transition">
+                3
+                </button>
+
+                <button className="hidden sm:inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent hover:bg-stone-800/5 transition">
+                4
+                </button>
+
+                <button className="hidden md:inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent hover:bg-stone-800/5 transition">
+                5
+                </button>
+
+                {/* Next Button */}
+                <button
+                className="inline-flex items-center justify-center py-2 px-4 rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent border-transparent hover:bg-stone-800/5 hover:border-stone-800/5 transition disabled:opacity-50"
+                >
+                Next
+                <svg
+                    className="ml-1.5 h-4 w-4 stroke-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                    d="M9 6L15 12L9 18"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    />
+                </svg>
+                </button>
+            </div>
+        </div>
     </>
 
 }

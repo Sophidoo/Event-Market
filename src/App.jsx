@@ -10,6 +10,7 @@ import RentalDetails from './Pages/RentalDetails'
 import ServiceDetails from './Pages/ServiceDetails'
 import PackageDetails from './Pages/PackageDetails'
 import Bookings from './Pages/Bookings'
+import Wishlist from './Pages/Wishlist'
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path='service/details/:id' element={<ServiceDetails/>}/>
         <Route path='package/details/:id' element={<PackageDetails/>}/>
         <Route path='my-bookings' element={<Bookings/>}/>
+        <Route path='wishlist' element={<Wishlist/>}/>
       </Route>
       <Route index element={<Home/>}/>
     </Routes> 

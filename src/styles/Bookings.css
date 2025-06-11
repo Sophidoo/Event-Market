@@ -29,6 +29,8 @@
 .bookingsHeading form input{
     outline: none;
     font-size: 13px;
+    width: 100%;
+    cursor: pointer;
     display: flex;
 }
 .bookingsHeading svg{
@@ -85,9 +87,6 @@
     flex-wrap: wrap;
     column-gap: 2%;
     row-gap: 25px;
-}
-.bookingHolder:last-child{
-    border: 0px;
 }
 .bookingHolder:first-child{
     padding-top: 0px;
