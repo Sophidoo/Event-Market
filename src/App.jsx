@@ -11,6 +11,7 @@ import ServiceDetails from './Pages/ServiceDetails'
 import PackageDetails from './Pages/PackageDetails'
 import Bookings from './Pages/Bookings'
 import Wishlist from './Pages/Wishlist'
+import Profile from './Pages/Profile'
 
 
 function App() {
@@ -25,7 +26,8 @@ function App() {
         <Route path='service/details/:id' element={<ServiceDetails/>}/>
         <Route path='package/details/:id' element={<PackageDetails/>}/>
         <Route path='my-bookings' element={<Bookings/>}/>
-        <Route path='wishlist' element={<Wishlist/>}/>
+        <Route path='my-wishlist' element={<Wishlist/>}/>
+        <Route path='my-profile' element={<Profile/>}/>
       </Route>
       <Route index element={<Home/>}/>
     </Routes> 
