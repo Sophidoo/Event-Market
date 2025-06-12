@@ -1,0 +1,207 @@
+.profileWrapper{
+    padding: 30px 3%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 44px;
+}
+.profileHeading{
+    display: flex;
+    margin-bottom: -20px;
+    column-gap: 34px;
+    align-items: center;
+    justify-content: space-between;
+}
+.profileHeading h1{
+    font-size: 25px;
+    font-weight: 600;
+}
+.profileHeading hr{
+    width: 87%;
+    display: none;
+}
+.profileInfoWrapper{
+    padding: 23px 38px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.08);
+    border-radius: 7px;
+}
+.leftProfileInfo{
+    display: flex;
+    column-gap: 38px;
+    align-items: center;
+}
+.leftProfileInfo img{
+    width: 155px;
+    height: 155px;
+    border-radius: 100%;
+    background-color: gray;
+}
+.profileDetails{
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+}
+.profileDetails h2{
+    font-size: 20px;
+    font-weight: 600;
+}
+.profileDetails p{
+    font-size: 14px;
+    font-weight: 400;
+}
+.profileInfoWrapper button{
+    padding: 5px 14px;
+    column-gap: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    font-weight: 500;
+}
+.profileInfoWrapper button svg{
+    width: 15px;
+    height: auto;
+}
+
+.leftProfileDetails{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    width: 70%;
+    padding-bottom: 30px;
+}
+.leftProfileDetails h1{
+    font-size: 20px;
+    font-weight: 600;
+}
+.leftProfileDetails form{
+    display: flex;
+    flex-direction: column;
+    row-gap: 17px;
+    width: 100%;
+}
+.leftProfileDetails form .inputContainer{
+    display: flex;
+    column-gap: 2%;
+    width: 100%;
+}
+.leftProfileDetails form .inputWrapper{
+    width: 32%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+}
+.leftProfileDetails form label{
+    font-size: 13px;
+    font-weight: 500;
+}
+.leftProfileDetails form input{
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 400;
+    border-radius: 5px;
+    border: 1px solid #e7e7e7;
+    outline: none;
+}
+.leftProfileDetails form p{
+    font-size: 12px;
+    color: gray;
+    margin-bottom: 5px;
+}
+
+@media(max-width: 1300px){
+    .profileHeading h1{
+        font-size: 20px;
+    }
+    .profileInfoWrapper{
+        padding: 18px 25px;
+    }
+    .leftProfileInfo img{
+        width: 130px;
+        height: 130px;
+    }
+    .profileDetails{
+        row-gap: 4px;
+    }
+    .profileDetails h2{
+        font-size: 18px;
+    }
+    .leftProfileInfo{
+        column-gap: 25px;
+    }
+    .profileDetails p{
+        font-size: 13px;
+    }
+    .leftProfileDetails h1{
+        font-size: 18px;
+    }
+    .leftProfileDetails form input{
+        font-size: 12px;
+    }
+    .leftProfileDetails{
+        width: 80%;
+    }
+    
+}
+@media(max-width: 1000px){
+    .profileInfoWrapper{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .leftProfileDetails{
+        width: 100%;
+    }
+    .profileInfoWrapper button{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 10px;
+    }
+}
+@media(max-width: 750px){
+    .leftProfileDetails form .inputWrapper{
+        width: 100%;
+    }
+    .leftProfileDetails form .inputContainer{
+        flex-direction: column;
+        row-gap: 20px;
+    }
+}
+@media(max-width: 600px){
+    .profileInfoWrapper{
+        padding: 10px 15px;
+    }
+    .leftProfileInfo img{
+        width: 100px;
+        height: 100px;
+    }
+    .profileDetails{
+        row-gap: 3px;
+    }
+    .profileDetails h2{
+        font-size: 16px;
+    }
+    .leftProfileInfo{
+        column-gap: 20px;
+    }
+    .profileDetails p{
+        font-size: 12px;
+    }
+    .leftProfileDetails h1{
+        font-size: 16px;
+    }
+    .leftProfileDetails form input{
+        font-size: 12px;
+    }
+    .leftProfileDetails button{
+        font-size: 12px;
+        font-weight: 400;
+    }
+}
