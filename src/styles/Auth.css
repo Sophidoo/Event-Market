@@ -1,0 +1,151 @@
+.authWrapper{
+    display: flex;
+}
+.leftAuth{
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 20px;
+    padding: 50px 3%;
+    padding-top: 24px;
+}
+.leftAuthLogo{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+.leftAuthLogo img{
+    width: 100px;
+    height: 40px;
+    object-fit: cover;
+    background-color: gray;
+    margin-bottom: 26px;
+}
+.authHeading{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 3px;
+}
+.authHeading h2{
+    font-size: 22px;
+    font-weight: 600;
+}
+.authHeading p{
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.leftAuth form{
+    display: flex;
+    flex-direction: column;
+    row-gap: 21px;
+}
+.leftAuth form .inputWrapper{
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+}
+.leftAuth form .inputWrapper label{
+    font-size: 14px;
+    font-weight: 500;
+}
+.leftAuth form .inputWrapper input{
+    padding: 7px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 13px;
+}
+.leftAuth form .inputWrapper input:focus{
+    border-color: #128D7F;
+    outline: none;
+}
+.leftAuth form .inputWrapper p{
+    font-size: 12px;
+}
+.leftAuth form button{
+    padding: 8px 15px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    margin-top: 10px;
+    transition: 500ms;
+}
+.rightAuth{
+    width: 55%;
+    background-image: url('../assets/images/auth background image.png');
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    row-gap: 15px;
+    padding: 50px 74px;
+}
+.rightAuth h1{
+    font-size: 30px;
+    font-weight: 500;
+}
+.rightAuth p{
+    font-size: 14px;
+}
+.rightAuth img{
+    margin-top: 20px;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+}
+
+@media(max-width: 1300px){
+    .rightAuth h1{
+        font-size: 25px;
+    }
+    .rightAuth p{
+        font-size: 13px;
+    }
+    .authHeading h2{
+        font-size: 20px;
+    }
+    .authHeading p{
+        font-size: 13px;
+    }
+    .leftAuth form .inputWrapper label{
+        font-size: 13px;
+    }
+    .leftAuth form .inputWrapper p{
+        font-size: 11px;
+    }
+    .leftAuth form .inputWrapper input{
+        font-size: 12px;
+    }
+    .leftAuth form{
+        row-gap: 15px;
+    }
+    .leftAuthLogo img{
+        height: 30px;
+    }
+}
+@media(max-width: 1000px){
+    .leftAuth{
+        width: 100%;
+        padding: 30px 3%;
+    }
+    .leftAuth form{
+        width: 100%;
+    }
+    .authHeading{
+        width: 100%;
+    }
+    .rightAuth{
+        display: none;
+    }
+}
+@media(max-width: 500px){
+    .leftAuthLogo img{
+        margin-bottom: 10px;
+    }
+}

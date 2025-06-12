@@ -1,13 +1,14 @@
 import { HeartIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, HomeIcon, CalendarDateRangeIcon, BriefcaseIcon, InboxStackIcon, Squares2X2Icon, ClipboardDocumentCheckIcon, UserCircleIcon, Bars3Icon} from '@heroicons/react/24/solid'
 import "../styles/componentStyle/Navbar.css"
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 const Navbar = () => {
     const [showMenu, setShowMenu] = useState(false)
     const [showResponsiveMenu, setShowResponsiveMenu] = useState(false)
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setShowMenu(false)
@@ -49,7 +50,7 @@ const Navbar = () => {
             </div>
 
             <div className="rightNav">
-                <HeartIcon/>
+                <HeartIcon onClick={() => navigate("/my-wishlist")} className='cursor-pointer'/>
 
                 <div className="userProfile bg-[#136B61]">
                     <img   src="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?uid=R95769918&ga=GA1.1.837528501.1678343204&semt=ais_items_boosted&w=740" alt="" />

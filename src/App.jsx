@@ -12,6 +12,7 @@ import PackageDetails from './Pages/PackageDetails'
 import Bookings from './Pages/Bookings'
 import Wishlist from './Pages/Wishlist'
 import Profile from './Pages/Profile'
+import Register from './Pages/Auth/Register'
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path='my-wishlist' element={<Wishlist/>}/>
         <Route path='my-profile' element={<Profile/>}/>
       </Route>
+      <Route path='/register' element={<Register/>}/>
       <Route index element={<Home/>}/>
     </Routes> 
   </>
