@@ -1,0 +1,112 @@
+.sidebarWrapper{
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: flex-start;
+    position: fixed;
+    top: 0px;
+}
+.sidebarLogo{
+    padding: 18px 30px;
+}
+.sidebarLogo img{
+    width: 300px;
+    height: 40px;
+    object-fit: cover;
+    background-color: gray;
+}
+.sidebarLinks{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    width: 100%;
+}
+.sidebarLinks a{
+    display: flex;
+    align-items: center;
+    column-gap: 18px;
+    padding: 11px 30px;
+    width: 100%;
+    font-size: 13px;
+    font-weight: 500;
+}
+.sidebarLinks a svg{
+    height: auto;
+    width: 17px;
+}
+
+@media(max-width: 1300px){
+    .sidebarWrapper{
+        width: 200px;
+    }
+    .sidebarLinks{
+        row-gap: 10px;
+    }
+    .sidebarLinks a{
+        padding: 9px 20px;
+        font-size: 12px;
+    }
+    .sidebarLinks a svg{
+        width: 15px;
+        height: auto;
+    }
+    .sidebarLogo{
+        padding: 18px 20px;
+    }
+    .sidebarLogo img{
+        width: 100px;
+        height: 30px;
+    }
+}
+@media(max-width: 1000px){
+    .sidebarWrapper{
+        width: 170px;
+    }
+}
+@media(max-width: 800px){
+    .sidebarWrapper{
+        align-items: center;
+        row-gap: 10px;
+    }
+    .sidebarLinks{
+        row-gap: 7px;
+    }
+    .sidebarLinks a{
+        flex-direction: column;
+        width: fit-content;
+        align-items: center;
+        row-gap: 2px;
+        padding: 5px 10px;
+        font-size: 10px;
+        font-weight: 400;
+        width: 100%;
+    }
+    .sidebarLogo img{
+        width: 30px;
+        height: 20px;
+    }
+    .sidebarWrapper{
+        width: fit-content;
+    }
+    .sidebarLinks a svg{
+        width: 18px;
+        height: auto;
+    }
+}
+
+@media(max-width: 500px){
+    .sidebarLinks a{
+        padding: 10px 5px;
+    }
+    .sidebarLogo{
+        padding: 15px 5px;
+    }
+    .sidebarLinks{
+        row-gap: 10px;
+    }
+    .sidebarLinks a span{
+        display: none;
+    }
+}

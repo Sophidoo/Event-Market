@@ -16,6 +16,8 @@ import Register from './Pages/Auth/Register'
 import Login from './Pages/Auth/Login'
 import Verify from './Pages/Auth/Verify'
 import Forgot from './Pages/Auth/Forgot'
+import Overview from './Pages/dashboard/Overview'
+import DashboardLayout from './Layouts/DashboardLayout'
 
 
 function App() {
@@ -33,11 +35,17 @@ function App() {
         <Route path='my-wishlist' element={<Wishlist/>}/>
         <Route path='my-profile' element={<Profile/>}/>
       </Route>
+
+
       <Route path='/register' element={<Register/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/email-verification' element={<Verify/>}/>
       <Route path='/forgot-password' element={<Forgot/>}/>
       <Route index element={<Home/>}/>
+
+      <Route path="dashboard" element={<DashboardLayout/>}>
+        <Route index element={<Overview/>}/>
+      </Route>
     </Routes> 
   </>
   
