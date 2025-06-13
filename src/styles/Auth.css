@@ -77,6 +77,22 @@
     margin-top: 10px;
     transition: 500ms;
 }
+.leftAuth .inputHolder input{
+    border: 0px !important;
+    padding: 0px !important;
+    width: 100%;
+}
+.leftAuth .inputHolder svg{
+    height: 14px;
+    width: auto;
+    cursor: pointer;
+}
+.leftAuth .inputHolder{
+    padding: 7px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .rightAuth{
     width: 55%;
     background-image: url('../assets/images/auth background image.png');

@@ -2,6 +2,7 @@ import "../../styles/Auth.css";
 import dashboardImg from "../../assets/images/auth dashbpard.png";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import {EyeIcon, EyeSlashIcon} from "@heroicons/react/24/outline"
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -12,6 +13,9 @@ const Register = () => {
     confirmPassword: "",
     type: "",
   });
+  const [showPassword, setShowPassword] = useState(false)
+  const [showCpassword, setShowCpassword] = useState(false)
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,36 +86,41 @@ const Register = () => {
               />
             </div>
             <div className="inputWrapper">
-              <label htmlFor="Email">
-                Password <span className="text-red-600">*</span>
-              </label>
+                <label htmlFor="">Password <span className="text-red-600">*</span></label>
               <p className="text-gray-600">
                 Password should be more than 6 digits and contain special
                 characters{" "}
               </p>
-              <input
-                type="text"
-                name="password"
-                placeholder="Type here..."
-                value={user.password}
-                onChange={handleChange}
-              />
+                <div className="inputHolder border-[1px] border-[#D1D5DB] rounded-[5px]">
+                    <input type={showPassword ? "text" : "password"} className="" name="password" 
+                    placeholder="Type here..."
+                    value={user.password}
+                    onChange={handleChange}/>
+                    <span className="text-gray-500 border-0"
+                    onClick={() => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ? <EyeSlashIcon /> : <EyeIcon  />}
+                    </span>
+                </div>
             </div>
+            
             <div className="inputWrapper">
-              <label htmlFor="Email">
-                Confirm Password <span className="text-red-600">*</span>
-              </label>
+                <label htmlFor="">Confirm Password <span className="text-red-600">*</span></label>
               <p className="text-gray-600">
                 Password should be more than 6 digits and contain special
                 characters{" "}
               </p>
-              <input
-                type="text"
-                name="password"
-                placeholder="Type here..."
-                value={user.confirmPassword}
-                onChange={handleChange}
-              />
+                <div className="inputHolder border-[1px] border-[#D1D5DB] rounded-[5px]">
+                    <input type={showCpassword ? "text" : "password"} className="" name="confirmPassword" 
+                    placeholder="Type here..."
+                    value={user.confirmPassword}
+                    onChange={handleChange}/>
+                    <span className="text-gray-500 border-0"
+                    onClick={() => setShowCpassword(!showCpassword)}
+                    >
+                        {showCpassword ? <EyeSlashIcon /> : <EyeIcon  />}
+                    </span>
+                </div>
             </div>
             <div className="inputWrapper">
               <label htmlFor="Email">
