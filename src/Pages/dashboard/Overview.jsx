@@ -60,6 +60,46 @@ const Overview = () => {
       </div>
 
 
+      <div className="overviewChartWrapper">
+        <div className="revenueWrapper border-gray-200 border-[1px] bg-white">
+          <h2>Revenue</h2>
+        </div>
+
+        <div className="donutWrapper border-gray-200 border-[1px] bg-white">
+
+          <div className="donutWrapperDetails">
+
+            <div className="donutWrapperBars">
+              <h3>
+                <span className="bg-[#0B544C]"></span>
+                Rentals
+              </h3>
+              <hr className="border-t-[1px] border-dashed border-gray-400 w-[100%]"/>
+              <p>30%</p>
+            </div>
+
+            <div className="donutWrapperBars">
+              <h3>
+                <span className="bg-[#1DC9B5]"></span>
+                Services
+              </h3>
+              <hr className="border-t-[1px] border-dashed border-gray-400 w-[100%]"/>
+              <p>50%</p>
+            </div>
+
+            <div className="donutWrapperBars">
+              <h3>
+                <span className="bg-[#128D7F]"></span>
+                Packages
+              </h3>
+              <hr className="border-t-[1px] border-dashed border-gray-400 w-[100%]"/>
+              <p>15%</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
 
     </div>
   </>
