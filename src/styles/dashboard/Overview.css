@@ -1,0 +1,241 @@
+.overviewContainer{
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+}
+.overviewHeader{
+    display: flex;
+    justify-content: space-between;
+}
+.overviewHeader h1{
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+.overviewHeader h1 svg{
+    width: auto;
+    height: 15px;
+}
+.overviewHeaderProfile{
+    display: flex;
+    align-items: center;
+    column-gap: 9px;
+}
+.overviewHeaderProfile img{
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    object-fit: cover;
+    background-color: gray;
+}
+.overviewHeaderProfileDetails{
+    display: flex;
+    flex-direction: column;
+}
+.overviewHeaderProfileDetails h4{
+    font-size: 12px;
+    font-weight: 500;
+}
+.overviewHeaderProfileDetails p{
+    font-size: 10px;
+    font-weight: 400;
+}
+
+@media(max-width: 1300px){
+    .overviewHeader h1{
+        font-size: 16px;
+    }
+    .overviewHeaderProfileDetails h4{
+        font-size: 11px;
+    }
+    .overviewHeaderProfileDetails p{
+        font-size: 9px;
+    }
+}
+@media(max-width: 1000px){
+    .overviewHeader h1{
+        font-size: 15px;
+    }
+    .overviewHeaderProfile img{
+        width: 30px;
+        height: 30px;
+    }
+}
+@media(max-width: 500px){
+    .overviewHeader{
+        flex-wrap: wrap;
+        column-gap: 10px;
+        row-gap: 9px;
+    }
+    .overviewHeader h1{
+        font-size: 14px;
+        column-gap: 5px;
+    }
+    .overviewHeaderProfile img{
+        width: 30px;
+        height: 30px;
+    }
+    .overviewHeaderProfile{
+        display: none;
+    }
+}
+
+
+.overviewSummaryCardWrapper{
+    display: flex;
+    justify-content: space-between;
+    column-gap: 2%;
+    row-gap: 20px;
+    flex-wrap: wrap;
+}
+.balanceCard{
+    background-image: url("../../assets/images/balanceCardBackground.png");
+    width: 49%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 19px 26px;
+    row-gap: 9px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 10px;
+}
+.balanceCard p{
+    font-size: 12px;
+    font-weight: 400;
+}
+.balanceCardDetails{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    row-gap: 10px;
+    column-gap: 5px;
+    flex-wrap: wrap;
+}
+.overviewSummaryCard{
+    width: 23.5%;
+    background-color: white;
+}
+.balanceCardDetails h1{
+    font-size: 25px;
+    font-weight: 500;
+    display: flex;
+    align-items: flex-end;
+    column-gap: 10px;
+}
+.balanceCardDetails h1 span{
+    font-size: 13px;
+    margin-bottom: 5px;
+    font-weight: 400;
+}
+.balanceCard button{
+    font-size: 10px;
+    padding: 7px 20px;
+    border-radius: 25px;
+}
+.overviewSummaryCard{
+    padding: 11px 13px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 9px;
+}
+.overviewSummaryCard span{
+    font-size: 10px;
+    font-weight: 500;
+}
+.overviewSummaryCardDetails{
+    display: flex;
+    align-items: center;
+    column-gap: 9px;
+}
+.overviewCardIcon{
+    width: auto;
+    height: 45px;
+    padding: 12px;
+    border-radius: 100%;
+}
+.overviewSummaryCardInfo{
+    display: flex;
+    flex-direction: column;
+}
+.overviewSummaryCardInfo h4{
+    font-size: 12px;
+    font-weight: 500;
+}
+.overviewSummaryCardInfo h1{
+    font-size: 20px;
+    display: flex;
+    column-gap: 5px;
+    flex-wrap: wrap;
+    row-gap: 5px;
+    font-weight: 600;
+    align-items: flex-end;
+}
+.overviewSummaryCardInfo span{
+    font-size: 10px;
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+    margin-bottom: 2px;
+    margin-left: 2px;
+}
+.overviewSummaryCardInfo span svg{
+    height: 10px !important;
+    width: auto;
+}
+
+
+@media(max-width: 1200px){
+    .balanceCard{
+        width: 100%;
+    }
+    .overviewSummaryCard{
+        width: 49%;
+    }
+}
+
+@media(max-width: 800px){
+    .balanceCard p{
+        font-size: 11px;
+    }
+    .balanceCard{
+        padding: 16px 20px;
+    }
+    .balanceCardDetails h1{
+        font-size: 22px;
+    }
+    .balanceCardDetails h1 span{
+        font-size: 11px;
+        margin-bottom: 4px;
+    }
+    .balanceCard button{
+        padding: 6px 15px;
+    }
+    .overviewCardIcon{
+        padding: 10px;
+        height: 40px;
+    }
+    .overviewSummaryCardInfo h4{
+        font-size: 11px;
+    }
+    .overviewSummaryCardInfo h1{
+        font-size: 18px;
+    }
+    .overviewSummaryCardInfo span{
+        margin-bottom: 2px;
+    }
+}
+@media(max-width: 600px){
+    .balanceCardDetails h1{
+        font-size: 20px;
+    }
+    .overviewSummaryCard{
+        width: 100%;
+    }
+    .overviewSummaryCardWrapper{
+        row-gap: 10px;
+    }
+}
