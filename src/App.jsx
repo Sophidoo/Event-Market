@@ -21,6 +21,7 @@ import DashboardLayout from './Layouts/DashboardLayout'
 import DashboardRentals from './Pages/dashboard/dashboardRentals'
 import DashboardServices from './Pages/dashboard/DashboardServices'
 import DashboardPackages from './Pages/dashboard/DashboardPackages'
+import DashboardBookings from './Pages/dashboard/DashboardBookings'
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
         <Route path='rentals' element={<DashboardRentals/>}/>
         <Route path='services' element={<DashboardServices/>}/>
         <Route path='packages' element={<DashboardPackages/>}/>
+        <Route path='bookings' element={<DashboardBookings/>}/>
       </Route>
     </Routes> 
   </>
