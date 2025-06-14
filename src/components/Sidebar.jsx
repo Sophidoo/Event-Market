@@ -11,43 +11,43 @@ const Sidebar = () => {
         <img src={null} alt="" />
       </div>
       <div className="sidebarLinks">
-        <NavLink className="bg-[white] text-[#0B544C]">
+        <NavLink className="bg-[#f6f6f6] text-[#0B544C]">
           <Squares2X2Icon/>
           <span>Overview</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-white text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
           <ClipboardDocumentListIcon/>
           <span>Rentals</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-white text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
           <BriefcaseIcon/>
           <span>Services</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-white text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
           <InboxStackIcon/>
           <span>Packages</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-white text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
           <PrinterIcon/>
           <span>Bookings</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-white text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
           <UserIcon/>
           <span>Users</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-white text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
           <StarIcon/>
           <span>Reviews</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-white text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
           <BanknotesIcon/>
           <span>Transactions</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-white text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
           <Cog6ToothIcon/>
           <span>Settings</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-white text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
           <ArrowRightStartOnRectangleIcon/>
           <span>Logout</span>
         </NavLink>

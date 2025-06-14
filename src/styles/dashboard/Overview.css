@@ -255,6 +255,10 @@
     row-gap: 10px;
     border-radius: 10px;
 }
+.revenueWrapper h2{
+    font-size: 16px;
+    font-weight: 500;
+}
 .donutWrapper{
     width: 33%;
     border-radius: 10px;
@@ -264,18 +268,19 @@
     display: flex;
     flex-direction: column;
     row-gap: 10px;
-    margin-top: -80px;
-    padding: 0px 40px;
+    margin-top: -90px;
+    padding: 0px 0px;
 }
 .donutChart{
     margin-top: -30px;
     cursor: pointer;
     position: relative;
+    margin-left: -30px;
 }
 .chartTotal{
     position: absolute;
-    top: 120px;
-    left: 37%;
+    top: 130px;
+    left: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -313,6 +318,27 @@
     font-weight: 500;
 }
 
+
+@media(max-width: 1450px){
+    .chartTotal{
+        top: 110px;
+        left: 38%;
+    }
+}
+@media(max-width: 1350px){
+    .chartTotal{
+        top: 100px;
+        left: 35%;
+        row-gap: 0px;
+    }
+    .chartTotal h1{
+        font-size: 28px;
+    }
+    .donutWrapperDetails{
+        margin-top: -50px;
+    }
+
+}
 @media(max-width: 1200px){
     .overviewChartWrapper{
         flex-direction: column;
@@ -323,5 +349,111 @@
     }
     .donutWrapper{
         width: 100%;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .donutChart{
+        width: 400px;
+    }
+    .donutWrapperDetails{
+        margin-top: -120px;
+        width: 100%;
+    }
+    .chartTotal{
+        top: 135px;
+        left: 39%;
+        row-gap: 0px;
+    }
+    .revenueWrapper{
+        padding: 10px 15px;
     }
 }
+@media(max-width: 1000px){
+    .revenueChartScroll{
+        width: 100%;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        margin: 0px -15px;
+        margin-bottom: -10px;
+    }
+    .revenueChart{
+        width: 900px;
+    }
+
+}
+@media(max-width: 500px){
+    .donutChart{
+        margin-left: 0px;
+        width: 100%;
+    }
+    .donutWrapperDetails{
+        margin-top: -80px;
+    }
+    .chartTotal{
+        top: 115px;
+        left: 38%;
+        row-gap: 0px;
+    }
+    .chartTotal h1{
+        font-size: 24px;
+    }
+    .chartTotal p{
+        font-size: 11px;
+    }
+    .revenueChart{
+        width: 700px;
+    }
+    .revenueWrapper h2{
+        font-size: 14px;
+    }
+}
+@media(max-width: 420px){
+    .donutWrapperDetails{
+        margin-top: -60px;
+    }
+    .chartTotal{
+        top: 100px;
+        left: 35%;
+        row-gap: 0px;
+    }
+    .chartTotal h1{
+        font-size: 22px;
+    }
+    .chartTotal p{
+        font-size: 10px;
+    }
+}
+@media(max-width: 390px){
+    .donutWrapperDetails{
+        margin-top: -40px;
+    }
+    .chartTotal{
+        top: 100px;
+        left: 37%;
+        row-gap: 0px;
+    }
+    .chartTotal h1{
+        font-size: 20px;
+    }
+    .chartTotal p{
+        font-size: 9px;
+    }
+}
+@media(max-width: 350px){
+    .donutWrapperDetails{
+        margin-top: -40px;
+    }
+    .chartTotal{
+        top: 90px;
+        left: 36%;
+        row-gap: 0px;
+    }
+    .donutWrapperBars h3{
+        font-size: 11px;
+    }
+    .donutWrapperBars p{
+        font-size: 11px;
+    }
+}   
