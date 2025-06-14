@@ -11,43 +11,73 @@ const Sidebar = () => {
         <img src={null} alt="" />
       </div>
       <div className="sidebarLinks">
-        <NavLink className="bg-[#f6f6f6] text-[#0B544C]">
+        <NavLink 
+          to="/dashboard/overview"
+          className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
+        >
           <Squares2X2Icon/>
           <span>Overview</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink 
+          to="/dashboard/rentals"
+          className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
+        >
           <ClipboardDocumentListIcon/>
           <span>Rentals</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink 
+          to="/dashboard/services"
+          className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
+        >
           <BriefcaseIcon/>
           <span>Services</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink 
+          to="/dashboard/packages"
+          className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
+        >
           <InboxStackIcon/>
           <span>Packages</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink 
+          to="/dashboard/bookings"
+          className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
+        >
           <PrinterIcon/>
           <span>Bookings</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink 
+          to="/dashboard/users"
+          className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
+        >
           <UserIcon/>
           <span>Users</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink 
+          to="/dashboard/reviews"
+          className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
+        >
           <StarIcon/>
           <span>Reviews</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink 
+          to="/dashboard/transactions"
+          className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
+        >
           <BanknotesIcon/>
           <span>Transactions</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink 
+          to="/dashboard/settings"
+          className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
+        >
           <Cog6ToothIcon/>
           <span>Settings</span>
         </NavLink>
-        <NavLink className="text-white hover:bg-[#f6f6f6] text-[#0B544C] hover:text-[#0B544C]">
+        <NavLink 
+          to="/dashboard/logout"
+          className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
+        >
           <ArrowRightStartOnRectangleIcon/>
           <span>Logout</span>
         </NavLink>

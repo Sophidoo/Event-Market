@@ -18,6 +18,7 @@ import Verify from './Pages/Auth/Verify'
 import Forgot from './Pages/Auth/Forgot'
 import Overview from './Pages/dashboard/Overview'
 import DashboardLayout from './Layouts/DashboardLayout'
+import DashboardRentals from './Pages/dashboard/dashboardRentals'
 
 
 function App() {
@@ -44,7 +45,8 @@ function App() {
       <Route index element={<Home/>}/>
 
       <Route path="dashboard" element={<DashboardLayout/>}>
-        <Route index element={<Overview/>}/>
+        <Route path="overview" element={<Overview/>}/>
+        <Route path='rentals' element={<DashboardRentals/>}/>
       </Route>
     </Routes> 
   </>

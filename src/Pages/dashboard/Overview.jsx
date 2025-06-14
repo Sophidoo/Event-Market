@@ -2,6 +2,7 @@ import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/r
 import "../../styles/dashboard/overview.css";
 import { DocumentTextIcon } from "@heroicons/react/16/solid";
 import Chart from "react-apexcharts";
+import { NavLink } from "react-router-dom";
 
 const Overview = () => {
 
@@ -364,6 +365,176 @@ const Overview = () => {
         </div>
       </div>
 
+      <div className="overviewBookingsWrapper">
+        
+        <div className="overviewBookingsTable  border-gray-200 border-[1px] bg-white">
+          <div className="overviewBookingsHeading">
+            <h3>Bookings Due Today</h3>
+            <p>23rd May, 2025</p>
+          </div>
+
+          <div className="overviewTableScroll overflow-x-auto">
+            <table>
+              <thead className="bg-[#E5F3F1]">
+                <th>Item</th>
+                <th>Client</th>
+                <th>Client Phone</th>
+                <th>Duration</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div>
+                      <p>Banquet Chairs</p>
+                      <span>500pcs</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <p>Mary Celestia</p>
+                      <span>sophieokosodo@gmail.com</span>
+                    </div>
+                  </td>
+                  <td>08033099087</td>
+                  <td>5 days</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div>
+                      <p>Banquet Chairs</p>
+                      <span>500pcs</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <p>Mary Celestia</p>
+                      <span>sophieokosodo@gmail.com</span>
+                    </div>
+                  </td>
+                  <td>08033099087</td>
+                  <td>5 days</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div>
+                      <p>Banquet Chairs</p>
+                      <span>500pcs</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <p>Mary Celestia</p>
+                      <span>sophieokosodo@gmail.com</span>
+                    </div>
+                  </td>
+                  <td>08033099087</td>
+                  <td>5 days</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div>
+                      <p>Banquet Chairs</p>
+                      <span>500pcs</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <p>Mary Celestia</p>
+                      <span>sophieokosodo@gmail.com</span>
+                    </div>
+                  </td>
+                  <td>08033099087</td>
+                  <td>5 days</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <div className="overviewBookingsTable  border-gray-200 border-[1px] bg-white">
+          <div className="overviewBookingsHeading">
+            <h3>Bookings Due Today</h3>
+            <NavLink className="text-[#128D7F]">View More</NavLink>
+          </div>
+
+          <div className="overviewTableScroll overflow-x-auto">
+            <table>
+            <thead className="bg-[#E5F3F1]">
+              <th>Item</th>
+              <th>Client</th>
+              <th>Client Phone</th>
+              <th>Duration</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div>
+                    <p>Banquet Chairs</p>
+                    <span>500pcs</span>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <p>Mary Celestia</p>
+                    <span>sophieokosodo@gmail.com</span>
+                  </div>
+                </td>
+                <td>08033099087</td>
+                <td>5 days</td>
+              </tr>
+              <tr>
+                <td>
+                  <div>
+                    <p>Banquet Chairs</p>
+                    <span>500pcs</span>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <p>Mary Celestia</p>
+                    <span>sophieokosodo@gmail.com</span>
+                  </div>
+                </td>
+                <td>08033099087</td>
+                <td>5 days</td>
+              </tr>
+              <tr>
+                <td>
+                  <div>
+                    <p>Banquet Chairs</p>
+                    <span>500pcs</span>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <p>Mary Celestia</p>
+                    <span>sophieokosodo@gmail.com</span>
+                  </div>
+                </td>
+                <td>08033099087</td>
+                <td>5 days</td>
+              </tr>
+              <tr>
+                <td>
+                  <div>
+                    <p>Banquet Chairs</p>
+                    <span>500pcs</span>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <p>Mary Celestia</p>
+                    <span>sophieokosodo@gmail.com</span>
+                  </div>
+                </td>
+                <td>08033099087</td>
+                <td>5 days</td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
 
     </div>
   </>

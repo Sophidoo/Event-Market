@@ -3,84 +3,6 @@
     flex-direction: column;
     row-gap: 30px;
 }
-.overviewHeader{
-    display: flex;
-    justify-content: space-between;
-}
-.overviewHeader h1{
-    font-size: 18px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    column-gap: 10px;
-}
-.overviewHeader h1 svg{
-    width: auto;
-    height: 15px;
-}
-.overviewHeaderProfile{
-    display: flex;
-    align-items: center;
-    column-gap: 9px;
-}
-.overviewHeaderProfile img{
-    width: 36px;
-    height: 36px;
-    border-radius: 100%;
-    object-fit: cover;
-    background-color: gray;
-}
-.overviewHeaderProfileDetails{
-    display: flex;
-    flex-direction: column;
-}
-.overviewHeaderProfileDetails h4{
-    font-size: 12px;
-    font-weight: 500;
-}
-.overviewHeaderProfileDetails p{
-    font-size: 10px;
-    font-weight: 400;
-}
-
-@media(max-width: 1300px){
-    .overviewHeader h1{
-        font-size: 16px;
-    }
-    .overviewHeaderProfileDetails h4{
-        font-size: 11px;
-    }
-    .overviewHeaderProfileDetails p{
-        font-size: 9px;
-    }
-}
-@media(max-width: 1000px){
-    .overviewHeader h1{
-        font-size: 15px;
-    }
-    .overviewHeaderProfile img{
-        width: 30px;
-        height: 30px;
-    }
-}
-@media(max-width: 500px){
-    .overviewHeader{
-        flex-wrap: wrap;
-        column-gap: 10px;
-        row-gap: 9px;
-    }
-    .overviewHeader h1{
-        font-size: 14px;
-        column-gap: 5px;
-    }
-    .overviewHeaderProfile img{
-        width: 30px;
-        height: 30px;
-    }
-    .overviewHeaderProfile{
-        display: none;
-    }
-}
 
 
 .overviewSummaryCardWrapper{
@@ -457,3 +379,106 @@
         font-size: 11px;
     }
 }   
+
+.overviewBookingsWrapper{
+    display: flex;
+    column-gap: 2%;
+}
+.overviewBookingsTable{
+    width: 49%;
+    border-radius: 10px;
+}
+.overviewBookingsHeading{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.overviewBookingsHeading h3{
+    font-size: 14px;
+    font-weight: 500;
+}
+.overviewBookingsHeading p{
+    font-size: 13px;
+    font-weight: 500;
+}
+.overviewBookingsHeading a{
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 500;
+}
+.overviewBookingsHeading a:hover{
+    text-decoration: none;
+    transition: 500ms;
+}
+.overviewBookingsTable table{
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+}
+.overviewBookingsTable td{
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.overviewBookingsTable th{
+    padding: 10px 20px;
+    font-size: 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.overviewBookingsTable span{
+    color: gray;
+    font-size: 11px;
+    font-weight: 400;
+}
+.overviewTableScroll::-webkit-scrollbar{
+    height: 4px;
+    background-color: rgb(233, 233, 233);
+}
+.overviewTableScroll::-webkit-scrollbar-thumb{
+    height: 2px;
+    background-color: rgb(189, 189, 189);
+}
+
+@media(max-width: 1200px){
+    .overviewBookingsTable{
+        width: 100%;
+    }
+    .overviewBookingsWrapper{
+        flex-direction: column;
+        row-gap: 10px;
+    }
+}
+@media(max-width: 800px){
+    .overviewBookingsTable td{
+        padding: 10px 15px;
+        font-size: 11px;
+    }
+    .overviewBookingsTable th{
+        padding: 10px 15px;
+        font-size: 11px;
+    }
+    .overviewBookingsHeading h3{
+        font-size: 13px;
+    }
+    .overviewBookingsHeading p{
+        font-size: 12px;
+    }
+}
+@media(max-width: 500px){
+    .overviewBookingsHeading h3{
+        font-size: 12px;
+    }
+    .overviewBookingsHeading p{
+        font-size: 11px;
+    }
+    .overviewBookingsHeading a{
+        font-size: 11px;
+    }
+    .overviewBookingsTable table{
+        min-width: 570px;
+    }
+}

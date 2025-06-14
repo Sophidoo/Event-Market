@@ -24,6 +24,7 @@
 .dashboardMain{
   padding: 20px 32px;
   margin-left: 250px;
+  min-height: 100vh;
 }
 
 @media(max-width: 1300px){
@@ -48,4 +49,87 @@
     margin-left: 40px;
     padding: 16px 13px;
   }
+}
+.overviewContainer{
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+}
+.overviewHeader{
+    display: flex;
+    justify-content: space-between;
+}
+.overviewHeader h1{
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+.overviewHeader h1 svg{
+    width: auto;
+    height: 15px;
+}
+.overviewHeaderProfile{
+    display: flex;
+    align-items: center;
+    column-gap: 9px;
+}
+.overviewHeaderProfile img{
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    object-fit: cover;
+    background-color: gray;
+}
+.overviewHeaderProfileDetails{
+    display: flex;
+    flex-direction: column;
+}
+.overviewHeaderProfileDetails h4{
+    font-size: 12px;
+    font-weight: 500;
+}
+.overviewHeaderProfileDetails p{
+    font-size: 10px;
+    font-weight: 400;
+}
+
+@media(max-width: 1300px){
+    .overviewHeader h1{
+        font-size: 16px;
+    }
+    .overviewHeaderProfileDetails h4{
+        font-size: 11px;
+    }
+    .overviewHeaderProfileDetails p{
+        font-size: 9px;
+    }
+}
+@media(max-width: 1000px){
+    .overviewHeader h1{
+        font-size: 15px;
+    }
+    .overviewHeaderProfile img{
+        width: 30px;
+        height: 30px;
+    }
+}
+@media(max-width: 500px){
+    .overviewHeader{
+        flex-wrap: wrap;
+        column-gap: 10px;
+        row-gap: 9px;
+    }
+    .overviewHeader h1{
+        font-size: 14px;
+        column-gap: 5px;
+    }
+    .overviewHeaderProfile img{
+        width: 30px;
+        height: 30px;
+    }
+    .overviewHeaderProfile{
+        display: none;
+    }
 }
