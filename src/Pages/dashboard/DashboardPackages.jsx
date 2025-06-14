@@ -1,14 +1,14 @@
 import { ChevronRightIcon, PencilSquareIcon, MagnifyingGlassIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import "../../styles/dashboard/Rentals.css"
 
-const DashboardRentals = () => {
+const DashboardPackages = () => {
 
     return<>
         <div className="rentalsContainer">
             <div className="overviewHeader">
                 <h1>
                     Dashboard <ChevronRightIcon/>
-                    <span className="text-gray-600">Rentals</span>
+                    <span className="text-gray-600">Packages</span>
                 </h1>
 
                 <div className="overviewHeaderProfile">
@@ -35,7 +35,7 @@ const DashboardRentals = () => {
                     <p className="text-gray-600 hover:text-black hover:bg-white">Booked <span className="border-gray-300 border-[1px] ">0</span></p>
                 </div>
 
-                <button className="bg-[#0B544C] text-white hover:bg-[#128D7F]">Add Rentals <PlusIcon/> </button>
+                <button className="bg-[#0B544C] text-white hover:bg-[#128D7F]">Add Package <PlusIcon/> </button>
             </div>
 
             <div className="rentalTableScroll overflox-x-auto">
@@ -43,10 +43,10 @@ const DashboardRentals = () => {
                     <thead className="bg-[#c1d9d6] text-black">
                         <th>Id</th>
                         <th>
-                            Item
+                            Package
                         </th>
-                        <th>Unit Price (N)</th>
-                        <th>Location</th>
+                        <th>Lowest Offer</th>
+                        <th>Locations Offered</th>
                         <th>Availability</th>
                         <th>Rating</th>
                         <th></th>
@@ -115,4 +115,4 @@ const DashboardRentals = () => {
 
 }
 
-export default DashboardRentals;
+export default DashboardPackages;

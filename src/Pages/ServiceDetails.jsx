@@ -51,6 +51,25 @@ const ServiceDetails = () => {
                 </div>
 
                 <div className="detailsHolder">
+                    <h4>Prices:</h4>
+                    <ul className="text-gray-700">
+                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                    </ul>
+                </div>
+
+                <div className="detailsHolder">
+                    <h4>Qualifications:</h4>
+                    <p className="text-gray-700">
+                        <span>Experience: </span> <br />
+                        <span>Career highlight: </span> <br />
+                        <span>Education and training: </span>
+                    </p>
+                </div>
+
+                <div className="detailsHolder">
                     <h4>Locations Service is offered:</h4>
                     <p className="text-gray-700">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta dolore atque officia iusto tempore incidunt delectus maiores a eaque inventore.</p>
                 </div>

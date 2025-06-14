@@ -19,6 +19,8 @@ import Forgot from './Pages/Auth/Forgot'
 import Overview from './Pages/dashboard/Overview'
 import DashboardLayout from './Layouts/DashboardLayout'
 import DashboardRentals from './Pages/dashboard/dashboardRentals'
+import DashboardServices from './Pages/dashboard/DashboardServices'
+import DashboardPackages from './Pages/dashboard/DashboardPackages'
 
 
 function App() {
@@ -47,6 +49,8 @@ function App() {
       <Route path="dashboard" element={<DashboardLayout/>}>
         <Route path="overview" element={<Overview/>}/>
         <Route path='rentals' element={<DashboardRentals/>}/>
+        <Route path='services' element={<DashboardServices/>}/>
+        <Route path='packages' element={<DashboardPackages/>}/>
       </Route>
     </Routes> 
   </>
