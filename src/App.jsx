@@ -24,6 +24,10 @@ import DashboardPackages from './Pages/dashboard/DashboardPackages'
 import DashboardBookings from './Pages/dashboard/DashboardBookings'
 import DashboardUsers from './Pages/dashboard/DashboardUsers'
 import DashboardTransactions from './Pages/dashboard/DashboardTransactions'
+import DashboardReviews from './Pages/dashboard/DashboardReviews'
+import DashboardRentalDetails from './Pages/dashboard/DashboardRentalDetails'
+import DashboardServicesDetails from './Pages/dashboard/DashboardServicesDetails'
+import DashboardPackagesDetails from './Pages/dashboard/DashboardPackagesDetails'
 
 
 function App() {
@@ -52,11 +56,15 @@ function App() {
       <Route path="dashboard" element={<DashboardLayout/>}>
         <Route path="overview" element={<Overview/>}/>
         <Route path='rentals' element={<DashboardRentals/>}/>
+        <Route path='rentals/:id' element={<DashboardRentalDetails/>}/>
         <Route path='services' element={<DashboardServices/>}/>
+        <Route path='services/:id' element={<DashboardServicesDetails/>}/>
         <Route path='packages' element={<DashboardPackages/>}/>
+        <Route path='packages/:id' element={<DashboardPackagesDetails/>}/>
         <Route path='bookings' element={<DashboardBookings/>}/>
         <Route path='users' element={<DashboardUsers/>}/>
         <Route path='transactions' element={<DashboardTransactions/>}/>
+        <Route path='reviews' element={<DashboardReviews/>}/>
       </Route>
     </Routes> 
   </>

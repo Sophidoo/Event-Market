@@ -38,7 +38,6 @@ const DashboardTransactions = () => {
                 </div>
 
                 <button className="bg-[#0B544C] text-white hover:bg-[#128D7F]">Download <ArrowDownTrayIcon/>  </button>
-
             </div>
 
             

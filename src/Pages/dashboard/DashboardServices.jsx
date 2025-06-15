@@ -1,7 +1,9 @@
 import { ChevronRightIcon, PencilSquareIcon, MagnifyingGlassIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import "../../styles/dashboard/Rentals.css"
+import { useNavigate } from "react-router";
 
 const DashboardServices = () => {
+    const navigate = useNavigate()
 
     return<>
         <div className="rentalsContainer">
@@ -53,7 +55,7 @@ const DashboardServices = () => {
                         <th></th>
                     </thead>
                     <tbody>
-                        <tr className="border-b-[1px] border-gray-200">
+                        <tr className="border-b-[1px] border-gray-200" onClick={() => navigate("1")}>
                             <td>1</td>
                             <td>
                                 <div className="rentalItem">
