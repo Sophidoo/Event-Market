@@ -57,7 +57,7 @@ const Navbar = () => {
                     <ChevronDownIcon className='cursor-pointer' onClick={() => decideMenuToShow("menu")}/>
                     <div className={showMenu ? "navMenu" : "hide" }>
                         <NavLink 
-                            to="/dashboard"
+                            to="/dashboard/overview"
                             className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                         ><Squares2X2Icon/> Dashboard</NavLink>
                         {/* <hr className='border-[0.5px] border-gray-100'/> */}
