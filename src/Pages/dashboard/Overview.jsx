@@ -1,5 +1,5 @@
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import "../../styles/dashboard/overview.css";
+import "../../styles/dashboard/Overview.css";
 import { DocumentTextIcon } from "@heroicons/react/16/solid";
 import Chart from "react-apexcharts";
 import { NavLink } from "react-router-dom";
