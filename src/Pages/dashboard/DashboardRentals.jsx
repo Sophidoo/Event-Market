@@ -40,14 +40,15 @@ const DashboardRentals = () => {
 
             <div className="rentalTableScroll overflox-x-auto">
                 <table>
-                    <thead className="bg-[#c1d9d6] text-black">
+                    <thead className="bg-gray-200 text-black">
                         <th>Id</th>
                         <th>
                             Item
                         </th>
                         <th>Unit Price (N)</th>
                         <th>Location</th>
-                        <th>Availability</th>
+                        <th>Instant Booking</th>
+                        <th>Status</th>
                         <th>Rating</th>
                         <th></th>
                         <th></th>
@@ -66,7 +67,8 @@ const DashboardRentals = () => {
                             </td>
                             <td>300</td>
                             <td>Port harcourt, Rivers State, Nigeria</td>
-                            <td>Yes</td>
+                            <td>Enabled</td>
+                            <td>Booked</td>
                             <td>4.3</td>
                             <td><PencilSquareIcon/></td>
                             <td><TrashIcon/></td>
@@ -84,7 +86,8 @@ const DashboardRentals = () => {
                             </td>
                             <td>300</td>
                             <td>Port harcourt, Rivers State, Nigeria</td>
-                            <td>Yes</td>
+                            <td>Enabled</td>
+                            <td>Available</td>
                             <td>4.3</td>
                             <td><PencilSquareIcon/></td>
                             <td><TrashIcon/></td>
@@ -102,7 +105,8 @@ const DashboardRentals = () => {
                             </td>
                             <td>300</td>
                             <td>Port harcourt, Rivers State, Nigeria</td>
-                            <td>Yes</td>
+                            <td>Disabled</td>
+                            <td>Not Available</td>
                             <td>4.3</td>
                             <td><PencilSquareIcon/></td>
                             <td><TrashIcon/></td>

@@ -7,7 +7,7 @@ const DashboardLayout = () => {
     return<>
         <Sidebar/>
 
-        <main className="dashboardMain bg-[#f6f6f6]">
+        <main className="dashboardMain bg-white">
             <Outlet/>
         </main>
     </>

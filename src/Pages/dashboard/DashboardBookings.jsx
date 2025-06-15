@@ -32,17 +32,19 @@ const DashboardBookings = () => {
                 </div>
 
                 <div className="rentalTabWrapper border-gray-200 border-[1px] ">
-                    <p className="border-r-[1px] border-gray-200 text-gray-600 hover:text-black hover:bg-white">Rentals <span className="border-gray-300 border-[1px]">63</span></p>
-                    <p className="border-r-[1px] border-gray-200 text-gray-600 hover:text-black hover:bg-white">Services <span className="border-gray-300 border-[1px]">0</span></p>
-                    <p className="text-gray-600 hover:text-black hover:bg-white">Packages <span className="border-gray-300 border-[1px] ">0</span></p>
-                    <p className="text-gray-600 hover:text-black hover:bg-white">History <span className="border-gray-300 border-[1px] ">0</span></p>
+                    <p className="border-r-[1px] border-gray-200 text-gray-600 hover:text-black hover:bg-gray-100">Rentals <span className="border-gray-300 border-[1px]">63</span></p>
+                    <p className="border-r-[1px] border-gray-200 text-gray-600 hover:text-black hover:bg-gray-100">Services <span className="border-gray-300 border-[1px]">0</span></p>
+                    <p className="border-r-[1px] border-gray-200 text-gray-600 hover:text-black hover:bg-gray-100">Packages <span className="border-gray-300 border-[1px] ">0</span></p>
+                    <p className="text-gray-600 hover:text-black hover:bg-gray-100">History <span className="border-gray-300 border-[1px] ">0</span></p>
                 </div>
 
             </div>
 
+            
+
             <div className="rentalTableScroll overflox-x-auto">
                 <table>
-                    <thead className="bg-[#c1d9d6] text-black">
+                    <thead className=" text-black border-b-[1px] border-gray-200 border-t-[1px] bg-gray-200">
                         <th>Id</th>
                         <th>
                             Item
@@ -55,7 +57,7 @@ const DashboardBookings = () => {
                         <th></th>
                         <th></th>
                     </thead>
-                    <tbody>
+                    <tbody >
                         <tr className="border-b-[1px] border-gray-200">
                             <td>1</td>
                             <td>

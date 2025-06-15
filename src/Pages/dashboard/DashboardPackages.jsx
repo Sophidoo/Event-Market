@@ -40,7 +40,7 @@ const DashboardPackages = () => {
 
             <div className="rentalTableScroll overflox-x-auto">
                 <table>
-                    <thead className="bg-[#c1d9d6] text-black">
+                    <thead className="bg-gray-200 text-black">
                         <th>Id</th>
                         <th>
                             Package

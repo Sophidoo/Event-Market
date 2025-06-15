@@ -8,19 +8,33 @@
     justify-content: space-between;
     align-items: center;
 }
+.bookingHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: -21px;
+}
+.bookingSearch{
+    display: flex;
+    column-gap: 5px;
+    padding: 6px 10px;
+    width: 384px;
+    border-radius: 5px;
+    border: 0px;
+}
 .rentalSearch{
     display: flex;
     column-gap: 5px;
-    padding: 9px 10px;
+    padding: 6px 10px;
     width: 384px;
-    border-radius: 7px;
+    border-radius: 5px;
 }
 .rentalSearch svg{
-    width: 16px;
+    width: 14px;
     height: auto;
 }
 .rentalSearch input{
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
     border: 0px;
     outline: none;
@@ -34,9 +48,9 @@
 .rentalTabWrapper p{
     display: flex;
     align-items: center;
-    padding: 8px 15px;
+    padding: 5px 10px;
     column-gap: 10px;
-    font-size: 13px;
+    font-size: 11px;
     cursor: pointer;
     border-radius: 5px;
 }
@@ -75,14 +89,17 @@
     width: 100%;
     min-width: 600px;
     border-collapse: collapse;
-    margin-top: 15px;
+    margin-top: 0px;
+    
 }
 .rentalTableScroll td{
     padding: 10px 20px;
     font-size: 12px;
-    font-weight: 500;
-    background-color: white;
+    font-weight: 400;
     cursor: pointer;
+}
+.rentalTableScroll t:last-child{
+    border: 0px;
 }
 .rentalTableScroll th{
     padding: 10px 20px;
@@ -90,6 +107,10 @@
     text-align: left;
     font-weight: 500;
 }
+.rentalTableScroll tbody{
+    border-radius: 10px;
+}
+
 
 .rentalTableScroll p{
     color: gray;
@@ -115,6 +136,7 @@
     height: 16px;
     width: auto;
 }
+
 
 @media(max-width: 1200px){
     .rentalSearch{
@@ -148,7 +170,7 @@
         width: 100%;
     }
     .rentalTableScroll table{
-        width: 900px;
+        width: 1100px;
     }
     .rentalTableScroll td{
         font-size: 11px;
@@ -182,5 +204,8 @@
 @media(max-width: 500px){
     .rentalSearch{
         width: 100%;
+    }
+    .rentalTabWrapper{
+        flex-wrap: wrap;
     }
 }
