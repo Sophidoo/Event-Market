@@ -27,6 +27,7 @@ import DashboardRentalDetails from './Pages/dashboard/DashboardRentalDetails'
 import DashboardServicesDetails from './Pages/dashboard/DashboardServicesDetails'
 import DashboardPackagesDetails from './Pages/dashboard/DashboardPackagesDetails'
 import DashboardInventory from './Pages/dashboard/DashboardInventory'
+import DashboardSettings from './Pages/dashboard/DashboardSettings'
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
         <Route path='transactions' element={<DashboardTransactions/>}/>
         <Route path='reviews' element={<DashboardReviews/>}/>
         <Route path='inventory' element={<DashboardInventory/>}/>
+        <Route path='settings' element={<DashboardSettings/>}/>
       </Route>
     </Routes> 
   </>
