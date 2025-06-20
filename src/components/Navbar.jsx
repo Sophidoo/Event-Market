@@ -57,12 +57,14 @@ const Navbar = () => {
                     <ChevronDownIcon className='cursor-pointer' onClick={() => decideMenuToShow("menu")}/>
                     <div className={showMenu ? "navMenu" : "hide" }>
                         <NavLink 
-                            to="/dashboard/overview"
+                            to="/dashboard"
+                            end
                             className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                         ><Squares2X2Icon/> Dashboard</NavLink>
                         {/* <hr className='border-[0.5px] border-gray-100'/> */}
                         <NavLink 
                             to="/my-bookings"
+                            end
                             className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                         ><ClipboardDocumentCheckIcon/> Bookings</NavLink>
                         {/* <hr className='border-[0.5px] border-gray-100'/> */}
@@ -80,11 +82,12 @@ const Navbar = () => {
 
                 <Bars3Icon onClick={() => decideMenuToShow("responsive")} className='menuIcon cursor-pointer'/>
             </div>
-{/* 
-            <div className="rightNavButton flex gap-1 align-middle">
-                <button className='underline'>Create an account</button>
-                <button className='border-[1px] border-white rounded-sm text-[#073732] px-3 py-1 text-white'>Login</button>
-            </div> */}
+            {/* 
+                <div className="rightNavButton flex gap-1 align-middle">
+                    <button className='underline'>Create an account</button>
+                    <button className='border-[1px] border-white rounded-sm text-[#073732] px-3 py-1 text-white'>Login</button>
+                </div> 
+            */}
 
             <div className={showResponsiveMenu && window.innerWidth <= 870 ? "navMenu navMenu2" : "hide"}>
                 <NavLink

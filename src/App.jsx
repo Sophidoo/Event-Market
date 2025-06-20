@@ -1,5 +1,3 @@
-
-import './App.css'
 import { Routes, Route } from 'react-router'
 import IndexLayout from './Layouts/IndexLayout'
 import Home from './Pages/Home'
@@ -55,7 +53,7 @@ function App() {
       <Route index element={<Home/>}/>
 
       <Route path="dashboard" element={<DashboardLayout/>}>
-        <Route path="overview" element={<Overview/>}/>
+        <Route index element={<Overview/>}/>
         <Route path='rentals' element={<DashboardRentals/>}/>
         <Route path='rentals/:id' element={<DashboardRentalDetails/>}/>
         <Route path='services' element={<DashboardServices/>}/>

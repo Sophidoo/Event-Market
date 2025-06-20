@@ -12,7 +12,8 @@ const Sidebar = () => {
       </div>
       <div className="sidebarLinks">
         <NavLink 
-          to="/dashboard/overview"
+          to="/dashboard"
+          end
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
         >
           <Squares2X2Icon/>
@@ -20,6 +21,7 @@ const Sidebar = () => {
         </NavLink>
         <NavLink 
           to="/dashboard/inventory"
+          end
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
         >
           <ClipboardDocumentListIcon/>
@@ -48,6 +50,7 @@ const Sidebar = () => {
         </NavLink> */}
         <NavLink 
           to="/dashboard/bookings"
+          end
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
         >
           <PrinterIcon/>
@@ -55,6 +58,7 @@ const Sidebar = () => {
         </NavLink>
         <NavLink 
           to="/dashboard/users"
+          end
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
         >
           <UserIcon/>
@@ -62,6 +66,7 @@ const Sidebar = () => {
         </NavLink>
         <NavLink 
           to="/dashboard/reviews"
+          end
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
         >
           <StarIcon/>
@@ -69,6 +74,7 @@ const Sidebar = () => {
         </NavLink>
         <NavLink 
           to="/dashboard/transactions"
+          end
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
         >
           <BanknotesIcon/>
@@ -76,6 +82,7 @@ const Sidebar = () => {
         </NavLink>
         <NavLink 
           to="/dashboard/settings"
+          end
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
         >
           <Cog6ToothIcon/>
@@ -83,6 +90,7 @@ const Sidebar = () => {
         </NavLink>
         <NavLink 
           to="/dashboard/logout"
+          end
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
         >
           <ArrowRightStartOnRectangleIcon/>
