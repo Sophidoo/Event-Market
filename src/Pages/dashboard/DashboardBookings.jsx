@@ -14,14 +14,10 @@ import { NavLink } from "react-router-dom";
 
 const DashboardBookings = () => {
     const [tableMenu, setTableMenu] = useState(false)
-    const [checkedRows, setCheckedRows] = useState({});
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     // Function to toggle between check and minus
-    const toggleRowCheck = (rowId) => {
-        setCheckedRows(prev => ({
-            ...prev,
-            [rowId]: !prev[rowId]
-        }));
+    const toggleTableMenu = (rowId) => {
+        setTableMenu(prev => prev === rowId ? null : rowId); // Toggle menu for the clicked row
     };
 
     const bookingsData = [
@@ -259,8 +255,8 @@ const DashboardBookings = () => {
                                 <td className="text-gray-500">
                                     {item.endDate}
                                 </td>
-                                <td><EllipsisVerticalIcon className="w-[17px]" onClick={() => setTableMenu(!tableMenu)}/>
-                                <div className={tableMenu ? "tableMenu bg-white border-[1px] border-gray-300" : "hide"}>
+                                <td><EllipsisVerticalIcon className="w-[17px]" onClick={() => toggleTableMenu(item.id)} />
+                                <div className={tableMenu === item.id ? "tableMenu bg-white border-[1px] border-gray-300 cursor-pointer" : "hide"}>
                                     <NavLink>View Item</NavLink>
                                     <NavLink>Approve Request</NavLink>
                                     <NavLink>Cancel Booking</NavLink>

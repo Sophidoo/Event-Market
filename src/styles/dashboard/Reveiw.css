@@ -3,3 +3,112 @@
     flex-direction: column;
     row-gap: 20px;
 }
+
+.reviewSummary{
+    margin-top: 30px;
+    display: flex;
+    column-gap: 60px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+.leftReviewSummaryContainer{
+    display: flex;
+    align-items: flex-end;
+    column-gap: 30px;
+}
+.leftReviewSummaryContainer img{
+    height: 60px;
+    width: auto;
+}
+.leftReviewSummary{
+    display: flex;
+    flex-direction: column;
+    row-gap: 0px;
+}
+.leftReviewSummary h1{
+    font-size: 45px;
+    font-weight: 600;
+}
+.leftReviewSummary p{
+    font-size: 13px;
+    margin-top: -10px;
+}
+.rightReviewSummary{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    row-gap: 10px;
+}
+.reviewBarWrap{
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
+}
+.reviewBarWrap small{
+    font-size: 12px;
+    color: rgb(108, 108, 108);
+}
+.reviewBar{
+    width: 90%;
+    background-color: lightgray;
+    height: 5px;
+    border-radius: 20px;
+}
+.reviewInnerBar{
+    height: 5px;
+    background-color: #0B544C;
+    border-radius: 20px;
+}
+
+@media(max-width: 1300px){
+    .reviewSummary{
+        padding: 20px;
+        column-gap: 40px;
+    }
+    .leftReviewSummaryContainer img{
+        height: 40px;
+    }
+    .leftReviewSummary h1{
+        font-size: 40px;
+    }
+    .rightReviewSummary{
+        row-gap: 5px;
+    }
+    .reviewBarWrap small{
+        font-size: 11px;
+        width: 50px;
+    }
+    .reviewBar{
+        height: 4px;
+    }
+    .reviewInnerBar{
+        height: 4px;
+    }
+}
+@media(max-width: 650px){
+    .reviewSummary{
+        flex-direction: column;
+        row-gap: 20px;
+        align-items: flex-start;
+    }
+    .leftReviewSummaryContainer{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .rightReviewSummary{
+        width: 100%;
+    }
+}
+@media(max-width: 500px){
+    .leftReviewSummary h1{
+        font-size: 37px;
+    }
+    .leftReviewSummary p{
+        margin-top: -5px;
+    }
+}
