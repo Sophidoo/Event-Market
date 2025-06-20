@@ -44,7 +44,8 @@ const DashboardPackages = () => {
             <div className="rentalTableScroll overflox-x-auto">
                 <table>
                     <thead className="bg-gray-200 text-black">
-                        <th>Id</th>
+                        <tr>
+                            <th>Id</th>
                         <th>
                             Package
                         </th>
@@ -54,6 +55,7 @@ const DashboardPackages = () => {
                         <th>Rating</th>
                         <th></th>
                         <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr className="border-b-[1px] border-gray-200" onClick={() => navigate("1")}>

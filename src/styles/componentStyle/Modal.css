@@ -1,0 +1,61 @@
+
+
+.deleteModalContainer{
+    padding: 24px;
+    width: 512px;
+}
+.deleteModalIcon svg{
+    width: 18px;
+    height: auto;
+}
+.deleteModalIcon{
+    padding: 8px;
+    border-radius: 100%;
+    height: fit-content;
+}
+.deleteModalBody{
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    width: 100%;
+}
+.deleteModalBodyDetails{
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+.deleteModalBodyDetails h2{
+    font-size: 18px;
+    font-weight: 500;
+}
+.deleteModalBodyDetails p{
+    font-size: 14px;
+}
+.deleteModalBody button{
+    font-size: 13px;
+    font-weight: 500;
+    padding: 9px 17px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+@media(max-width: 550px){
+    .deleteModalContainer{
+        margin: 0px 3%;
+        padding: 15px;
+    }
+    .deleteModalBodyDetails h2{
+        font-size: 16px;
+    }
+    .deleteModalBodyDetails{
+        row-gap: 2px;
+    }
+    .deleteModalBodyDetails p{
+        font-size: 13px;
+    }
+    .deleteModalBody button{
+        font-size: 12px;
+        padding: 7px 15px;
+        border-radius: 4px;
+    }
+}

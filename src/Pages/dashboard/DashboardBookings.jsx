@@ -1,9 +1,12 @@
 
 
-import { ChevronRightIcon, CheckIcon, MagnifyingGlassIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ChevronRightIcon, MagnifyingGlassIcon, PlusIcon, XMarkIcon, EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import "../../styles/dashboard/Rentals.css"
+import { NavLink } from "react-router-dom";
+import { useState } from "react";
 
 const DashboardBookings = () => {
+    const [tableMenu, setTableMenu] = useState(false)
 
     return<>
         <div className="rentalsContainer">
@@ -45,17 +48,19 @@ const DashboardBookings = () => {
             <div className="rentalTableScroll overflox-x-auto">
                 <table>
                     <thead className=" text-black border-b-[1px] border-gray-200 border-t-[1px] bg-gray-200">
-                        <th>Id</th>
+                        <tr>
+                            <th>Id</th>
                         <th>
                             Item
                         </th>
                         <th>Booked by</th>
                         <th>Quantity</th>
                         <th>Location</th>
+                        <th>Status</th>
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th></th>
-                        <th></th>
+                        </tr>
                     </thead>
                     <tbody >
                         <tr className="border-b-[1px] border-gray-200">
@@ -79,10 +84,18 @@ const DashboardBookings = () => {
                             </td>
                             <td>500</td>
                             <td>Port harcourt, Rivers State, Nigeria</td>
+                            <td>Pending Approval</td>
                             <td>5th May, 2025</td>
                             <td>8th May, 2025</td>
-                            <td><CheckIcon/></td>
-                            <td><XMarkIcon/></td>
+                            <td><EllipsisVerticalIcon onClick={() => setTableMenu(!tableMenu)}/>
+                                <div className={tableMenu ? "tableMenu bg-white border-[1px] border-gray-300" : "hide"}>
+                                    <NavLink>View Item</NavLink>
+                                    <NavLink>Approve Request</NavLink>
+                                    <NavLink>Cancel Booking</NavLink>
+                                    <NavLink>Update Status</NavLink>
+                                </div>
+                            </td>
+                            
                         </tr>
                         <tr className="border-b-[1px] border-gray-200">
                             <td>1</td>
@@ -105,10 +118,11 @@ const DashboardBookings = () => {
                             </td>
                             <td>500</td>
                             <td>Port harcourt, Rivers State, Nigeria</td>
+                            <td>Approved</td>
                             <td>5th May, 2025</td>
                             <td>8th May, 2025</td>
-                            <td><CheckIcon/></td>
-                            <td><XMarkIcon/></td>
+                            <td><EllipsisVerticalIcon/></td>
+                            
                         </tr>
                         <tr className="border-b-[1px] border-gray-200">
                             <td>1</td>
@@ -131,10 +145,11 @@ const DashboardBookings = () => {
                             </td>
                             <td>500</td>
                             <td>Port harcourt, Rivers State, Nigeria</td>
+                            <td>Cancelled</td>
                             <td>5th May, 2025</td>
                             <td>8th May, 2025</td>
-                            <td><CheckIcon/></td>
-                            <td><XMarkIcon/></td>
+                            <td><EllipsisVerticalIcon/></td>
+                            
                         </tr>
                     </tbody>
                 </table>

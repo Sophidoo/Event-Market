@@ -45,7 +45,8 @@ const DashboardTransactions = () => {
             <div className="rentalTableScroll overflox-x-auto">
                 <table>
                     <thead className=" text-black border-b-[1px] border-gray-200 border-t-[1px] bg-gray-200">
-                    <th>Txn</th>
+                    <tr>
+                        <th>Txn</th>
                         <th>
                             Customer
                         </th>
@@ -54,6 +55,7 @@ const DashboardTransactions = () => {
                         <th>Reason</th>
                         <th>Status</th>
                         <th>Date</th>
+                    </tr>
                     </thead>
                     <tbody >
                         <tr className="border-b-[1px] border-gray-200">

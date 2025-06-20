@@ -96,6 +96,7 @@
     padding: 10px 20px;
     font-size: 12px;
     font-weight: 400;
+    position: relative;
     cursor: pointer;
 }
 .rentalTableScroll t:last-child{
@@ -170,7 +171,7 @@
         width: 100%;
     }
     .rentalTableScroll table{
-        width: 1100px;
+        width: 1150px;
     }
     .rentalTableScroll td{
         font-size: 11px;
@@ -208,4 +209,30 @@
     .rentalTabWrapper{
         flex-wrap: wrap;
     }
+}
+
+
+.tableMenu{
+    display: flex;
+    position: absolute;
+    right: -10px;
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    margin-top: 7px;
+    border-radius: 5px;
+    padding: 5px 5px;
+    z-index: 2;
+}
+.tableMenu a{
+    padding: 10px 10px;
+    border-bottom: 1px solid rgb(229, 229, 229);
+    font-weight: 400;
+}
+.tableMenu a:last-child{
+    border: 0px;
+}
+.tableMenu a:hover{
+    cursor: pointer;
+    color: #128D7F;
 }

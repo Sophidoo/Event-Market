@@ -19,6 +19,13 @@ const Sidebar = () => {
           <span>Overview</span>
         </NavLink>
         <NavLink 
+          to="/dashboard/inventory"
+          className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
+        >
+          <ClipboardDocumentListIcon/>
+          <span>Inventory</span>
+        </NavLink>
+        {/* <NavLink 
           to="/dashboard/rentals"
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
         >
@@ -38,7 +45,7 @@ const Sidebar = () => {
         >
           <InboxStackIcon/>
           <span>Packages</span>
-        </NavLink>
+        </NavLink> */}
         <NavLink 
           to="/dashboard/bookings"
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}

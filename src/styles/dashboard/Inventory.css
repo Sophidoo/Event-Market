@@ -1,0 +1,406 @@
+.adminInventoryWrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.adminInventoryHeading{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+    row-gap: 10px;
+    align-items: center;
+}
+.leftInventoryHeading{
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+}
+.leftInventoryHeading svg{
+    height: 15px;
+}
+.leftInventoryHeading h2{
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+}
+.leftInventoryHeading p{
+    font-size: 14px;
+}
+.rightInventoryHeading{
+    display: flex;
+    column-gap: 12px;
+}
+.rightInventoryHeading button{
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.inventorySubHeading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0px;
+    flex-wrap: wrap;
+    row-gap: 10px;
+}
+.inventoryTabWrapper{
+    display: flex;
+    border-radius: 8px;
+}
+.inventoryTabWrapper p{
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.inventoryRightSubHeading{
+    display: flex;
+    column-gap: 12px;
+    align-items: center;
+}
+.inventoryRightSubHeading form{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding: 7px 10px;
+    width: 400px;
+    border-radius: 8px;
+}
+.inventoryRightSubHeading svg{
+    height: 15px;
+    width: auto;
+}
+.inventoryRightSubHeading input{
+    width: 100%;
+    font-size: 13px;
+    outline: none;
+}
+.inventoryFilters{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+.inventoryFilters svg{
+    width: 15px;
+    height: auto;
+}
+.inventoryFilters p{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+@media(max-width: 1000px){
+    .leftInventoryHeading h2{
+        font-size: 16px;
+    }
+    .leftInventoryHeading p{
+        font-size: 13px;
+    }
+    .rightInventoryHeading{
+        align-items: flex-start;
+    }
+    .rightInventoryHeading button{
+        font-size: 12px;
+        border-radius: 5px;
+        padding: 10px 16px;
+    }
+    .inventoryTabWrapper p{
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+    .inventoryRightSubHeading form{
+        padding: 7px 14px;
+        border-radius: 5px;
+    }
+    .inventoryRightSubHeading input{
+        font-size: 13px;
+    }
+    .inventoryFilters{
+        padding: 7px 14px;
+        border-radius: 6px;
+    }
+    .inventoryFilters p{
+        font-size: 13px;
+    }
+}
+@media(max-width: 660px){
+    .inventorySubHeading{
+        flex-direction: column;
+        row-gap: 10px;
+        align-items: flex-start;
+        width: 100%;
+    }
+    .inventoryTabWrapper{
+        border-radius: 6px;
+    }
+    .inventoryRightSubHeading{
+        flex-direction: column;
+        row-gap: 10px;
+        width: 100%;
+        align-items: flex-start;
+    }
+    .inventoryRightSubHeading form{
+        width: 100%;
+    }
+
+}
+
+@media(max-width: 500px){
+    .rightInventoryHeading button{
+        padding: 6px 16px;
+    }
+    .adminInventoryHeading{
+        padding: 12px 16px;
+    }
+    .leftInventoryHeading h2{
+        font-size: 15px;
+    }
+    .leftInventoryHeading p{
+        font-size: 12px;
+    }
+    .rightInventoryHeading button{
+        font-weight: 500;
+    }
+    .inventoryTabWrapper p{
+        font-size: 11px;
+        padding: 6px 14px;
+    }
+    .inventoryRightSubHeading input{
+        font-size: 12px;
+    }
+    .inventoryRightSubHeading form{
+        padding: 7px 12px;
+    }
+}
+
+
+
+.inventoryCardWrapper{
+    display: flex;
+    column-gap: 1.5%;
+    width: 100%;
+    margin-top: 5px;
+}
+.inventoryCard{
+    border-radius: 10px;
+    padding: 15px 60px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 11px;
+    width: 32.33%;
+}
+.inventoryCard h1{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 21px;
+    font-weight: 700;
+}
+.inventoryCard p{
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+.inventoryCard h1 span{
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
+    font-weight: 400;
+}
+
+
+@media(max-width: 1300px){
+    .inventoryCard{
+        padding: 15px;
+    }
+}
+@media(max-width: 1000px){
+    .inventoryCard h1{
+        font-size: 18px;
+    }
+    .inventoryCard p{
+        font-size: 10px;
+    }
+    .inventoryCard h1 span{
+        font-size: 12px;
+    }
+}
+@media(max-width: 820px){
+    .inventoryCardWrapper{
+        flex-wrap: wrap;
+        row-gap: 10px;
+    }
+    .inventoryCard{
+        width: 49.25%;
+    }
+    .inventoryCard:last-child{
+        width: 100%;
+        padding: 15px 60px;
+    }
+}
+@media(max-width: 450px){
+    .inventoryCardWrapper{
+        flex-direction: column;
+    }
+    .inventoryCard{
+        width: 100%;
+    }
+    .inventoryCard:last-child{
+        padding: 15px;
+    }
+    .inventoryCard h1{
+        font-size: 16px;
+    }
+}
+
+
+.adminInventoryWrapper table{
+    margin-top: 24px;
+    min-width: 1100px;
+}
+.adminInventoryWrapper thead{
+    font-size: 12px;
+    font-weight: 500;
+    font-weight: 400;
+    text-align: left;
+}
+.adminInventoryWrapper th{
+    padding: 13px 18px;
+    font-weight: 500;
+}
+.adminInventoryWrapper td{
+    padding: 16px 18px;
+    font-size: 13px;
+}
+.adminInventoryWrapper td svg{
+    font-size: 16px;
+}
+.adminInventoryWrapper .tableHeadingDiv{
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+}
+.checkboxInput{
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.checkboxInput svg{
+    width: 12px;
+    height: auto;
+
+}
+.adminInventoryWrapper .tableHeadingDiv p{
+    display: flex;
+    align-items: center;
+    column-gap: 3px;
+}
+.adminInventoryWrapper .tableHeadingDiv svg{
+    font-size: 15px;
+}
+.adminInventoryWrapper .tableProductDetails{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+.adminInventoryWrapper img{
+    width: 40px;
+    height: 35px;
+    border-radius: 5px;
+    object-fit: cover;
+    background-color: gray;
+}
+.adminInventoryWrapper tbody input{
+    margin-right: 2px;
+}
+
+.adminInventoryWrapper table input{
+    width: 16px;
+    height: 16px;
+    border-radius: 6px;
+}
+.adminInventoryWrapper .coloredColumn{
+    display: flex;
+    align-items: center;
+    column-gap: 6px;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 16px;
+    width: fit-content;
+    font-weight: 500;
+}
+.adminInventoryWrapper .coloredColumn svg{
+    font-size: 8px;
+}
+
+@media(max-width: 600px){
+    .adminInventoryWrapper table{
+        min-width: 1000px;
+    }
+    .adminInventoryWrapper td{
+        font-size: 12px;
+        padding: 14px 16px;
+    }
+    .adminInventoryWrapper thead{
+        font-size: 11px;
+    }
+    .adminInventoryWrapper th{
+        padding: 13px 16px;
+    }
+    .adminInventoryWrapper img{
+        width: 30px;
+        height: 30px;
+    }
+}
+
+
+
+
+.inventoryPagination{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    margin-top: 12px;
+}
+.inventoryPagination p{
+    font-size: 14px;
+}
+.inventoryPaginationButtons{
+    display: flex;
+    column-gap: 12px;
+}
+.inventoryPaginationButtons button{
+    padding: 8px 14px;
+    font-size: 14px;
+    border-radius: 8px;
+}
+@media(max-width: 1000px){
+    .inventoryPagination{
+        padding: 12px 16px;
+    }
+    .inventoryPaginationButtons button{
+        padding: 5px 12px;
+        font-size: 12px;
+        border-radius: 5px;
+    }
+    .inventoryPagination p{
+        font-size: 12px;
+    }
+}
+
+

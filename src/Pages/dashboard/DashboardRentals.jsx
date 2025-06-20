@@ -44,17 +44,19 @@ const DashboardRentals = () => {
             <div className="rentalTableScroll overflox-x-auto">
                 <table>
                     <thead className="bg-gray-200 text-black">
-                        <th>Id</th>
-                        <th>
-                            Item
-                        </th>
-                        <th>Unit Price (N)</th>
-                        <th>Location</th>
-                        <th>Instant Booking</th>
-                        <th>Status</th>
-                        <th>Rating</th>
-                        <th></th>
-                        <th></th>
+                        <tr>
+                            <th>Id</th>
+                            <th>
+                                Item
+                            </th>
+                            <th>Unit Price (N)</th>
+                            <th>Location</th>
+                            <th>Instant Booking</th>
+                            <th>Status</th>
+                            <th>Rating</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr className="border-b-[1px] border-gray-200" onClick={() => navigate("1")}>
