@@ -1,0 +1,227 @@
+
+.settingsHeading{
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+}
+.settingsHeading svg{
+    height: 15px;
+}
+.settingsHeading h2{
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+}
+.settingsHeading p{
+    font-size: 14px;
+}
+@media(max-width: 1000px){
+    .settingsHeading h2{
+        font-size: 16px;
+    }
+    .settingsHeading p{
+        font-size: 13px;
+    }
+}
+
+@media(max-width: 500px){
+    .settingsHeading h2{
+        font-size: 15px;
+    }
+    .settingsHeading p{
+        font-size: 12px;
+    }
+}
+
+.settingsWrapper{
+    display: flex;
+    column-gap: 32px;
+    margin-top: 28px;
+}
+.leftSettingsWrapper{
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+    width: 30%;
+}
+.leftSettingsWrapper p{
+    padding: 9px 13px;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 6px;
+    width: 100%;
+    font-weight: 500;
+}
+.leftSettingsWrapper svg{
+    height: 20px;
+    width: auto;
+}
+
+.rightSettingsWrapper{
+    width: 70%;
+}
+
+
+
+.rightSettingsWrapper form{
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+}
+.settingsSectionHeading{
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+}
+.settingsSectionHeading h2{
+    font-size: 20px;
+    font-weight: 600;
+}
+.settingsSectionHeading p{
+    font-size: 13px;
+}
+.photoWrapper{
+    display: flex;
+    column-gap: 15px;
+    align-items: center;
+}
+.leftPhotoWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 4px;
+}
+.rightSettingsWrapper label{
+    font-size: 14px;
+    font-weight: 500;
+}
+.leftPhotoWrapper img{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 100%;
+}
+.rightPhotoWrapper{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.rightPhotoWrapper button{
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 500;
+}
+.rightPhotoWrapper p{
+    font-size: 13px;
+}
+
+.rightSettingsWrapper section{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+.rightSettingsWrapper form section p{
+    font-size: 13px;
+    margin-top: -4px;
+    color: gray;
+}
+.rightSettingsWrapper .inputContainer{
+    display: flex;
+    width: 100%;
+    column-gap: 20px;
+}
+.rightSettingsWrapper .inputWrapper{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    row-gap: 4px;
+}
+.rightSettingsWrapper input{
+    padding: 8px 10px;
+    background-color: white;
+    border-radius: 5px;
+    font-size: 13px;
+    outline: none;
+}
+.rightSettingsWrapper  input:focus{
+    border: 1px solid #0B544C;
+}
+.settingsButton{
+    display: flex;
+    justify-content: right;
+    margin-bottom: 30px;
+}
+.settingsButton button{
+    width: fit-content;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 12px 20px;
+    border-radius: 5px;
+}
+@media(max-width: 1000px){
+    .rightSettingsWrapper .inputContainer{
+        flex-direction: column;
+        row-gap: 20px;
+    }
+}
+@media(max-width: 750px){
+    .leftSettingsWrapper p{
+        font-size: 13px;
+    }
+    .leftSettingsWrapper svg{
+        height: 17px;
+    }
+    .settingsSectionHeading h2{
+        font-size: 16px;
+    }
+    .settingsSectionHeading p{
+        font-size: 12px;
+    }
+    .rightSettingsWrapper label{
+        font-size: 13px;
+    }
+    .rightPhotoWrapper p{
+        font-size: 12px;
+    }
+    .rightPhotoWrapper button{
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+    .rightSettingsWrapper form section p{
+        font-size: 12px;
+    }
+    .rightSettingsWrapper input{
+        padding: 7px 9px;
+        font-size: 12px;
+    }
+    .settingsButton button{
+        padding: 10px 18px;
+        font-size: 11px;
+    }
+}
+@media(max-width: 650px){
+    .settingsWrapper{
+        flex-direction: column;
+        row-gap: 30px;
+    }
+    .leftSettingsWrapper{
+        width: 100%;
+    }
+    .rightSettingsWrapper{
+        width: 100%;
+    }
+}
+@Media(max-width: 450px){
+    .photoWrapper{
+        flex-direction: column;
+        align-items: flex-start;
+        row-gap: 20px;
+    }
+}

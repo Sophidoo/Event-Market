@@ -173,7 +173,7 @@ const DashboardTransactions = () => {
                             <th scope="col" className="">
                                 Credit
                             </th>
-                            <th scope="col" className="w-[300px]">
+                            <th scope="col" className="w-[250px]">
                                 Reason
                             </th>
                             <th scope="col" className="">
