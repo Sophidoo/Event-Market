@@ -165,6 +165,19 @@
     padding: 12px 20px;
     border-radius: 5px;
 }
+.settingsNotification{
+    row-gap: 0px !important;
+}
+.settingsNotification label{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+.settingsNotification svg{
+    width: auto;
+    cursor: pointer;
+    height: 60px;
+}
 @media(max-width: 1000px){
     .rightSettingsWrapper .inputContainer{
         flex-direction: column;

@@ -74,7 +74,8 @@ const Navbar = () => {
                         ><HeartIcon/> Wishlist</NavLink>
                         {/* <hr className='border-[0.5px] border-gray-100'/> */}
                         <NavLink
-                            to="/my-profile"
+                            to="/profile"
+                            end
                             className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                         ><UserCircleIcon/> Profile</NavLink>
                     </div>

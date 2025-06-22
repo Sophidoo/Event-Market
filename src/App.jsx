@@ -43,7 +43,7 @@ function App() {
         <Route path='package/details/:id' element={<PackageDetails/>}/>
         <Route path='my-bookings' element={<Bookings/>}/>
         <Route path='my-wishlist' element={<Wishlist/>}/>
-        <Route path='my-profile' element={<Profile/>}/>
+        <Route path='profile' element={<Profile/>}/>
       </Route>
 
 

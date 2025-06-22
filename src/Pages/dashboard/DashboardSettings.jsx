@@ -1,14 +1,23 @@
-import { ChevronRightIcon} from "@heroicons/react/24/outline"
+import { ChevronRightIcon, EyeIcon, EyeSlashIcon} from "@heroicons/react/24/outline"
 import "../../styles/dashboard/Settings.css"
 import { useRef, useState } from "react"
 import { HiOutlineUser } from "react-icons/hi"
-import { MdOutlineNotifications, MdOutlineSecurity } from "react-icons/md"
+import { MdOutlineAccountBalanceWallet, MdOutlineNotifications, MdOutlineSecurity, MdToggleOff, MdToggleOn } from "react-icons/md"
+import { LiaToggleOnSolid } from "react-icons/lia"
+import { VscVerified } from "react-icons/vsc"
 
 const DashboardSettings = () => {
     const [tab, setTab] = useState("profile")
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
     const fileInputRef = useRef(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showOldPassword, setShowOldPassword] = useState(false);
+    const [showCPassword, setShowCPassword] = useState(false);
+    const [notifications, setNotifications] = useState({
+        email: false,
+        sms: false
+    })
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -46,7 +55,7 @@ const DashboardSettings = () => {
             <div className="leftSettingsWrapper">
                 <p 
                     className={
-                        tab === "profile" ? "bg-gray-200 text-gray-900" : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
+                        tab === "profile" || tab === "verification" ? "bg-gray-200 text-gray-900" : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                     }
                     onClick={() => setTab("profile")}
                 ><HiOutlineUser/> Profile</p>
@@ -56,6 +65,18 @@ const DashboardSettings = () => {
                     }
                     onClick={() => setTab("security")}
                 ><MdOutlineSecurity/> Security</p>
+                {/* <p 
+                    className={
+                        tab === "verification" ? "bg-gray-200 text-gray-900" : "text-gray-500 hover:bg-gray-200 hover:text-gray-900"
+                    }
+                    onClick={() => setTab("verification")}
+                ><VscVerified/> Verification</p> */}
+                <p 
+                    className={
+                        tab === "account" ? "bg-gray-200 text-gray-900" : "text-gray-500 hover:bg-gray-200 hover:text-gray-900"
+                    }
+                    onClick={() => setTab("account")}
+                ><MdOutlineAccountBalanceWallet/> Account</p>
                 <p 
                     className={
                         tab === "notifications" ? "bg-gray-200 text-gray-900" : "text-gray-500 hover:bg-gray-200 hover:text-gray-900"
@@ -65,7 +86,225 @@ const DashboardSettings = () => {
             </div>
 
             <div className="rightSettingsWrapper">
-                <form>
+                {
+                    tab === "security" ? 
+                        <form>
+                            <div className="settingsSectionHeading mb-[-10px]">
+                                <h2>Change Password</h2>
+                                <p className="text-gray-500">Input your current password and your new password</p>
+                            </div>
+
+                            <hr className="border-[1px] border-gray-200 bg-gray-200"/>
+
+                            <section className="mt-[-10px]">
+                            
+                                <div className="inputWrapper ">
+                                    <label htmlFor="currentPassword" className="text-gray-700">
+                                    Current Password
+                                    </label>
+                                    <p className="text-gray-500">Please enter your current account password</p>
+                                    
+                                    <div className="relative">
+                                    <input
+                                        id="currentPassword"
+                                        type={showOldPassword ? 'text' : 'password'}
+                                        className="w-full border border-gray-300"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                                        onClick={() => setShowOldPassword(!showOldPassword)}
+                                    >
+                                        {showOldPassword ? (
+                                        <EyeSlashIcon className="h-5 w-5" />
+                                        ) : (
+                                        <EyeIcon className="h-5 w-5" />
+                                        )}
+                                    </button>
+                                    </div>
+                                </div>
+                                
+
+                                <div className="inputWrapper ">
+                                    <label htmlFor="currentPassword" className="text-gray-700">
+                                    New Password
+                                    </label>
+                                    <p className="text-gray-500">Please enter your new password</p>
+                                    
+                                    <div className="relative">
+                                    <input
+                                        id="currentPassword"
+                                        type={showPassword ? 'text' : 'password'}
+                                        className="w-full border border-gray-300"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? (
+                                        <EyeSlashIcon className="h-5 w-5" />
+                                        ) : (
+                                        <EyeIcon className="h-5 w-5" />
+                                        )}
+                                    </button>
+                                    </div>
+                                </div>
+                                
+
+                                <div className="inputWrapper ">
+                                    <label htmlFor="currentPassword" className="text-gray-700">
+                                    Confirm Password
+                                    </label>
+                                    <p className="text-gray-500">Please enter your confirm password</p>
+                                    
+                                    <div className="relative">
+                                    <input
+                                        id="currentPassword"
+                                        type={showCPassword ? 'text' : 'password'}
+                                        className="w-full border border-gray-300"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                                        onClick={() => setShowCPassword(!showCPassword)}
+                                    >
+                                        {showCPassword ? (
+                                        <EyeSlashIcon className="h-5 w-5" />
+                                        ) : (
+                                        <EyeIcon className="h-5 w-5" />
+                                        )}
+                                    </button>
+                                    </div>
+                                </div>
+                                
+                            </section>
+
+                            <hr className="border-[1px] border-gray-200 bg-gray-200"/>
+
+                            <div className="settingsButton">
+                                <button className="bg-[#0B544C] text-white hover:bg-green-950">Save Changes</button>
+                            </div>
+                        </form>
+                    :
+                    tab === "notifications" ?
+                    <form>
+                        <div className="settingsSectionHeading mb-[-10px]">
+                            <h2>Notifications</h2>
+                            <p className="text-gray-500">Once enabled you'll receive relevant notifications within your selected choice</p>
+                        </div>
+
+                        <hr className="border-[1px] border-gray-200 bg-gray-200"/>
+                        
+                        <section className="mt-[-25px] settingsNotification">
+                            <label>
+                                {
+                                    notifications.email ?
+                                    <MdToggleOn 
+                                        className="invert-0 text-green-700"
+                                        onClick={() => setNotifications(prev => ({
+                                            ...prev,
+                                            email: false
+                                        }))}
+                                    /> :
+                                    <MdToggleOff 
+                                        className="text-gray-300"
+                                        onClick={() => setNotifications(prev => ({
+                                            ...prev,
+                                            email: true
+                                        }))}
+                                    />
+                                }
+                                Email 
+                            </label>
+                            <label>
+                                {
+                                    notifications.sms ?
+                                    <MdToggleOn 
+                                        className="invert-0 text-green-700"
+                                        onClick={() => setNotifications(prev => ({
+                                            ...prev,
+                                            email: false
+                                        }))}
+                                    /> :
+                                    <MdToggleOff 
+                                        className="text-gray-300"
+                                        onClick={() => setNotifications(prev => ({
+                                            ...prev,
+                                            email: true
+                                        }))}
+                                    />
+                                }
+                                Sms
+                            </label>
+                        </section>
+
+                    </form>
+                    :
+                    tab  === "verification" ?
+                    <form>
+                        <div className="settingsSectionHeading mb-[-10px]">
+                            <h2>Verification</h2>
+                            <p className="text-gray-500">Fill in the input below to verify your account</p>
+                        </div>
+
+                        <hr className="border-[1px] border-gray-200 bg-gray-200"/>
+                        
+                        <section className="mt-[-25px] settingsNotification">
+                            
+                        </section>
+                    </form>
+                    : tab === "account" ?
+                    <form>
+                        <div className="settingsSectionHeading mb-[-10px]">
+                            <h2>Account</h2>
+                            <p className="text-gray-500">Withdrawals will be made to the account filled in here</p>
+                        </div>
+
+                        <hr className="border-[1px] border-gray-200 bg-gray-200"/>
+                        
+                        <section className="mt-[-10px]">
+                            <div className="inputWrapper">
+                                <label htmlFor="" className="text-gray-700">Account Name</label>
+                                <p>The account name must match with your verified account name</p>
+                                <input type="text" className="border border-gray-300"/>
+                            </div>
+                            <div className="inputContainer">
+                                <div className="inputWrapper">
+                                    <label htmlFor="" className="text-gray-700">Account Number</label>
+                                    <p>Enter your account number</p>
+                                    <input type="text" className="border border-gray-300"/>
+                                </div>
+                                <div className="inputWrapper">
+                                    <label htmlFor="" className="text-gray-700">Bank Name</label>
+                                    <p>Enter your banck name</p>
+                                    <input type="text" className="border border-gray-300"/>
+                                </div>
+                            </div>
+                            <div className="inputContainer">
+                                <div className="inputWrapper">
+                                    <label htmlFor="" className="text-gray-700">Swift Code / BIC</label>
+                                    <p>This is optional, only for countries that require it</p>
+                                    <input type="text" className="border border-gray-300"/>
+                                </div>
+                                <div className="inputWrapper">
+                                    <label htmlFor="" className="text-gray-700">Branch</label>
+                                    <p>This is optional</p>
+                                    <input type="text" className="border border-gray-300"/>
+                                </div>
+                            </div>
+                        </section>
+
+                        <hr className="border-[1px] border-gray-200 bg-gray-200"/>
+
+                        <div className="settingsButton">
+                            <button className="bg-[#0B544C] text-white hover:bg-green-950">Save Changes</button>
+                        </div>
+                    </form>
+                    : <form>
                         <div className="settingsSectionHeading">
                             <h2>Profile</h2>
                             <p className="text-gray-500">Information you share here may be displayed publicly.</p>
@@ -144,8 +383,15 @@ const DashboardSettings = () => {
                                 </div>
                                 <div className="inputWrapper">
                                     <label htmlFor="" className="text-gray-700">Phone Number</label>
-                                    <p>Ensure you write a valid phone number. we may call you with it</p>
+                                    <p>Write a valid phone number. we may call you with it</p>
                                     <input type="tel" className="border border-gray-300" required/>
+                                </div>
+                            </div>
+                            <div className="inputContainer">
+                                <div className="inputWrapper">
+                                    <label htmlFor="" className="text-gray-700">Account Status</label>
+                                    <p>Your account is not verified. <span className="text-[#0B544C] underline cursor-pointer" onClick={() => setTab("verification")}>Click here</span> to verify now</p>
+                                    <input type="email" className="border border-gray-300 text-red-700" value="Not Verified" disabled required/>
                                 </div>
                             </div>
                         </section>
@@ -185,6 +431,7 @@ const DashboardSettings = () => {
                             <button className="bg-[#0B544C] text-white hover:bg-green-950">Update Changes</button>
                         </div>
                     </form>
+                }
             </div>
 
         </div>

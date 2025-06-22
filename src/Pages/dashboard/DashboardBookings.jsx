@@ -170,7 +170,7 @@ const DashboardBookings = () => {
                 <div className="leftInventoryHeading">
                     <h2>Dashboard <ChevronRightIcon/>
                     <span className="text-gray-600">Bookings</span></h2>
-                    <p className="text-gray-500">Keep track of bookings made by users.</p>
+                    <p className="text-gray-500">Keep track of bookings made by users and remember to approve or reject those pending requests</p>
                 </div>
                 <div className="rightInventoryHeading">
                     <button className="border-[#0B544C] border-[1px] bg-[#0B544C] text-white hover:bg-green-800 "><FiDownloadCloud /> Download</button>
