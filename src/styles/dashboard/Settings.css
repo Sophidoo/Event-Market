@@ -153,6 +153,25 @@
 .rightSettingsWrapper  input:focus{
     border: 1px solid #0B544C;
 }
+.rightSettingsWrapper select{
+    padding: 8px 10px;
+    background-color: white;
+    border-radius: 5px;
+    font-size: 13px;
+    outline: none;
+}
+.rightSettingsWrapper  select:focus{
+    border: 1px solid #0B544C;
+}
+.settingsCheckboxInput{
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+.settingsCheckboxInput input{
+    width: 15px;
+    height: 15px;
+}
 .settingsButton{
     display: flex;
     justify-content: right;
@@ -237,4 +256,15 @@
         align-items: flex-start;
         row-gap: 20px;
     }
+}
+
+
+
+
+.settingsCamera{
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: flex-start;
+    background-color: red;
 }

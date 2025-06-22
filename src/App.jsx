@@ -28,11 +28,14 @@ import DashboardServicesDetails from './Pages/dashboard/DashboardServicesDetails
 import DashboardPackagesDetails from './Pages/dashboard/DashboardPackagesDetails'
 import DashboardInventory from './Pages/dashboard/DashboardInventory'
 import DashboardSettings from './Pages/dashboard/DashboardSettings'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 
 function App() {
 
   return <>
+  <ToastContainer/>
     <Routes>
       <Route path='/' element={<IndexLayout/>}>
         <Route path='rentals' element={<Rentals/>}/>
