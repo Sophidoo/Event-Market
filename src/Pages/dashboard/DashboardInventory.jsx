@@ -8,6 +8,7 @@ import { RiDeleteBinLine } from "react-icons/ri"
 import { FaCircle } from "react-icons/fa"
 import { useState } from "react"; // Import useState hook
 import DeleteItemModal from "../../components/Modals/DeleteItemModal";
+import { useNavigate } from "react-router";
 
 const DashboardInventory = () => {
     // State to track which rows are checked/minus
@@ -20,6 +21,8 @@ const DashboardInventory = () => {
             [rowId]: !prev[rowId]
         }));
     };
+
+    const navigate = useNavigate();
 
     // Sample data for the table rows
     const items = [
@@ -266,7 +269,7 @@ const DashboardInventory = () => {
                 </div>
                 <div className="rightInventoryHeading">
                     <button className="border-gray-300 border-[1px] bg-white text-gray-700 hover:text-black"><FiUploadCloud /> Import</button>
-                    <button className="border-[#0B544C] border-[1px] bg-[#0B544C] text-white hover:bg-green-800 "><FiPlus /> Add Item</button>
+                    <button className="border-[#0B544C] border-[1px] bg-[#0B544C] text-white hover:bg-green-800" onClick={() => navigate("add")}><FiPlus /> Add Item</button>
                 </div>
             </div>
 

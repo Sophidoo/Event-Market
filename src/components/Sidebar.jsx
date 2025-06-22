@@ -21,7 +21,7 @@ const Sidebar = () => {
         </NavLink>
         <NavLink 
           to="/dashboard/inventory"
-          end
+          
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
         >
           <ClipboardDocumentListIcon/>
@@ -89,7 +89,7 @@ const Sidebar = () => {
           <span>Settings</span>
         </NavLink>
         <NavLink 
-          to="/dashboard/logout"
+          to="/"
           end
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
         >

@@ -30,6 +30,7 @@ import DashboardInventory from './Pages/dashboard/DashboardInventory'
 import DashboardSettings from './Pages/dashboard/DashboardSettings'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import DashboardCreateItem from './Pages/dashboard/DashboardCreateItem'
 
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
         <Route path='transactions' element={<DashboardTransactions/>}/>
         <Route path='reviews' element={<DashboardReviews/>}/>
         <Route path='inventory' element={<DashboardInventory/>}/>
+        <Route path='inventory/add' element={<DashboardCreateItem/>}/>
         <Route path='settings' element={<DashboardSettings/>}/>
       </Route>
     </Routes> 
