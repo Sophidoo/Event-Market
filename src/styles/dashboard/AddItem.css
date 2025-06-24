@@ -1,0 +1,232 @@
+.addFormWrapper{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+}
+.addFormWrapper section{
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+.addSectionHeading{
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+}
+.addSectionHeading h2{
+    font-size: 18px;
+    font-weight: 500;
+}
+.addSectionHeading p{
+    font-size: 14px;
+}
+.addFormWrapper .inputContainer{
+    display: flex;
+    column-gap: 20px;
+}
+.addFormWrapper .inputWrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+}
+.addFormWrapper .inputWrapper p{
+    margin-top: -4px;
+    font-size: 12px;
+}
+.addFormWrapper label{
+    font-size: 14px;
+}
+.addFormWrapper input{
+    border-radius: 4px;
+    font-size: 13px;
+    padding: 7px 10px;
+    outline: none;
+}
+.addFormWrapper select{
+    border-radius: 4px;
+    font-size: 13px;
+    padding: 7px 10px;
+    outline: none;
+    cursor: pointer;
+}
+.addFormWrapper .select{
+    border-radius: 4px;
+    font-size: 13px;
+    padding: 7px 10px;
+    outline: none;
+    cursor: pointer;
+}
+.addFormWrapper .select svg{
+    width: 15px;
+    height: 15px;
+}
+.addFormWrapper textarea{
+    border-radius: 4px;
+    font-size: 13px;
+    padding: 7px 10px;
+    outline: none;
+    resize: vertical;
+}
+.addFormWrapper input:focus{
+    border: 1px solid #0B544C;
+    border-radius: 4px;
+    font-size: 13px;
+    padding: 7px 10px;
+    outline: none;
+}
+.addFormWrapper select:focus{
+    border: 1px solid #0B544C;
+    border-radius: 4px;
+    font-size: 13px;
+    padding: 7px 10px;
+    outline: none;
+}
+.addFormWrapper textarea:focus{
+    border: 1px solid #0B544C;
+    border-radius: 4px;
+    font-size: 13px;
+    padding: 7px 10px;
+    outline: none;
+}
+.addFormbuttonWrapper{
+    display: flex;
+    justify-content: right;
+}
+.addFormWrapper button{
+    font-size: 12px;
+    padding: 7px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.uploadedImages{
+    display: flex;
+    column-gap: 8px;
+    flex-wrap: wrap;
+    width: 100%;
+    row-gap: 8px;
+}
+.uploadImageHolder{
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+}
+.uploadImageHolder img{
+    height: 95px;
+    width: 95px;
+    border-radius: 5px;
+    position: relative;
+    object-fit: cover;
+}
+.uploadImageHolder svg{
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    border-radius: 100%;
+    font-size: 14px;
+    padding: 1px;
+    cursor: pointer;
+}
+.uploadImageHolder svg:hover{
+    color: rgb(216, 1, 1);
+}
+
+
+
+.addSectionHeading2{
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+}
+.addSectionHeading2 h3{
+    font-size: 16px;
+    font-weight: 500;
+}
+.addSectionHeading2 span{
+    font-size: 13px;
+}
+
+@media(max-width: 1000px){
+    .addSectionHeading h2{
+        font-size: 16px;
+    }
+    .addSectionHeading p{
+        font-size: 13px;
+    }
+    .addFormWrapper{
+        margin-top: 0px;
+    }
+    .addFormWrapper section{
+        padding: 15px 20px;
+        row-gap: 17px;
+    }
+    .addFormWrapper .inputWrapper p{
+        font-size: 11px;
+    }
+    .addFormWrapper label{
+        font-size: 13px;
+    }
+    .addFormWrapper input{
+        padding: 6px 9px;
+        font-size: 12px;
+    }
+    .addFormWrapper select{
+        font-size: 12px;
+        padding: 6px 9px;
+    }
+    .addFormWrapper textarea{
+        font-size: 12px;
+        padding: 6px 9px;
+    }
+    .uploadImageHolder img{
+        height: 85px;
+        width: 85px;
+    }
+    .addSectionHeading2 h3{
+        font-size: 14px;
+    }
+    .addSectionHeading2 span{
+        font-size: 12px;
+        margin-top: -3px;
+    }
+}
+@media(max-width: 650px){
+    .addSectionHeading h2{
+        font-size: 15px;
+    }
+    .addSectionHeading p{
+        font-size: 12px;
+        margin-top: -2px;
+    }
+    .addSectionHeading2 span{
+        font-size: 11px;
+        margin-top: -1px;
+    }
+    .addFormWrapper button{
+        font-size: 11px;
+    }
+}
+@media(max-width: 580px){
+    .addFormWrapper .inputContainer{
+        flex-direction: column;
+        row-gap: 17px;
+    }
+    .addFormWrapper label{
+        font-size: 12px;
+    }
+}
+@media(max-width: 450px){
+    .addFormWrapper section{
+        padding: 0px;
+        border-radius: 0px;
+        padding-top: 20px;
+    }
+    .uploadImageHolder img{
+        height: 70px;
+        width: 70px;
+    }
+}
