@@ -1,12 +1,17 @@
 import "../../styles/Auth.css";
 import dashboardImg from "../../assets/images/auth dashbpard.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import api from "../../AxiosInstance";
+import Cookies from "js-cookie"
+import { toast } from "react-toastify";
 
 const Verify = () => {
   const [user, setUser] = useState({
     code: ""
   });
+  const [loading, setLoading] = useState();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,6 +20,42 @@ const Verify = () => {
       [name]: value,
     }));
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    api.get(`/auth/verify-email/${user.code}/${Cookies.get("email")}`)
+    .then((res) => {
+      setLoading(false);
+      console.log(res)
+      toast.success(res.data)
+      navigate("/login")
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.error(err.response?.data?.message)
+      setLoading(false)
+    })
+  }
+
+  const resendCode = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    api.get(`/auth/token/${Cookies.get("email")}`)
+    .then((res) => {
+        setLoading(false);
+        console.log(res)
+        toast.success(res.data)
+    })
+    .catch((err) => {
+        console.log(err)
+        toast.error(err.response?.data?.message)
+        setLoading(false)
+      })
+    }
+
 
   return (
     <>
@@ -30,7 +71,7 @@ const Verify = () => {
             </p>
           </div>
 
-          <form action="">
+          <form action="" onSubmit={handleSubmit}>
             <div className="inputWrapper">
               <label htmlFor="Email Address or Phone Number">
                 Verification Code <span className="text-red-600">*</span>
@@ -48,10 +89,11 @@ const Verify = () => {
             <button
               className="bg-[#128D7F] hover:bg-[#0B544C] text-white "
               type="submit"
-            >SUBMIT</button>
+              disabled={loading}
+            >{loading ? "LOADING..." : "SUBMIT"}</button>
 
             <div className="authLinks">
-                <NavLink className="hover:text-[#128D7F]">Resend Verification Code</NavLink>
+                <NavLink className="hover:text-[#128D7F]" onClick={resendCode}>Resend Verification Code</NavLink>
             </div>
           </form>
         </div>

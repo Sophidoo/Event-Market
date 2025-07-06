@@ -1,8 +1,11 @@
 import "../../styles/Auth.css";
 import dashboardImg from "../../assets/images/auth dashbpard.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {EyeIcon, EyeSlashIcon} from "@heroicons/react/24/outline"
+import api from "../../AxiosInstance";
+import Cookies from "js-cookie"
+import { toast } from "react-toastify";
 
 const Forgot = () => {
   const [user, setUser] = useState({
@@ -10,8 +13,10 @@ const Forgot = () => {
     confirmPassword: "",
     code: "",
   });
+  const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showCpassword, setShowCpassword] = useState(false)
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,6 +25,47 @@ const Forgot = () => {
       [name]: value,
     }));
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    api.post(`/auth/forgot-password/${Cookies.get("email")}`, {
+      otp: user.code,
+      password: user.password,
+      confirmPassword: user.confirmPassword
+    })
+    .then((res) => {
+      setLoading(false);
+      toast.success(res.data)
+      setTimeout(() => {
+        navigate("/login")
+      }, 2000)
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.error(err.response?.data?.message)
+      setLoading(false)
+    })
+  }
+
+  const resendCode = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    api.get(`/auth/token/${Cookies.get("email")}`)
+    .then((res) => {
+      setLoading(false);
+      console.log(res)
+      toast.success(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.error(err.response?.data?.message)
+      setLoading(false)
+    })
+  }
+
 
   return (
     <>
@@ -35,7 +81,7 @@ const Forgot = () => {
             </p>
           </div>
 
-          <form action="">
+          <form action="" onSubmit={handleSubmit}>
             <div className="inputWrapper">
               <label htmlFor="">
                 Otp <span className="text-red-600">*</span>
@@ -89,10 +135,11 @@ const Forgot = () => {
             <button
               className="bg-[#128D7F] hover:bg-[#0B544C] text-white "
               type="submit"
-            >SUBMIT</button>
+              disabled={loading}
+            >{loading ? "LOADING..." : "SUBMIT"}</button>
 
             <div className="authLinks">
-                <NavLink className="hover:text-[#128D7F]">Resend Code</NavLink>
+                <NavLink onClick={resendCode} className="hover:text-[#128D7F]">Resend Code</NavLink>
             </div>
           </form>
         </div>

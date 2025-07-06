@@ -1,20 +1,25 @@
 import "../../styles/Auth.css";
 import dashboardImg from "../../assets/images/auth dashbpard.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {EyeIcon, EyeSlashIcon} from "@heroicons/react/24/outline"
+import api from "../../AxiosInstance";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie"
 
 const Register = () => {
   const [user, setUser] = useState({
     name: "",
     email: "",
-    phoneNumber: "",
+    phone: "",
     password: "",
     confirmPassword: "",
     type: "",
   });
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [showCpassword, setShowCpassword] = useState(false)
+  const navigate = useNavigate();
 
 
   const handleChange = (e) => {
@@ -24,6 +29,30 @@ const Register = () => {
       [name]: value,
     }));
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    api.post("/auth/register", {...user})
+    .then((res) => {
+        setLoading(false);
+        console.log(res)
+        toast.success(res.data)
+        navigate("/email-verification")
+        Cookies.set('email', user.email, { 
+            expires: 1, 
+            secure: true, 
+            sameSite: 'Strict', 
+            path: '/' 
+        });
+    })
+    .catch((err) => {
+        console.log(err)
+        toast.error(err.response?.data?.message)
+        setLoading(false)
+      })
+    }
 
   return (
     <>
@@ -41,7 +70,7 @@ const Register = () => {
             </p>
           </div>
 
-          <form action="">
+          <form action="" onSubmit={handleSubmit}>
             <div className="inputWrapper">
               <label htmlFor="Name">
                 Name <span className="text-red-600">*</span>
@@ -79,9 +108,9 @@ const Register = () => {
               </p>
               <input
                 type="text"
-                name="phoneNumber"
+                name="phone"
                 placeholder="Type here..."
-                value={user.phoneNumber}
+                value={user.phone}
                 onChange={handleChange}
               />
             </div>
@@ -130,18 +159,18 @@ const Register = () => {
                 Are you a vendor (have equipments, services, e.t.c to rent out)
                 or an organizer (here to view and book rentals and services)
               </p>
-              <input
-                type="text"
-                name="type"
-                placeholder="Type here..."
-                value={user.type}
-                onChange={handleChange}
-              />
+              <select name="" id="" value={user.type}
+                onChange={handleChange}>
+                <option value="" disabled>Click to select</option>
+                <option value="USER">Organizer</option>
+                <option value="VENDOR">Vendor</option>
+              </select>
             </div>
             <button
               className="bg-[#128D7F] hover:bg-[#0B544C] text-white "
               type="submit"
-            >SUBMIT</button>
+              disabled={loading}
+            >{loading ? "LOADING..." : "SUBMIT"}</button>
           </form>
         </div>
 

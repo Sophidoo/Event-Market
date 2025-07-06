@@ -1,15 +1,20 @@
 import "../../styles/Auth.css";
 import dashboardImg from "../../assets/images/auth dashbpard.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {EyeIcon, EyeSlashIcon} from "@heroicons/react/24/outline"
+import api from "../../AxiosInstance";
+import Cookies from "js-cookie"
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,6 +23,62 @@ const Login = () => {
       [name]: value,
     }));
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    api.post(`/auth/login`, {...user})
+    .then((res) => {
+      setLoading(false);
+      toast.success(res.data?.message)
+      Cookies.set("token", res.data?.token);
+      setTimeout(() => {
+        navigate("/")
+      }, 2000)
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.error(err.response?.data?.message)
+      setLoading(false)
+    })
+  }
+
+
+  const forgotPassword = (e) => {
+     e.preventDefault();
+
+    if(!user.email){
+      toast.error("Please input your email address")
+      return
+    }
+
+    toast.info("Please Wait...")
+    
+    api.get(`/auth/token/${user.email}`)
+    .then((res) => {
+      toast.success(res.data)
+      console.log(res)
+      Cookies.set("email", user.email);
+      setTimeout(() => {
+        navigate("/forgot-password")
+      }, 2000)
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.error(err.response?.data?.message)
+    })
+  }
+
+  const verifyEmail = () => {
+    if(!user.email){
+      toast.error("Please input your email address")
+      return
+    }
+
+    Cookies.set("email", user.email);
+    navigate("/email-verification")
+  }
 
   return (
     <>
@@ -34,7 +95,7 @@ const Login = () => {
             </p>
           </div>
 
-          <form action="">
+          <form action="" onSubmit={handleSubmit}>
             <div className="inputWrapper">
               <label htmlFor="Email Address or Phone Number">
                 Email Address <span className="text-red-600">*</span>
@@ -69,10 +130,12 @@ const Login = () => {
             <button
               className="bg-[#128D7F] hover:bg-[#0B544C] text-white "
               type="submit"
-            >SUBMIT</button>
+              disabled={loading}
+            >{loading ? "LOADING..." : "SUBMIT"}</button>
 
-            <div className="authLinks">
-                <NavLink className="hover:text-[#128D7F]">Forgot Password</NavLink>
+            <div className="text-xs font-medium xsm:text-[13px] flex justify-between w-full">
+                <NavLink onClick={verifyEmail} className="hover:text-[#128D7F]">Verify Email</NavLink>
+                <NavLink onClick={forgotPassword} className="hover:text-[#128D7F]">Forgot Password</NavLink>
             </div>
           </form>
         </div>

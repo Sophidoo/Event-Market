@@ -60,7 +60,17 @@
     border-radius: 5px;
     font-size: 13px;
 }
+.leftAuth form .inputWrapper select{
+    padding: 7px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 13px;
+}
 .leftAuth form .inputWrapper input:focus{
+    border-color: #128D7F;
+    outline: none;
+}
+.leftAuth form .inputWrapper select:focus{
     border-color: #128D7F;
     outline: none;
 }
@@ -149,6 +159,9 @@
         font-size: 11px;
     }
     .leftAuth form .inputWrapper input{
+        font-size: 12px;
+    }
+    .leftAuth form .inputWrapper select{
         font-size: 12px;
     }
     .leftAuth form{

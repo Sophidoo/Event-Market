@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import Cookies from "js-cookie"
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -282,27 +283,38 @@ const Home = () => {
                     <div className="userProfile bg-[#136B61]  ">
                         <img   src="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?uid=R95769918&ga=GA1.1.837528501.1678343204&semt=ais_items_boosted&w=740" alt="" />
                         <ChevronDownIcon className='cursor-pointer' onClick={() => decideMenuToShow("menu")}/>
-                        <div className={showMenu ? "navMenu heroNavMenu z-10 bg-white" : "hide" }>
+                        {
+                            Cookies.get("token") ? 
+                            <div className={showMenu ? "navMenu" : "hide" }>
                             <NavLink 
                                 to="/dashboard"
+                                end
                                 className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                             ><Squares2X2Icon/> Dashboard</NavLink>
                             {/* <hr className='border-[0.5px] border-gray-100'/> */}
                             <NavLink 
                                 to="/my-bookings"
+                                end
                                 className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
                             ><ClipboardDocumentCheckIcon/> Bookings</NavLink>
                             {/* <hr className='border-[0.5px] border-gray-100'/> */}
                             <NavLink
-                                to="/wishlist"
+                                to="/my-wishlist"
                                 className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
-                            ><HeartIcon/> Wishlist</NavLink>
-                            {/* <hr className='border-[0.5px] border-gray-100'/> */}
-                            <NavLink
-                                to="/profile"
-                                className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
-                            ><UserCircleIcon/> Profile</NavLink>
-                        </div>
+                                ><HeartIcon/> Wishlist</NavLink>
+                                {/* <hr className='border-[0.5px] border-gray-100'/> */}
+                                <NavLink
+                                    to="/profile"
+                                    end
+                                    className={({isActive}) => `text-[#0B5850] ${isActive ? 'bg-[rgb(11, 84, 76, 0.11)]' : ''}`}
+                                ><UserCircleIcon/> Profile</NavLink>
+                            </div>
+                            :
+                            <div className={showMenu ? "navMenu" : "hide" }>
+                                <NavLink to={"/register"} className="text-white  !text-xs xsm:text-[13px] bg-[#0B5850] rounded-sm flex items-center justify-center hover:text-[#0B5850] transition">Create an account</NavLink>
+                                <NavLink to="/login" className="border border-[#0B5850] hover:border-transparent !text-xs xsm:text-[13px] text-[#0B5850] rounded-sm flex items-center justify-center transition">Login</NavLink>
+                            </div>
+                        }
                     </div>
 
                     <Bars3Icon onClick={() => decideMenuToShow("responsive")} className='menuIcon cursor-pointer'/>
