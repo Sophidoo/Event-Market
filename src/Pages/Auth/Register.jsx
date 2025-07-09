@@ -159,11 +159,11 @@ const Register = () => {
                 Are you a vendor (have equipments, services, e.t.c to rent out)
                 or an organizer (here to view and book rentals and services)
               </p>
-              <select name="" id="" value={user.type}
+              <select name="type" id="" value={user.type}
                 onChange={handleChange}>
                 <option value="" disabled>Click to select</option>
-                <option value="USER">Organizer</option>
-                <option value="VENDOR">Vendor</option>
+                <option value="USER">{user.type}</option>
+                <option value="VENDOR">{user.type}</option>
               </select>
             </div>
             <button
