@@ -236,6 +236,7 @@
     width: 100%;
     background-color: gray;
     height: 200px;
+    object-fit: cover;
     border-radius: 11px;
 }
 .itemCardDetails{

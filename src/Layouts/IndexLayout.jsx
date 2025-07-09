@@ -8,7 +8,7 @@ const IndexLayout = () => {
     return<>
         <Navbar/>
 
-        <main className="indexPagesMain bg-white">
+        <main className="indexPagesMain bg-white min-h-[89vh]">
             <Outlet/>
         </main>
 

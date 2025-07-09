@@ -14,6 +14,8 @@ const Navbar = () => {
     useEffect(() => {
         setShowMenu(false)
         setShowResponsiveMenu(false)
+
+        
     }, [location.pathname])
 
     const decideMenuToShow = (decision) => {
