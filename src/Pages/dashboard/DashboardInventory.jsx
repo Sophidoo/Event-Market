@@ -1,391 +1,382 @@
-import { FiEdit2, FiPlus, FiUploadCloud } from "react-icons/fi"
-import "../../styles/dashboard/Inventory.css"
-import { ChevronRightIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline"
-import { FaCheck, FaMinus } from "react-icons/fa6";
-import { BsFilter } from "react-icons/bs"
-import { IoIosArrowRoundDown, IoIosArrowRoundUp, IoMdArrowDown } from "react-icons/io"
-import { RiDeleteBinLine } from "react-icons/ri"
-import { FaCircle } from "react-icons/fa"
-import { useState } from "react"; // Import useState hook
+
+import { FiEdit2, FiPlus, FiUploadCloud } from "react-icons/fi";
+import "../../styles/dashboard/Inventory.css";
+import { ChevronRightIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { FaCheck, FaMinus, FaCircle } from "react-icons/fa6";
+import { BsFilter } from "react-icons/bs";
+import { IoIosArrowRoundDown, IoIosArrowRoundUp, IoMdArrowDown } from "react-icons/io";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { useState, useEffect, useMemo, useRef } from "react";
 import DeleteItemModal from "../../components/Modals/DeleteItemModal";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+import api from "../../AxiosInstance";
+import Cookies from "js-cookie";
 
 const DashboardInventory = () => {
-    // State to track which rows are checked/minus
     const [checkedRows, setCheckedRows] = useState({});
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    // Function to toggle between check and minus
+    const [items, setItems] = useState([]);
+    const [category, setCategory] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const [stats, setStats] = useState({ rentals: 0, services: 0, packages: 0 });
+    const [page, setPage] = useState(1);
+    const [pageSize] = useState(20);
+    const [totalPages, setTotalPages] = useState(1); // Default to 1
+    const navigate = useNavigate();
+    const fileInputRef = useRef(null);
+
+    // Fetch vendor items
+    const fetchVendorItems = async () => {
+        setLoading(true);
+        try {
+            const response = await api.get(`item/${page}/${pageSize}?category=${category}`);
+            console.log("Vendor items fetched:", response.data);
+            setItems(response.data.data || []);
+            setTotalPages(response.data.meta?.totalPages || 1);
+        } catch (error) {
+            console.error("Error fetching vendor items:", error);
+            toast.error(error.response?.data?.message || "Failed to fetch inventory");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    const fetchItemStats = async () => {
+        try {
+            const response = await api.get("/item/stats");
+            console.log("Item stats fetched:", response.data);
+            setStats(response.data || { rentals: 0, services: 0, packages: 0 });
+        } catch (error) {
+            console.error("Error fetching item stats:", error);
+            toast.error(error.response?.data?.message || "Failed to fetch item stats");
+        }
+    };
+    // Handle search input change
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+        setPage(1);
+    };
+
+    // Handle search form submission
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        setPage(1);
+    };
+
+    // Handle CSV import
+    const handleImportClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (!file.name.endsWith(".csv")) {
+            toast.error("Please upload a CSV file");
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+            const response = await api.post("/item/csv", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+            toast.success(response.data || "CSV imported successfully");
+            fetchVendorItems();
+        } catch (error) {
+            console.error("Error importing CSV:", error);
+            toast.error(error.response?.data?.message || "Failed to import CSV");
+        } finally {
+            setLoading(false);
+            fileInputRef.current.value = null;
+        }
+    };
+
+    // Filter items client-side
+    const filteredItems = useMemo(() => {
+        if (!searchQuery) return items;
+        return items.filter(item =>
+            item.title?.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [items, searchQuery]);
+
+    useEffect(() => {
+        fetchVendorItems();
+        fetchItemStats();
+    }, [page, category]);
+
+    // Toggle row check
     const toggleRowCheck = (rowId) => {
         setCheckedRows(prev => ({
             ...prev,
-            [rowId]: !prev[rowId]
+            [rowId]: !prev[rowId],
         }));
     };
 
-    const navigate = useNavigate();
+    // Handle item deletion
+    const handleDeleteItem = async () => {
+        if (!selectedItemId) return;
+        try {
+            await api.delete(`/item/${selectedItemId}`);
+            toast.success("Item deleted successfully");
+            fetchVendorItems();
+        } catch (error) {
+            console.error("Error deleting item:", error);
+            toast.error(error.response?.data?.message || "Failed to delete item");
+        }
+    };
 
-    // Sample data for the table rows
-    const items = [
-  {
-    itemName: "火",
-    category: "Rentals",
-    subCategory: "Event Equipment",
-    lowestOfferPerUnit: 25.00,
-    locationType: ["Abuja", "Lagos", "Anambra"],
-    bookingType: "Instant",
-    quantityAvailable: 10,
-    status: "Available",
-    imageUrl: "https://example.com/images/fire-equipment.jpg"
-  },
-  {
-    itemName: "Luxury Party Tent",
-    category: "Rentals",
-    subCategory: "Party Supplies",
-    lowestOfferPerUnit: 150.00,
-    locationType: ["Port Harcourt"],
-    bookingType: "Instant",
-    quantityAvailable: 5,
-    status: "Available",
-    imageUrl: "https://example.com/images/tent.jpg"
-  },
-  {
-    itemName: "Professional Camera Kit",
-    category: "Rentals",
-    subCategory: "Electronics",
-    lowestOfferPerUnit: 75.50,
-    locationType: ["Worldwide"],
-    bookingType: "Schedule",
-    quantityAvailable: 3,
-    status: "Low Stock",
-    imageUrl: "https://example.com/images/camera.jpg"
-  },
-  {
-    itemName: "Home Cleaning Service",
-    category: "Services",
-    subCategory: "Home Services",
-    lowestOfferPerUnit: 40.00,
-    locationType: ["Abuja"],
-    bookingType: "Schedule",
-    quantityAvailable: 15,
-    status: "Available",
-    imageUrl: "https://example.com/images/cleaning.jpg"
-  },
-  {
-    itemName: "Wedding Photography",
-    category: "Services",
-    subCategory: "Professional Services",
-    lowestOfferPerUnit: 200.00,
-    locationType: ["Nigeria"],
-    bookingType: "Instant",
-    quantityAvailable: 8,
-    status: "Available",
-    imageUrl: "https://example.com/images/photography.jpg"
-  },
-  {
-    itemName: "Beach Vacation Package",
-    category: "Packages",
-    subCategory: "Vacation",
-    lowestOfferPerUnit: 1200.00,
-    locationType: ["Worldwide"],
-    bookingType: "Request",
-    quantityAvailable: 12,
-    status: "Available",
-    imageUrl: "https://example.com/images/beach.jpg"
-  },
-  {
-    itemName: "Power Generator",
-    category: "Rentals",
-    subCategory: "Tools",
-    lowestOfferPerUnit: 60.00,
-    locationType: ["Lagos", "Port Harcourt"],
-    bookingType: "Instant",
-    quantityAvailable: 7,
-    status: "Available",
-    imageUrl: "https://example.com/images/generator.jpg"
-  },
-  {
-    itemName: "Personal Trainer Session",
-    category: "Services",
-    subCategory: "Health & Wellness",
-    lowestOfferPerUnit: 35.00,
-    locationType: ["Abuja"],
-    bookingType: "Instant",
-    quantityAvailable: 20,
-    status: "Available",
-    imageUrl: "https://example.com/images/trainer.jpg"
-  },
-  {
-    itemName: "DJ Equipment Set",
-    category: "Rentals",
-    subCategory: "Event Equipment",
-    lowestOfferPerUnit: 90.00,
-    locationType: ["Lagos"],
-    bookingType: "Schedule",
-    quantityAvailable: 4,
-    status: "Low Stock",
-    imageUrl: "https://example.com/images/dj-equipment.jpg"
-  },
-  {
-    itemName: "Language Tutoring",
-    category: "Services",
-    subCategory: "Education",
-    lowestOfferPerUnit: 25.00,
-    locationType: ["Online"],
-    bookingType: "Schedule",
-    quantityAvailable: 30,
-    status: "Available",
-    imageUrl: "https://example.com/images/tutoring.jpg"
-  },
-  {
-    itemName: "Camping Gear Package",
-    category: "Packages",
-    subCategory: "Experience",
-    lowestOfferPerUnit: 85.00,
-    locationType: ["Nigeria"],
-    bookingType: "Request",
-    quantityAvailable: 6,
-    status: "Available",
-    imageUrl: "https://example.com/images/camping.jpg"
-  },
-  {
-    itemName: "Projector Rental",
-    category: "Rentals",
-    subCategory: "Electronics",
-    lowestOfferPerUnit: 45.00,
-    locationType: ["Abuja", "Lagos", "Port Harcourt"],
-    bookingType: "Request",
-    quantityAvailable: 9,
-    status: "Available",
-    imageUrl: "https://example.com/images/projector.jpg"
-  },
-  {
-    itemName: "Catering Service",
-    category: "Services",
-    subCategory: "Home Services",
-    lowestOfferPerUnit: 15.00,
-    locationType: ["Lagos"],
-    bookingType: "Request",
-    quantityAvailable: 25,
-    status: "Available",
-    imageUrl: "https://example.com/images/catering.jpg"
-  },
-  {
-    itemName: "Anniversary Gift Package",
-    category: "Packages",
-    subCategory: "Gift",
-    lowestOfferPerUnit: 65.00,
-    locationType: ["Worldwide"],
-    bookingType: "Instant",
-    quantityAvailable: 50,
-    status: "Available",
-    imageUrl: "https://example.com/images/gift.jpg"
-  },
-  {
-    itemName: "Drone Rental",
-    category: "Rentals",
-    subCategory: "Electronics",
-    lowestOfferPerUnit: 110.00,
-    locationType: ["Abuja"],
-    bookingType: "Instant",
-    quantityAvailable: 2,
-    status: "Low Stock",
-    imageUrl: "https://example.com/images/drone.jpg"
-  },
-  {
-    itemName: "Car Wash Service",
-    category: "Services",
-    subCategory: "Home Services",
-    lowestOfferPerUnit: 20.00,
-    locationType: ["Port Harcourt"],
-    bookingType: "Instant",
-    quantityAvailable: 18,
-    status: "Available",
-    imageUrl: "https://example.com/images/carwash.jpg"
-  },
-  {
-    itemName: "VIP Concert Package",
-    category: "Packages",
-    subCategory: "Experience",
-    lowestOfferPerUnit: 350.00,
-    locationType: ["Lagos"],
-    bookingType: "Instant",
-    quantityAvailable: 15,
-    status: "Available",
-    imageUrl: "https://example.com/images/concert.jpg"
-  },
-  {
-    itemName: "Sound System",
-    category: "Rentals",
-    subCategory: "Event Equipment",
-    lowestOfferPerUnit: 70.00,
-    locationType: ["Abuja", "Port Harcourt"],
-    bookingType: "Instant",
-    quantityAvailable: 5,
-    status: "Available",
-    imageUrl: "https://example.com/images/soundsystem.jpg"
-  },
-  {
-    itemName: "Graphic Design Service",
-    category: "Services",
-    subCategory: "Professional Services",
-    lowestOfferPerUnit: 50.00,
-    locationType: ["Online"],
-    bookingType: "Schedule",
-    quantityAvailable: 40,
-    status: "Available",
-    imageUrl: "https://example.com/images/design.jpg"
-  },
-  {
-    itemName: "Christmas Decor Package",
-    category: "Packages",
-    subCategory: "Seasonal",
-    lowestOfferPerUnit: 95.00,
-    locationType: ["Nigeria"],
-    bookingType: "Schedule",
-    quantityAvailable: 22,
-    status: "Available",
-    imageUrl: "https://example.com/images/christmas.jpg"
-  }
-];
+    // Handle delete icon click
+    const onDeleteClick = (itemId) => {
+        setSelectedItemId(itemId);
+        setShowDeleteModal(true);
+    };
 
-    return <>
-    {showDeleteModal && (
-        <DeleteItemModal
-        onClose={() => setShowDeleteModal(false)}
-        onConfirm={() => {
-            handleDeleteItem();
-            setShowDeleteModal(false);
-        }}
-        />
-    )}
-        <div className="adminInventoryWrapper ">
-            
-            
-            <div className="adminInventoryHeading">
-                <div className="leftInventoryHeading">
-                    <h2>Dashboard <ChevronRightIcon/>
-                    <span className="text-gray-600">Inventory</span></h2>
-                    <p className="text-gray-500">Keep track of item/product  inventory.</p>
-                </div>
-                <div className="rightInventoryHeading">
-                    <button className="border-gray-300 border-[1px] bg-white text-gray-700 hover:text-black"><FiUploadCloud /> Import</button>
-                    <button className="border-[#0B544C] border-[1px] bg-[#0B544C] text-white hover:bg-green-800" onClick={() => navigate("add")}><FiPlus /> Add Item</button>
-                </div>
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0B544C]"></div>
             </div>
+        );
+    }
 
-            <div className="inventorySubHeading">
-                <div className="inventoryTabWrapper bg-white border-[1px] border-gray-300 ">
-                    <p className="text-black">Rentals</p>
-                    <p className="border-r-[1px] border-l-[1px] border-gray-300 text-gray-700">Services</p>
-                    <p className="text-gray-700">Packages</p>
+    return (
+        <>
+            {showDeleteModal && (
+                <DeleteItemModal
+                    onClose={() => {
+                        setShowDeleteModal(false);
+                        setSelectedItemId(null);
+                    }}
+                    onConfirm={() => {
+                        handleDeleteItem();
+                        setShowDeleteModal(false);
+                        setSelectedItemId(null);
+                    }}
+                />
+            )}
+            <div className="adminInventoryWrapper">
+                <div className="adminInventoryHeading">
+                    <div className="leftInventoryHeading">
+                        <h2>
+                            Dashboard <ChevronRightIcon />
+                            <span className="text-gray-600">Inventory</span>
+                        </h2>
+                        <p className="text-gray-500">Keep track of item/product inventory.</p>
+                    </div>
+                    {
+                        Cookies.get("role") === "VENDOR" &&
+                        <div className="rightInventoryHeading">
+                        <input
+                            type="file"
+                            accept=".csv"
+                            ref={fileInputRef}
+                            style={{ display: "none" }}
+                            onChange={handleFileChange}
+                        />
+                        <button
+                            className="border-gray-300 border-[1px] cursor-pointer bg-white text-gray-700 hover:text-black hover:bg-gray-50"
+                            onClick={handleImportClick}
+                        >
+                            <FiUploadCloud /> Import
+                        </button>
+                        <button
+                            className="border-[#0B544C] border-[1px] bg-[#0B544C] text-white hover:bg-green-800"
+                            onClick={() => navigate("add")}
+                        >
+                            <FiPlus /> Add Item
+                        </button>
+                    </div>
+                    }
                 </div>
 
-                <div className="inventoryRightSubHeading">
-                    <form action="" className="text-gray-500 border-[1px] bg-white border-gray-300">
-                        <MagnifyingGlassIcon/>
-                        <input type="search" placeholder="Search" name="" id="" />
-                    </form>
-                </div>
-            </div>
+                <div className="inventorySubHeading">
+                    <div className="inventoryTabWrapper bg-white border-[1px] border-gray-300 cursor-pointer">
+                        <p
+                            className={
+                                category === ""
+                                    ? "border-r-[1px] bg-gray-50 border-gray-300 text-black"
+                                    : "text-gray-700 hover:bg-gray-100 border-r-[1px] border-gray-300"
+                            }
+                            onClick={() => setCategory("")}
+                        >
+                            All
+                        </p>
+                        <p
+                            className={
+                                category === "RENTALS"
+                                    ? "bg-gray-50 border-r-[1px] border-gray-300 text-black"
+                                    : "hover:bg-gray-100 text-gray-700 border-r-[1px] border-gray-300"
+                            }
+                            onClick={() => setCategory("RENTALS")}
+                        >
+                            Rentals
+                        </p>
+                        <p
+                            className={
+                                category === "SERVICES"
+                                    ? "border-r-[1px] border-l-[1px] border-gray-300 bg-gray-50 text-black"
+                                    : "hover:bg-gray-100 text-gray-700 border-r-[1px] border-gray-300"
+                            }
+                            onClick={() => setCategory("SERVICES")}
+                        >
+                            Services
+                        </p>
+                        <p
+                            className={
+                                category === "PACKAGES"
+                                    ? "border-gray-300 bg-gray-50 text-black"
+                                    : "hover:bg-gray-100 text-gray-700"
+                            }
+                            onClick={() => setCategory("PACKAGES")}
+                        >
+                            Packages
+                        </p>
+                    </div>
 
+                    <div className="inventoryRightSubHeading">
+                        <form onSubmit={handleSearchSubmit} className="text-gray-500 border-[1px] bg-white border-gray-300">
+                            <MagnifyingGlassIcon />
+                            <input
+                                type="search"
+                                placeholder="Search"
+                                name="search"
+                                id="search"
+                                value={searchQuery}
+                                onChange={handleSearchChange}
+                            />
+                        </form>
+                    </div>
+                </div>
 
-            <div className="inventoryCardWrapper">
-                <div className="inventoryCard bg-white border-gray-200 border-[1px]">
-                    <p className="text-gray-500">TOTAL RENTALS</p>
-                    <h1>245 <span className="text-green-500">+36% <IoIosArrowRoundUp /></span></h1>
+                <div className="inventoryCardWrapper">
+                    <div className="inventoryCard bg-white border-gray-200 border-[1px]">
+                        <p className="text-gray-500">TOTAL RENTALS</p>
+                        <h1>
+                            {stats.rentals} <span className="text-green-500">
+                                +36% <IoIosArrowRoundUp />
+                            </span>
+                        </h1>
+                    </div>
+                    <div className="inventoryCard bg-white border-gray-200 border-[1px]">
+                        <p className="text-gray-500">TOTAL SERVICES</p>
+                        <h1>
+                            {stats.services} <span className="text-red-500">
+                                +14% <IoIosArrowRoundDown />
+                            </span>
+                        </h1>
+                    </div>
+                    <div className="inventoryCard bg-white border-gray-200 border-[1px]">
+                        <p className="text-gray-500">TOTAL PACKAGES</p>
+                        <h1>
+                            {stats.packages} <span className="text-green-500">
+                                +36% <IoIosArrowRoundUp />
+                            </span>
+                        </h1>
+                    </div>
                 </div>
-                <div className="inventoryCard bg-white border-gray-200 border-[1px]">
-                    <p className="text-gray-500">TOTAL SERVICES</p>
-                    <h1>12 <span className="text-red-500">+14% <IoIosArrowRoundDown /></span></h1>
-                </div>
-                <div className="inventoryCard bg-white border-gray-200 border-[1px]">
-                    <p className="text-gray-500">TOTAL PACKAGES</p>
-                    <h1>10 <span className="text-green-500">+36% <IoIosArrowRoundUp /></span></h1>
-                </div>
-            </div>
 
-            <div className="relative overflow-x-auto">
-                <table className="w-full">
-                    <thead className="text-gray-500">
-                        <tr className="border-b-[1px] border-gray-200">
-                            <th scope="col">
-                                <div className="tableHeadingDiv">
-                                    <p>Item Name <IoMdArrowDown /></p>
-                                </div>
-                            </th>
-                            <th scope="col" className="">
-                                Category
-                            </th>
-                            <th scope="col" className="">
-                                Price(N)
-                            </th>
-                            <th scope="col" className="">
-                                Service Areas
-                            </th>
-                            <th scope="col" className="">
-                                Booking Type
-                            </th>
-                            <th scope="col" className="">
-                                Current Qty
-                            </th>
-                            <th scope="col" className="">
-                                Status
-                            </th>
-                            <th scope="col" className="w-1"></th>
-                            <th scope="col" className="w-1"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {items.map((item) => (
-                            <tr key={item.id} className="bg-white border-b-[1px] border-gray-200">
-                                <td scope="row" className="font-medium whitespace-nowrap text-gray-800">
-                                    <div className="tableProductDetails">
-                                        
-                                        <img src={item.imageUrl} alt="" />
-                                        <p>{item.itemName} <br/><span className="text-gray-500 text-[11px]">{item.subCategory}</span></p>
+                <div className="relative overflow-x-auto">
+                    <table className="w-full">
+                        <thead className="text-gray-500">
+                            <tr className="border-b-[1px] border-gray-200">
+                                <th scope="col">
+                                    <div className="tableHeadingDiv">
+                                        <p>Item Name <IoMdArrowDown /></p>
                                     </div>
-                                </td>
-                                <td className="text-gray-500 ">{item.category}</td>
-                                <td className="text-gray-500">
-                                    {item.lowestOfferPerUnit}
-                                </td>
-                                <td className="text-gray-500">
-                                    {item.locationType?.map(el => {return el +", "})}
-                                </td>
-                                <td className="text-gray-500">
-                                    {item.bookingType}
-                                </td>
-                                <td className="text-gray-500">
-                                    {item.quantityAvailable}
-                                </td>
-                                <td className="text-gray-500">
-                                    <div className={`coloredColumn ${item.status === 'Available' ? 'bg-[#ECFDF3] text-green-600' : item.status === "Low Stock" ? 'bg-yellow-50 text-yellow-600': 'bg-red-100 text-red-600'}`}>
-                                        <FaCircle />
-                                        {item.status}
-                                    </div>
-                                </td>
-                                <td className="text-gray-500 cursor-pointer" onClick={() => setShowDeleteModal(true)}>
-                                    <RiDeleteBinLine />
-                                </td>
-                                <td className="text-gray-500 cursor-pointer">
-                                    <FiEdit2 />
-                                </td>
+                                </th>
+                                <th scope="col" className="">Category</th>
+                                <th scope="col" className="">Price(N)</th>
+                                <th scope="col" className="">Service Areas</th>
+                                <th scope="col" className="">Booking Type</th>
+                                <th scope="col" className="">Current Qty</th>
+                                <th scope="col" className="">Status</th>
+                                <th scope="col" className="w-1"></th>
+                                <th scope="col" className="w-1"></th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            {filteredItems.length === 0 ? (
+                                <tr>
+                                    <td colSpan={9} className="text-center text-gray-500 py-4">
+                                        No items found
+                                    </td>
+                                </tr>
+                            ) : (
+                                filteredItems.map((item) => (
+                                    <tr key={item.id} className="bg-white border-b-[1px] border-gray-200">
+                                        <td scope="row" className="font-medium whitespace-nowrap text-gray-800">
+                                            <div className="tableProductDetails">
+                                                <img src={item.images?.[0] || "https://via.placeholder.com/50"} alt="" />
+                                                <p>
+                                                    {item.title || "Unknown Item"} <br />
+                                                    <span className="text-gray-500 text-[11px]">
+                                                        {item.categoryType?.name || item.category}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td className="text-gray-500">{item.category}</td>
+                                        <td className="text-gray-500">{(item.price || item.minPrice)?.toLocaleString() || "N/A"}</td>
+                                        <td className="text-gray-500">{item.locations?.join(", ") || "N/A"}</td>
+                                        <td className="text-gray-500">{item.bookingType}</td>
+                                        <td className="text-gray-500">{item.quantity || 0}</td>
+                                        <td className="text-gray-500">
+                                            <div
+                                                className={`coloredColumn ${
+                                                    item.status === "available"
+                                                        ? "bg-[#ECFDF3] text-green-600"
+                                                        : item.status === "unavailable"
+                                                        ? "bg-red-100 text-red-600"
+                                                        : "bg-yellow-100 text-yellow-600"
+                                                }`}
+                                            >
+                                                <FaCircle />
+                                                {item.status}
+                                            </div>
+                                        </td>
+                                        <td className="text-gray-500 cursor-pointer" onClick={() => onDeleteClick(item.id)}>
+                                            <RiDeleteBinLine />
+                                        </td>
+                                        <td className="text-gray-500 cursor-pointer" onClick={() => navigate(`edit/${item.id}`)}>
+                                            <FiEdit2 />
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
 
-            <div className="inventoryPagination">
-                <p className="text-gray-700">Page 1 of 4</p>
-
-                <div className="inventoryPaginationButtons">
-                    <button className="border-[1px] border-gray-300">Previous</button>
-                    <button className="border-[1px] border-gray-300">Next</button>
+                <div className="inventoryPagination">
+                    <p className="text-gray-700">Page {page} of {totalPages}</p>
+                    <div className="inventoryPaginationButtons">
+                        <button
+                            className="border-[1px] border-gray-300 disabled:opacity-50"
+                            onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+                            disabled={page === 1}
+                        >
+                            Previous
+                        </button>
+                        <button
+                            className="border-[1px] border-gray-300 disabled:opacity-50"
+                            onClick={() => setPage(prev => prev + 1)}
+                            disabled={page === totalPages}
+                        >
+                            Next
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </>;
-}
+        </>
+    );
+};
 
 export default DashboardInventory;

@@ -33,6 +33,7 @@ const Login = () => {
       setLoading(false);
       toast.success(res.data?.message)
       Cookies.set("token", res.data?.token);
+      Cookies.set("role", res.data?.user.role)
       setTimeout(() => {
         navigate("/")
       }, 2000)

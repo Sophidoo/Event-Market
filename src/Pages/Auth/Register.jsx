@@ -34,7 +34,7 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
     
-    api.post("/auth/register", {...user})
+    api.post("/auth/register", {...user, role: user.type})
     .then((res) => {
         setLoading(false);
         console.log(res)
@@ -159,11 +159,11 @@ const Register = () => {
                 Are you a vendor (have equipments, services, e.t.c to rent out)
                 or an organizer (here to view and book rentals and services)
               </p>
-              <select name="type" id="" value={user.type}
+              <select name="type" id="" value={user.type} className="text-black"
                 onChange={handleChange}>
                 <option value="" disabled>Click to select</option>
-                <option value="USER">{user.type}</option>
-                <option value="VENDOR">{user.type}</option>
+                <option value="USER">USER</option>
+                <option value="VENDOR">VENDOR</option>
               </select>
             </div>
             <button

@@ -28,7 +28,7 @@ const Packages = () => {
 
     const handleSearch = (e) => {
         e.preventDefault()
-        fetchRentals()
+        fetchPackages()
     };
 
     const handleChange = (e) => {
@@ -39,7 +39,7 @@ const Packages = () => {
         }));
     };
 
-     const fetchRentals = async () => {
+     const fetchPackages = async () => {
         setLoading(true);
         try {
             const { current_page, per_page } = pagination;
@@ -76,7 +76,7 @@ const Packages = () => {
     };
 
     useEffect(() => {
-        fetchRentals();
+        fetchPackages();
     }, [pagination.current_page, searchDetails]);
 
     const goToPage = (pageNum) => {
@@ -232,7 +232,7 @@ const Packages = () => {
         <section className="packagesWrapper">
             {
                 packages.map((el) => {
-                    return <div className="packageCard" onClick={() => navigate("/package/details/1")}>
+                    return <div className="packageCard" onClick={() => navigate(`/package/details/${el.id}`)}>
                         <img src={el.images && el.images[0]} alt="" />
                         <HeartIcon className='saveIcon text-black hover:text-red-600'/>
                         <div className="packageCardDetails">
