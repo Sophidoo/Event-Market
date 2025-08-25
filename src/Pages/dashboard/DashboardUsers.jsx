@@ -195,9 +195,9 @@ const DashboardUsers = () => {
             <p className="text-gray-500">Keep track of users and manage users.</p>
           </div>
           <div className="rightInventoryHeading">
-            <button className="border-[#0B544C] border-[1px] bg-[#0B544C] text-white hover:bg-green-800">
+            {/* <button className="border-[#0B544C] border-[1px] bg-[#0B544C] text-white hover:bg-green-800">
               <FiDownloadCloud /> Download
-            </button>
+            </button> */}
           </div>
         </div>
 
