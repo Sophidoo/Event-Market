@@ -147,6 +147,16 @@ const DashboardInventory = () => {
         );
     }
 
+    const handleViewDetail = (cat, id) => {
+        if (cat === "RENTALS"){
+            navigate(`rentals/${id}`)
+        }else if (cat === "SERVICES"){
+            navigate(`services/${id}`)
+        }else if (cat === "PACKAGES"){
+            navigate(`packages/${id}`)
+        }
+    }
+
     return (
         <>
             {showDeleteModal && (
@@ -311,8 +321,8 @@ const DashboardInventory = () => {
                                 </tr>
                             ) : (
                                 filteredItems.map((item) => (
-                                    <tr key={item.id} className="bg-white border-b-[1px] border-gray-200">
-                                        <td scope="row" className="font-medium whitespace-nowrap text-gray-800">
+                                    <tr key={item.id} className="bg-white border-b-[1px] border-gray-200 cursor-pointer">
+                                        <td scope="row" className="font-medium whitespace-nowrap text-gray-800" onClick={() => handleViewDetail(item.category, item.id)}>
                                             <div className="tableProductDetails">
                                                 <img src={item.images?.[0] || "https://via.placeholder.com/50"} alt="" />
                                                 <p>

@@ -62,11 +62,11 @@ function App() {
       <Route path="dashboard" element={<DashboardLayout/>}>
         <Route index element={<Overview/>}/>
         <Route path='rentals' element={<DashboardRentals/>}/>
-        <Route path='rentals/:id' element={<DashboardRentalDetails/>}/>
+        <Route path='inventory/rentals/:id' element={<DashboardRentalDetails/>}/>
         <Route path='services' element={<DashboardServices/>}/>
-        <Route path='services/:id' element={<DashboardServicesDetails/>}/>
+        <Route path='inventory/services/:id' element={<DashboardServicesDetails/>}/>
         <Route path='packages' element={<DashboardPackages/>}/>
-        <Route path='packages/:id' element={<DashboardPackagesDetails/>}/>
+        <Route path='inventory/packages/:id' element={<DashboardPackagesDetails/>}/>
         <Route path='bookings' element={<DashboardBookings/>}/>
         <Route path='users' element={<DashboardUsers/>}/>
         <Route path='transactions' element={<DashboardTransactions/>}/>
