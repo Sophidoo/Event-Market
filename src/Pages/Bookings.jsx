@@ -1,302 +1,341 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid"
-import "../styles/Bookings.css"
-import { CalendarDaysIcon } from "@heroicons/react/24/outline"
-import { NavLink } from "react-router-dom"
+import { MagnifyingGlassIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
+import "../styles/Bookings.css";
+import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
+import api from "../AxiosInstance";
+import Cookies from "js-cookie";
+import PaystackPop from "@paystack/inline-js";
 
 const Bookings = () => {
+  const [bookings, setBookings] = useState({});
+  const [filteredBookings, setFilteredBookings] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [meta, setMeta] = useState({ total: 0, page: 1, pageSize: 3, totalPages: 0 });
+  const [search, setSearch] = useState("");
+  const [activeTab, setActiveTab] = useState("Rentals");
+  const popup = new PaystackPop();
+  const public_key = "pk_test_2739888aa5ce16964b6b127633df5176ffe74ea2"
 
-    return<>
-        <section className="bookingsHeading">
-            <div className="leftBookingsHeading">
-                <h1>My Bookings</h1>
-                <p className="text-gray-600">50 Bookings Found</p>
-            </div>
+  const fetchBookings = async () => {
+    if (!Cookies.get("token")) {
+      toast.error("Please login first");
+      return;
+    }
 
-            <form action="" className="border-[1px] bg-[#F7F7F7] border-gray-200 text-gray-600">
-                <MagnifyingGlassIcon/>
-                <input type="search" placeholder="Search Here..." name="" id="" />
-            </form>
-        </section>
+    setLoading(true);
+    try {
+      const response = await api.get(`/booking/group/${page}/${meta.pageSize}/${activeTab.toUpperCase()}`);
+      setBookings(response.data.data);
+      console.log(response.data.data)
+      setMeta(response.data.meta);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to fetch bookings");
+      console.log(err)
+      toast.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        <section className="bookingsTabWrapper border-b-[1px] border-gray-300">
-            <div className="bookingsTab">
-                <p className="border-b-[3px] border-[#128D7F]">Rentals <small className="border-[1px] border-gray-300">20</small></p>
-                <p>Services <small className="border-[1px] border-gray-300">0</small></p>
-                <p>Packages <small className="border-[1px] border-gray-300">0</small></p>
-                <p>History <small className="border-[1px] border-gray-300">0</small></p>
-            </div>
-        </section>
+  useEffect(() => {
+    fetchBookings();
+  }, [page, activeTab]);
 
-        <section className="bookings">
-            <div className="bookingHolder border-b-[1px] border-gray-300">
-                <h2><CalendarDaysIcon/> Today, Dec 22nd, 2025</h2>
+  useEffect(() => {
+    if (!search.trim()) {
+      setFilteredBookings(bookings);
+      setMeta((prev) => ({ ...prev, total: Object.keys(bookings).length, totalPages: Math.ceil(Object.keys(bookings).length / prev.pageSize) }));
+      return;
+    }
 
-                <div className="bookingInformationContainer">
-                    <div className="bookingInformation border-[1px] border-gray-200">
-                        <img src="" alt="" />
+    const searchTerm = search.toLowerCase();
+    const filtered = Object.entries(bookings).reduce((acc, [date, bookingsList]) => {
+      const matchingBookings = bookingsList.filter(
+        (booking) =>
+          booking.item.title.toLowerCase().includes(searchTerm) ||
+          booking.address.toLowerCase().includes(searchTerm)
+      );
+      if (matchingBookings.length > 0) {
+        acc[date] = matchingBookings;
+      }
+      return acc;
+    }, {});
 
-                        <div className="bookingDetails">
-                            <div className="bookingDetailsHeading">
-                                <h3>Banquet Chairs</h3>
-                                <p>Port Harcourt, Rivers State</p>
-                            </div>
+    setFilteredBookings(filtered);
+    setMeta((prev) => ({
+      ...prev,
+      total: Object.keys(filtered).length,
+      totalPages: Math.ceil(Object.keys(filtered).length / prev.pageSize),
+    }));
+    // Reset to first page if current page exceeds new totalPages
+    if (page > Math.ceil(Object.keys(filtered).length / meta.pageSize)) {
+      setPage(1);
+    }
+  }, [search, bookings, meta.pageSize, page]);
 
-                            <div className="bookingOrderInfo">
-                                <h4>Order Details</h4>
-                                <p>
-                                    <span>Qty: 500</span>
-                                    <span>Unit Price: N200</span>
-                                    <span>Total: N5200</span>
-                                    <span>Security Deposit: N2600</span>
-                                </p>
-                            </div>
+  const handlePayment = async (booking) => {
+    try {
+      const reference = crypto.randomUUID();
+      popup.newTransaction({
+        key: public_key,
+        email: booking.user.email,
+        amount: Math.round(booking.totalPrice * 100),
+        reference,
+        metadata: {
+          bookingId: booking.id,
+          userId: booking.user.id,
+        },
+        onSuccess: async (transaction) => {
+          try {
+            const verifyRes = await api.get(`/transaction/verify?reference=${transaction.reference}`);
+            console.log(verifyRes)
+            if (verifyRes.data.data.status === "success") {
+              toast.success("Payment successful");
+              fetchBookings(); // Refresh bookings
+            } else {
+              toast.error("Payment failed verification");
+            }
+          } catch (err) {
+            console.log(err)
+            toast.error("Verification error");
+          }
+        },
+        onCancel: () => {
+          toast.info("Payment cancelled");
+        },
+        onClose: () => {
+          toast.info("Payment modal closed");
+        },
+      });
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to initiate payment");
+    }
+  };
 
-                            <div className="bookingVendorContact">
-                                <h4>Vendor Contact</h4>
-                                <div className="bookingVendorInfo">
-                                    <p>
-                                        <span>Phone: +2348104009853</span>
-                                        <span>Email: sophieokosodogmail.com</span>
-                                        <span>Name: Megvin Rentals</span>
-                                    </p>
-                                    <NavLink className="text-[#0B544C]">View Item</NavLink>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="bookingInformation border-[1px] border-gray-200">
-                        <img src="" alt="" />
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    // Implement search filtering if needed
+  };
 
-                        <div className="bookingDetails">
-                            <div className="bookingDetailsHeading">
-                                <h3>Banquet Chairs</h3>
-                                <p>Port Harcourt, Rivers State</p>
-                            </div>
+  const goToPage = (pageNum) => {
+    if (pageNum >= 1 && pageNum <= meta.totalPages) {
+      setPage(pageNum);
+    }
+  };
 
-                            <div className="bookingOrderInfo">
-                                <h4>Order Details</h4>
-                                <p>
-                                    <span>Qty: 500</span>
-                                    <span>Unit Price: N200</span>
-                                    <span>Total: N5200</span>
-                                    <span>Security Deposit: N2600</span>
-                                </p>
-                            </div>
+  const renderPaginationButtons = () => {
+    const buttons = [];
+    const maxVisibleButtons = 5;
+    let startPage = Math.max(1, page - Math.floor(maxVisibleButtons / 2));
+    let endPage = Math.min(meta.totalPages, startPage + maxVisibleButtons - 1);
 
-                            <div className="bookingVendorContact">
-                                <h4>Vendor Contact</h4>
-                                <div className="bookingVendorInfo">
-                                    <p>
-                                        <span>Phone: +2348104009853</span>
-                                        <span>Email: sophieokosodogmail.com</span>
-                                        <span>Name: Megvin Rentals</span>
-                                    </p>
-                                    <NavLink className="text-[#0B544C]">View Item</NavLink>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="bookingInformation border-[1px] border-gray-200">
-                        <img src="" alt="" />
+    if (endPage - startPage + 1 < maxVisibleButtons) {
+      startPage = Math.max(1, endPage - maxVisibleButtons + 1);
+    }
 
-                        <div className="bookingDetails">
-                            <div className="bookingDetailsHeading">
-                                <h3>Banquet Chairs</h3>
-                                <p>Port Harcourt, Rivers State</p>
-                            </div>
+    buttons.push(
+      <button
+        key="prev"
+        className={`inline-flex items-center justify-center py-2 px-4 rounded-md text-xs sm:text-sm font-medium ${
+          page === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-stone-800/5"
+        }`}
+        onClick={() => goToPage(page - 1)}
+        disabled={page === 1}
+      >
+        <svg className="mr-1.5 h-4 w-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M15 6L9 12L15 18" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        Previous
+      </button>
+    );
 
-                            <div className="bookingOrderInfo">
-                                <h4>Order Details</h4>
-                                <p>
-                                    <span>Qty: 500</span>
-                                    <span>Unit Price: N200</span>
-                                    <span>Total: N5200</span>
-                                    <span>Security Deposit: N2600</span>
-                                </p>
-                            </div>
+    if (startPage > 1) {
+      buttons.push(
+        <button
+          key={1}
+          className={`inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium ${
+            1 === page ? "bg-[#0B5850] text-white" : "hover:bg-stone-800/5"
+          }`}
+          onClick={() => goToPage(1)}
+        >
+          1
+        </button>
+      );
+      if (startPage > 2) {
+        buttons.push(<span key="left-ellipsis" className="px-2">...</span>);
+      }
+    }
 
-                            <div className="bookingVendorContact">
-                                <h4>Vendor Contact</h4>
-                                <div className="bookingVendorInfo">
-                                    <p>
-                                        <span>Phone: +2348104009853</span>
-                                        <span>Email: sophieokosodogmail.com</span>
-                                        <span>Name: Megvin Rentals</span>
-                                    </p>
-                                    <NavLink className="text-[#0B544C]">View Item</NavLink>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="bookingHolder border-b-[1px] border-gray-200">
-                <h2><CalendarDaysIcon/> Today, Dec 22nd, 2025</h2>
+    for (let i = startPage; i <= endPage; i++) {
+      buttons.push(
+        <button
+          key={i}
+          className={`inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium ${
+            i === page ? "bg-[#0B5850] text-white" : "hover:bg-stone-800/5"
+          }`}
+          onClick={() => goToPage(i)}
+        >
+          {i}
+        </button>
+      );
+    }
 
-                <div className="bookingInformationContainer">
-                    <div className="bookingInformation border-[1px] border-gray-200">
-                        <img src="" alt="" />
+    if (endPage < meta.totalPages) {
+      if (endPage < meta.totalPages - 1) {
+        buttons.push(<span key="right-ellipsis" className="px-2">...</span>);
+      }
+      buttons.push(
+        <button
+          key={meta.totalPages}
+          className={`inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium ${
+            meta.totalPages === page ? "bg-[#0B5850] text-white" : "hover:bg-stone-800/5"
+          }`}
+          onClick={() => goToPage(meta.totalPages)}
+        >
+          {meta.totalPages}
+        </button>
+      );
+    }
 
-                        <div className="bookingDetails">
-                            <div className="bookingDetailsHeading">
-                                <h3>Banquet Chairs</h3>
-                                <p>Port Harcourt, Rivers State</p>
-                            </div>
+    buttons.push(
+      <button
+        key="next"
+        className={`inline-flex items-center justify-center py-2 px-4 rounded-md text-xs sm:text-sm font-medium ${
+          page === meta.totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-stone-800/5"
+        }`}
+        onClick={() => goToPage(page + 1)}
+        disabled={page === meta.totalPages}
+      >
+        Next
+        <svg className="ml-1.5 h-4 w-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M9 6L15 12L9 18" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+    );
 
-                            <div className="bookingOrderInfo">
-                                <h4>Order Details</h4>
-                                <p>
-                                    <span>Qty: 500</span>
-                                    <span>Unit Price: N200</span>
-                                    <span>Total: N5200</span>
-                                    <span>Security Deposit: N2600</span>
-                                </p>
-                            </div>
+    return buttons;
+  };
 
-                            <div className="bookingVendorContact">
-                                <h4>Vendor Contact</h4>
-                                <div className="bookingVendorInfo">
-                                    <p>
-                                        <span>Phone: +2348104009853</span>
-                                        <span>Email: sophieokosodogmail.com</span>
-                                        <span>Name: Megvin Rentals</span>
-                                    </p>
-                                    <NavLink className="text-[#0B544C]">View Item</NavLink>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="bookingInformation border-[1px] border-gray-200">
-                        <img src="" alt="" />
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0B5850]"></div>
+      </div>
+    );
+  }
 
-                        <div className="bookingDetails">
-                            <div className="bookingDetailsHeading">
-                                <h3>Banquet Chairs</h3>
-                                <p>Port Harcourt, Rivers State</p>
-                            </div>
+  if (error) {
+    return <div className="text-center py-10">{error}</div>;
+  }
 
-                            <div className="bookingOrderInfo">
-                                <h4>Order Details</h4>
-                                <p>
-                                    <span>Qty: 500</span>
-                                    <span>Unit Price: N200</span>
-                                    <span>Total: N5200</span>
-                                    <span>Security Deposit: N2600</span>
-                                </p>
-                            </div>
-
-                            <div className="bookingVendorContact">
-                                <h4>Vendor Contact</h4>
-                                <div className="bookingVendorInfo">
-                                    <p>
-                                        <span>Phone: +2348104009853</span>
-                                        <span>Email: sophieokosodogmail.com</span>
-                                        <span>Name: Megvin Rentals</span>
-                                    </p>
-                                    <NavLink className="text-[#0B544C]">View Item</NavLink>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="bookingInformation border-[1px] border-gray-200">
-                        <img src="" alt="" />
-
-                        <div className="bookingDetails">
-                            <div className="bookingDetailsHeading">
-                                <h3>Banquet Chairs</h3>
-                                <p>Port Harcourt, Rivers State</p>
-                            </div>
-
-                            <div className="bookingOrderInfo">
-                                <h4>Order Details</h4>
-                                <p>
-                                    <span>Qty: 500</span>
-                                    <span>Unit Price: N200</span>
-                                    <span>Total: N5200</span>
-                                    <span>Security Deposit: N2600</span>
-                                </p>
-                            </div>
-
-                            <div className="bookingVendorContact">
-                                <h4>Vendor Contact</h4>
-                                <div className="bookingVendorInfo">
-                                    <p>
-                                        <span>Phone: +2348104009853</span>
-                                        <span>Email: sophieokosodogmail.com</span>
-                                        <span>Name: Megvin Rentals</span>
-                                    </p>
-                                    <NavLink className="text-[#0B544C]">View Item</NavLink>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div className="pagination flex flex-col items-end sm:items-end w-full">
-            <div className="flex flex-wrap justify-center sm:justify-end items-center gap-1">
-                {/* Previous Button */}
-                <button
-                className="inline-flex items-center justify-center py-2 px-4 rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent border-transparent hover:bg-stone-800/5 hover:border-stone-800/5 transition disabled:opacity-50"
-                >
-                <svg
-                    className="mr-1.5 h-4 w-4 stroke-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                    d="M15 6L9 12L15 18"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    />
-                </svg>
-                Previous
-                </button>
-
-                {/* Page Buttons */}
-                <button className="inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md  text-xs sm:text-sm font-medium text-stone-800 bg-transparent hover:bg-stone-800/5 transition">
-                1
-                </button>
-
-                <button className="inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium bg-[#0B5850] text-white hover:bg-stone-700 transition">
-                2
-                </button>
-
-                <button className="hidden sm:inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent hover:bg-stone-800/5 transition">
-                3
-                </button>
-
-                <button className="hidden sm:inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent hover:bg-stone-800/5 transition">
-                4
-                </button>
-
-                <button className="hidden md:inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent hover:bg-stone-800/5 transition">
-                5
-                </button>
-
-                {/* Next Button */}
-                <button
-                className="inline-flex items-center justify-center py-2 px-4 rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent border-transparent hover:bg-stone-800/5 hover:border-stone-800/5 transition disabled:opacity-50"
-                >
-                Next
-                <svg
-                    className="ml-1.5 h-4 w-4 stroke-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                    d="M9 6L15 12L9 18"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    />
-                </svg>
-                </button>
-            </div>
+  return (
+    <>
+      <section className="bookingsHeading">
+        <div className="leftBookingsHeading">
+          <h1>My Bookings</h1>
+          <p className="text-gray-600">{meta.total} Bookings Found</p>
         </div>
+
+        <form className="border-[1px] bg-[#F7F7F7] border-gray-200 text-gray-600">
+          <MagnifyingGlassIcon className="h-5 w-5" />
+          <input type="search" placeholder="Search Here..." value={search} onChange={handleSearch} />
+        </form>
+      </section>
+
+      <section className="bookingsTabWrapper border-b-[1px] border-gray-300">
+        <div className="bookingsTab">
+          <p className={activeTab === "Rentals" ? "border-b-[3px] border-[#128D7F] cursor-pointer" : "cursor-pointer"}  onClick={() => setActiveTab("Rentals")}>
+            Rentals <small className="border-[1px] border-gray-300">{activeTab === "Rentals" ? meta.total : "0"}</small>
+          </p>
+          <p className={activeTab === "Services" ? "border-b-[3px] border-[#128D7F] cursor-pointer" : "cursor-pointer"}  onClick={() => setActiveTab("Services")}>Services <small className="border-[1px] border-gray-300">{activeTab === "Services" ? meta.total : "0"}</small></p>
+          <p className={activeTab === "Packages" ? "border-b-[3px] border-[#128D7F] cursor-pointer" : "cursor-pointer"}  onClick={() => setActiveTab("Packages")}>Packages <small className="border-[1px] border-gray-300">{activeTab === "Packages" ? meta.total : "0"}</small></p>
+        </div>
+      </section>
+
+      <section className="bookings">
+        {Object.entries(filteredBookings).map(([date, bookingsList]) => (
+          <div key={date} className="bookingHolder border-b-[1px] border-gray-300">
+            <h2>
+              <CalendarDaysIcon className="h-5 w-5 inline mr-2" />
+              {new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+            </h2>
+            <div className="bookingInformationContainer">
+              {bookingsList.map((booking) => {
+                const unitPrice = booking.item.price;
+                const quantity = Math.round(booking.totalPrice / (unitPrice * 1.1)); // Assuming 10% deposit
+                const securityDeposit = booking.totalPrice * 0.1;
+                return (
+                  <div key={booking.id} className="bookingInformation border-[1px] border-gray-200">
+                    <img
+                      src={booking.item.images?.[0] || "https://via.placeholder.com/150"}
+                      alt={booking.item.title}
+                    />
+                    <div className="bookingDetails">
+                      <div className="bookingDetailsHeading">
+                        <h3>{booking.item.title}</h3>
+                        <p>{booking.address}</p>
+                      </div>
+                      <div className="bookingOrderInfo">
+                        <h4>Order Details</h4>
+                        <p>
+                          <span>Qty: {quantity}</span>
+                          <span>Unit Price: N{unitPrice.toLocaleString()}</span>
+                          <span>Total: N{booking.totalPrice.toLocaleString()}</span>
+                          <span>Security Deposit: N{securityDeposit.toFixed(2)}</span>
+                        </p>
+                      </div>
+                      <div className="bookingVendorContact">
+                        <h4>Vendor Contact</h4>
+                        <div className="bookingVendorInfo">
+                          <p>
+                            <span>Phone: {booking.vendor.phone || "+2348104009853"}</span>
+                            <span>Email: {booking.vendor.contactEmail || "sophieokosodo@gmail.com"}</span>
+                            <span>Name: {booking.vendor.companyName || "Megvin Rentals"}</span>
+                          </p>
+                          {booking.paymentStatus === "FAILED" ? (
+                            <NavLink
+                              className="text-[#0B544C]"
+                              onClick={() => handlePayment(booking)}
+                            >
+                              Retry Payment
+                            </NavLink>
+                          ) : booking.paymentStatus === "PENDING" ? (
+                            booking.request === "APPROVED" ? (
+                              <NavLink
+                                className="text-[#0B544C]"
+                                onClick={() => handlePayment(booking)}
+                              >
+                                Make Payment
+                              </NavLink>
+                            ) : (
+                              <span className="text-gray-500">Awaiting Approval</span>
+                            )
+                          ) : (
+                            <NavLink to={`/item/details/${booking.item.id}`} className="text-[#0B544C]">
+                              View Item
+                            </NavLink>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <div className="pagination flex flex-col items-end sm:items-end w-full">
+        <div className="flex flex-wrap justify-center sm:justify-end items-center gap-1">
+          {renderPaginationButtons()}
+        </div>
+      </div>
     </>
+  );
+};
 
-}
-
-export default Bookings
+export default Bookings;

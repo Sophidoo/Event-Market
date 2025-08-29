@@ -4,11 +4,14 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../AxiosInstance";
+import Cookies from "js-cookie"
+import RentItemModal from "../components/Modals/RentItemModal";
 
 const RentalDetails = () => {
     const { id } = useParams(); // Get item ID from URL
     const [item, setItem] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [showRentModal, setShowRentModal] = useState(false)
     const [image, setImage] = useState("");
     const [rentalDuration, setRentalDuration] = useState({
         startDate: "",
@@ -111,6 +114,14 @@ const RentalDetails = () => {
             setPagination((prev) => ({ ...prev, current_page: pageNum }));
         }
     };
+
+    const handleRent = () => {
+        if(!Cookies.get("token")){
+            toast.error("Please login first")
+            return
+        }
+        setShowRentModal(true)
+    }
 
     const setPreviousPage = () => goToPage(pagination.current_page - 1);
     const setNextPage = () => goToPage(pagination.current_page + 1);
@@ -225,6 +236,16 @@ const RentalDetails = () => {
 
     return (
         <>
+        {showRentModal && (
+            <RentItemModal
+                unit={item?.pricingUnit?.toLowerCase()}
+                onClose={() => setShowRentModal(false)}
+                onConfirm={(formData) => {
+                    setShowRentModal(false);
+                }}
+                item={item}
+            />
+        )}
             <section className="topRentalDetails">
                 <div className="leftRentalDetails">
                     <div className="smallImageRentalDetails">
@@ -276,41 +297,18 @@ const RentalDetails = () => {
                         <p className="text-gray-700">{item.locations?.join(", ")}</p>
                     </div>
 
-                    <div className="detailsHolder">
-                        <h4>Rental Duration:</h4>
-                        <div className="inputContainer">
-                            <input
-                                type="date"
-                                name="startDate"
-                                placeholder="Rent Start Date"
-                                className="border-[1px] border-gray-300"
-                                value={rentalDuration.startDate}
-                                onChange={handleRentalDurationChange}
-                            />
-                            -
-                            <input
-                                type="date"
-                                name="endDate"
-                                placeholder="Rent End Date"
-                                className="border-[1px] border-gray-300"
-                                value={rentalDuration.endDate}
-                                onChange={handleRentalDurationChange}
-                            />
-                        </div>
-                    </div>
+                    
 
-                    <h4 className="totalRentalPrice">Total: N{totalPrice.toLocaleString()}</h4>
 
                     <div className="buttonHolder">
                         <button
-                            className="bg-[#0B5850] border-[1px] border-[#0B5850] font-medium text-white opacity-50 cursor-not-allowed"
-                            disabled
+                            className="bg-[#0B5850] border-[1px] border-[#0B5850] font-medium text-white  cursor-pointer transition hover:bg-green-700"
+                            onClick={handleRent}
                         >
                             Rent Now
                         </button>
                         <button
                             className="border-[1px] border-[#0B5850] text-[#0B5850] font-medium opacity-50 cursor-not-allowed"
-                            disabled
                         >
                             Save for Later
                         </button>

@@ -34,6 +34,7 @@ const Login = () => {
       toast.success(res.data?.message)
       Cookies.set("token", res.data?.token);
       Cookies.set("role", res.data?.user.role)
+      Cookies.set("email", res.data?.user.email)
       setTimeout(() => {
         navigate("/")
       }, 2000)

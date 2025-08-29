@@ -1,233 +1,325 @@
-import { FiDownloadCloud} from "react-icons/fi"
-import "../../styles/dashboard/Inventory.css"
-import "../../styles/dashboard/Rentals.css"
-import { ChevronRightIcon, MagnifyingGlassIcon, UserMinusIcon } from "@heroicons/react/24/outline"
-import { FaCircle } from "react-icons/fa"
-import { useState } from "react"; 
-import SuspendUserModal from "../../components/Modals/SuspendUserModal";
+import { FiDownloadCloud } from "react-icons/fi";
+import "../../styles/dashboard/Inventory.css";
+import "../../styles/dashboard/Rentals.css";
+import { ChevronRightIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { FaCircle } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import api from "../../AxiosInstance";
+import Cookies from "js-cookie";
 
 const DashboardTransactions = () => {
-    const [checkedRows, setCheckedRows] = useState({});
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    // Function to toggle between check and minus
-    const toggleRowCheck = (rowId) => {
-        setCheckedRows(prev => ({
-            ...prev,
-            [rowId]: !prev[rowId]
-        }));
-    };
+  const [transactions, setTransactions] = useState([]);
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [downloading, setDownloading] = useState(false)
+  const [pagination, setpagination] = useState(false)
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [meta, setMeta] = useState({ total: 0, page: 1, pageSize: 10, totalPages: 0 });
+  const [search, setSearch] = useState("");
 
-    const transactions = [
-        {
-            txnId: "TXN-2024-001",
-            customer: "John Doe",
-            customerImage: "https://randomuser.me/api/portraits/men/32.jpg",
-            email: "john.doe@example.com",
-            debit: "$150.00",
-            credit: "-",
-            reason: "Product Purchase - Brown Hat",
-            status: "Completed",
-            date: "Jan 15, 2024, 10:30 AM"
-        },
-        {
-            txnId: "TXN-2024-002",
-            customer: "Jane Smith",
-            customerImage: "https://randomuser.me/api/portraits/women/44.jpg",
-            email: "jane.smith@example.com",
-            debit: "-",
-            credit: "$200.00",
-            reason: "Refund - Calvin Klein T-Shirt",
-            status: "Processed",
-            date: "Jan 16, 2024, 2:45 PM"
-        },
-        {
-            txnId: "TXN-2024-003",
-            customer: "Alex Johnson",
-            customerImage: "https://randomuser.me/api/portraits/men/75.jpg",
-            email: "alex.johnson@example.com",
-            debit: "$75.50",
-            credit: "-",
-            reason: "Service Fee - Equipment Rental",
-            status: "Pending",
-            date: "Jan 17, 2024, 9:15 AM"
-        },
-        {
-            txnId: "TXN-2024-004",
-            customer: "Sarah Williams",
-            customerImage: "https://randomuser.me/api/portraits/women/68.jpg",
-            email: "sarah.williams@example.com",
-            debit: "-",
-            credit: "$120.00",
-            reason: "Cancellation Fee - Event Package",
-            status: "Failed",
-            date: "Jan 18, 2024, 4:20 PM"
-        },
-        {
-            txnId: "TXN-2024-005",
-            customer: "Michael Brown",
-            customerImage: "https://randomuser.me/api/portraits/men/22.jpg",
-            email: "michael.brown@example.com",
-            debit: "$89.99",
-            credit: "-",
-            reason: "Product Purchase - Wireless Earbuds",
-            status: "Completed",
-            date: "Jan 19, 2024, 11:05 AM"
-        },
-        {
-            txnId: "TXN-2024-006",
-            customer: "Emily Davis",
-            customerImage: "https://randomuser.me/api/portraits/women/90.jpg",
-            email: "emily.davis@example.com",
-            debit: "-",
-            credit: "$50.00",
-            reason: "Partial Refund - Damaged Goods",
-            status: "Processed",
-            date: "Jan 20, 2024, 3:30 PM"
-        },
-        {
-            txnId: "TXN-2024-007",
-            customer: "David Wilson",
-            customerImage: "https://randomuser.me/api/portraits/men/46.jpg",
-            email: "david.wilson@example.com",
-            debit: "$299.99",
-            credit: "-",
-            reason: "Premium Service Subscription",
-            status: "Completed",
-            date: "Jan 21, 2024, 1:00 PM"
-        },
-        {
-            txnId: "TXN-2024-008",
-            customer: "Olivia Martinez",
-            customerImage: "https://randomuser.me/api/portraits/women/29.jpg",
-            email: "olivia.martinez@example.com",
-            debit: "-",
-            credit: "$180.00",
-            reason: "Overpayment Refund",
-            status: "Processed",
-            date: "Jan 22, 2024, 10:45 AM"
-        },
-        {
-            txnId: "TXN-2024-009",
-            customer: "Daniel Anderson",
-            customerImage: "https://randomuser.me/api/portraits/men/81.jpg",
-            email: "daniel.anderson@example.com",
-            debit: "$45.00",
-            credit: "-",
-            reason: "Late Return Fee",
-            status: "Pending",
-            date: "Jan 23, 2024, 5:15 PM"
-        },
-        {
-            txnId: "TXN-2024-010",
-            customer: "Sophia Taylor",
-            customerImage: "https://randomuser.me/api/portraits/women/33.jpg",
-            email: "sophia.taylor@example.com",
-            debit: "$199.99",
-            credit: "-",
-            reason: "Product Purchase - Smart Watch",
-            status: "Completed",
-            date: "Jan 24, 2024, 2:00 PM"
-        }
-        ];
+  const fetchTransactions = async () => {
+    const role = Cookies.get("role");
+    if (!Cookies.get("token") || !role) {
+      setError("Please login first");
+      toast.error("Please login first");
+      return;
+    }
 
-    return <>
-        {showDeleteModal && (
-            <SuspendUserModal
-            onClose={() => setShowDeleteModal(false)}
-            onConfirm={() => {
-                handleDeleteItem();
-                setShowDeleteModal(false);
-            }}
-            />
-        )}
-        <div className="adminInventoryWrapper ">
-            
-            
-            <div className="adminInventoryHeading">
-                <div className="leftInventoryHeading">
-                    <h2>Dashboard <ChevronRightIcon/>
-                    <span className="text-gray-600">Transactions</span></h2>
-                    <p className="text-gray-500">Keep track of your transaction made within the app.</p>
-                </div>
-                <div className="rightInventoryHeading">
-                    <button className="border-[#0B544C] border-[1px] bg-[#0B544C] text-white hover:bg-green-800 "><FiDownloadCloud /> Download</button>
-                </div>
-            </div>
+    setLoading(true);
+    try {
+      const url =
+        role === "ADMIN"
+          ? `/transaction/admin/${page}/10`
+          : `/transaction/user/${page}/10`;
+      const response = await api.get(url);
+      setTransactions(response.data.data);
+      console.log(response.data)
+      setMeta(response.data.meta);
+      setpagination(response.data.meta);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to fetch transactions");
+      toast.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    fetchTransactions();
+  }, [page]);
 
-            <div className="relative overflow-x-auto mt-[-20px]">
-                <table className="w-full">
-                    <thead className="text-gray-500">
-                        <tr className="border-b-[1px] border-gray-200">
-                            <th scope="col">
-                                <div className="tableHeadingDiv">
-                                    <p>Txn</p>
-                                </div>
-                            </th>
-                            <th scope="col" className="">
-                                Customer
-                            </th>
-                            <th scope="col" className="">
-                                Debit
-                            </th>
-                            <th scope="col" className="">
-                                Credit
-                            </th>
-                            <th scope="col" className="w-[250px]">
-                                Reason
-                            </th>
-                            <th scope="col" className="">
-                                Status
-                            </th>
-                            <th scope="col" className="">
-                                Date
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {transactions.map((el) => (
-                            <tr key={el.txnId} className="bg-white border-b-[1px] border-gray-200">
-                                <td className="text-gray-500 ">{el.txnId}</td>
-                                <td scope="row" className="font-medium whitespace-nowrap text-gray-800">
-                                    <div className="tableProductDetails">
-                                        
-                                        <img src={el.customerImage} alt="" />
-                                        <p>{el.customer} <br/><span className="text-gray-500 text-[11px]">{el.email}</span></p>
-                                    </div>
-                                </td>
-                                <td className="text-gray-500 ">{el.debit}</td>
-                                <td className="text-gray-500">
-                                    {el.credit}
-                                </td>
-                                <td className="text-gray-500">
-                                    {el.reason}
-                                </td>
-                                <td className="text-gray-500">
-                                    <div className={`coloredColumn ${el.status === 'Completed' ? 'bg-[#ECFDF3] text-green-600' : el.status === "Pending" ? 'bg-yellow-50 text-yellow-600' : el.status === "Processed" ? 'bg-blue-50 text-blue-600' : 'bg-red-50 text-red-600'}`}>
-                                        <FaCircle />
-                                        {el.status}
-                                    </div>
-                                </td>
-                                <td className="text-gray-500">
-                                    {el.date}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+  // Filter transactions based on search term
+  useEffect(() => {
+    if (!search.trim()) {
+      setFilteredTransactions(transactions);
+      setMeta({...pagination});
+      return;
+    }
 
-            <div className="inventoryPagination">
-                <p className="text-gray-700">Page 1 of 4</p>
+    const searchTerm = search.toLowerCase();
+    const filtered = transactions.filter(
+      (txn) =>
+        txn.user.name.toLowerCase().includes(searchTerm) ||
+        txn.user.email.toLowerCase().includes(searchTerm) ||
+        txn.reason.toLowerCase().includes(searchTerm) || 
+        txn.transactionId.toLowerCase().includes(searchTerm)
+    );
 
-                <div className="inventoryPaginationButtons">
-                    <button className="border-[1px] border-gray-300">Previous</button>
-                    <button className="border-[1px] border-gray-300">Next</button>
-                </div>
-            </div>
+    setFilteredTransactions(filtered);
+    setMeta((prev) => ({
+      ...prev,
+      total: filtered.length,
+      totalPages: Math.ceil(filtered.length / prev.pageSize),
+    }));
+    if (page > Math.ceil(filtered.length / meta.pageSize)) {
+      setPage(1);
+    }
+  }, [search, transactions, meta.pageSize, page]);
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const handleDownload = async () => {
+    setDownloading(true)
+    try {
+      const response = await api.get("/transaction/download");
+      setDownloading(false)
+      const blob = new Blob([response.data], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "transactions.csv";
+      link.click();
+      window.URL.revokeObjectURL(url);
+      toast.success("Transactions downloaded successfully");
+    } catch (err) {
+        setDownloading(false)
+      toast.error(err.response?.data?.message || "Failed to download transactions");
+    }
+  };
+
+  const goToPage = (pageNum) => {
+    if (pageNum >= 1 && pageNum <= meta.totalPages) {
+      setPage(pageNum);
+    }
+  };
+
+  const renderPaginationButtons = () => {
+    const buttons = [];
+    const maxVisibleButtons = 5;
+    let startPage = Math.max(1, page - Math.floor(maxVisibleButtons / 2));
+    let endPage = Math.min(meta.totalPages, startPage + maxVisibleButtons - 1);
+
+    if (endPage - startPage + 1 < maxVisibleButtons) {
+      startPage = Math.max(1, endPage - maxVisibleButtons + 1);
+    }
+
+    buttons.push(
+      <button
+        key="prev"
+        className={`border-[1px] border-gray-300 ${page === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+        onClick={() => goToPage(page - 1)}
+        disabled={page === 1}
+      >
+        Previous
+      </button>
+    );
+
+    if (startPage > 1) {
+      buttons.push(
+        <button
+          key={1}
+          className={`border-[1px] border-gray-300 ${1 === page ? "bg-[#0B5850] text-white" : ""}`}
+          onClick={() => goToPage(1)}
+        >
+          1
+        </button>
+      );
+      if (startPage > 2) {
+        buttons.push(<span key="left-ellipsis" className="px-2">...</span>);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      buttons.push(
+        <button
+          key={i}
+          className={`border-[1px] border-gray-300 ${i === page ? "bg-[#0B5850] text-white" : ""}`}
+          onClick={() => goToPage(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    if (endPage < meta.totalPages) {
+      if (endPage < meta.totalPages - 1) {
+        buttons.push(<span key="right-ellipsis" className="px-2">...</span>);
+      }
+      buttons.push(
+        <button
+          key={meta.totalPages}
+          className={`border-[1px] border-gray-300 ${meta.totalPages === page ? "bg-[#0B5850] text-white" : ""}`}
+          onClick={() => goToPage(meta.totalPages)}
+        >
+          {meta.totalPages}
+        </button>
+      );
+    }
+
+    buttons.push(
+      <button
+        key="next"
+        className={`border-[1px] border-gray-300 ${page === meta.totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
+        onClick={() => goToPage(page + 1)}
+        disabled={page === meta.totalPages}
+      >
+        Next
+      </button>
+    );
+
+    return buttons;
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0B5850]"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="text-center py-10">{error}</div>;
+  }
+
+  return (
+    <div className="adminInventoryWrapper">
+      <div className="adminInventoryHeading">
+        <div className="leftInventoryHeading">
+          <h2>
+            Dashboard <ChevronRightIcon className="h-5 w-5 inline" />{" "}
+            <span className="text-gray-600">Transactions</span>
+          </h2>
+          <p className="text-gray-500">Keep track of transactions made within the app.</p>
         </div>
-    </>;
+        <div className="rightInventoryHeading">
+          <button
+            className={`border-[#0B544C] border-[1px] bg-[#0B544C] text-white hover:bg-green-800 cursor-pointer ${downloading && "opacity-50"}`}
+            onClick={handleDownload}
+            disabled={downloading}
+          >
+            <FiDownloadCloud /> {downloading ? "Downloading" : "Download"}
+          </button>
+        </div>
+      </div>
 
-}
+      <div className="inventorySubHeading">
+        <div className="inventoryRightSubHeading">
+          <form className="text-gray-500 border-[1px] bg-white border-gray-300">
+            <MagnifyingGlassIcon className="h-5 w-5" />
+            <input
+              type="search"
+              placeholder="Search by customer, email, or reason..."
+              value={search}
+              onChange={handleSearch}
+            />
+          </form>
+        </div>
+      </div>
+
+      <div className="relative overflow-x-auto mt-[-20px]">
+        <table className="w-full">
+          <thead className="text-gray-500">
+            <tr className="border-b-[1px] border-gray-200">
+              <th scope="col">
+                <div className="tableHeadingDiv">
+                  <p>Txn</p>
+                </div>
+              </th>
+              <th scope="col">Customer</th>
+              <th scope="col">Debit</th>
+              <th scope="col">Credit</th>
+              <th scope="col" className="max-w-[200px] ">
+                Reason
+              </th>
+              <th scope="col">Status</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredTransactions.length === 0 && search.trim() ? (
+              <tr>
+                <td colSpan={7} className="text-center py-10">
+                  No transactions match your search
+                </td>
+              </tr>
+            ) : (
+              filteredTransactions.map((txn) => (
+                <tr key={txn.id} className="bg-white border-b-[1px] border-gray-200">
+                  <td className="text-gray-500">{txn.transactionId}</td>
+                  <td scope="row" className="font-medium whitespace-nowrap text-gray-800">
+                    <div className="tableProductDetails">
+                      <img
+                        src={txn.user?.profile}
+                        alt={txn.user.name}
+                      />
+                      <p>
+                        {txn.user.name} <br />
+                        <span className="text-gray-500 text-[11px]">{txn.user.email}</span>
+                      </p>
+                    </div>
+                  </td>
+                  <td className="text-gray-500">
+                    {txn.debit > 0 ? `$${txn.debit.toFixed(2)}` : "-"}
+                  </td>
+                  <td className="text-gray-500">
+                    {txn.credit > 0 ? `$${txn.credit.toFixed(2)}` : "-"}
+                  </td>
+                  <td className="text-gray-500">{txn.reason}</td>
+                  <td className="text-gray-500">
+                    <div
+                      className={`coloredColumn ${
+                        txn.status === "COMPLETED"
+                          ? "bg-[#ECFDF3] text-green-600"
+                          : txn.status === "PENDING"
+                          ? "bg-yellow-50 text-yellow-600"
+                          : txn.status === "PROCESSED"
+                          ? "bg-blue-50 text-blue-600"
+                          : "bg-red-50 text-red-600"
+                      }`}
+                    >
+                      <FaCircle />
+                      {txn.status}
+                    </div>
+                  </td>
+                  <td className="text-gray-500">
+                    {new Date(txn.createdAt).toLocaleString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="inventoryPagination">
+        <p className="text-gray-700">
+          Page {meta.page} of {meta.totalPages}
+        </p>
+        <div className="inventoryPaginationButtons">{renderPaginationButtons()}</div>
+      </div>
+    </div>
+  );
+};
 
 export default DashboardTransactions;

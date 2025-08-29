@@ -5,7 +5,8 @@ import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { toast } from "react-toastify"
 import api from "../AxiosInstance"
-import SuccessfullRentModal from "../components/Modals/SuccessfullRentModal"
+import Cookies from "js-cookie"
+import RentItemModal from "../components/Modals/RentItemModal"
 
 const PackageDetails = () => {
     const { id } = useParams(); // Get package ID from URL
@@ -13,6 +14,7 @@ const PackageDetails = () => {
     const [packageData, setPackageData] = useState(null);
     const [image, setImage] = useState("");
     const [loading, setLoading] = useState(false);
+    const [showRentModal, setShowRentModal] = useState(false)
     const [rentalDuration, setRentalDuration] = useState({
         startDate: "",
         endDate: "",
@@ -67,6 +69,14 @@ const PackageDetails = () => {
         }
     }, [rentalDuration, packageData]);
 
+    const handleRent = () => {
+        if(!Cookies.get("token")){
+            toast.error("Please login first")
+            return
+        }
+        setShowRentModal(true)
+    }
+
     if (loading) {
         return (
             <div className="flex justify-center items-center h-64">
@@ -80,9 +90,16 @@ const PackageDetails = () => {
     }
 
     return <>
-        {
-            modal ? <SuccessfullRentModal/> : ""
-        }
+        {showRentModal && (
+            <RentItemModal
+                unit={item?.pricingUnit?.toLowerCase()}
+                onClose={() => setShowRentModal(false)}
+                onConfirm={(formData) => {
+                    setShowRentModal(false);
+                }}
+                item={packageData}
+            />
+        )}
         <section className="topRentalDetails">
             <div className="leftRentalDetails">
                 <div className="smallImageRentalDetails">
@@ -165,9 +182,8 @@ const PackageDetails = () => {
 
                 <div className="buttonHolder">
                     <button
-                        className="bg-[#0B5850] border-[1px] border-[#0B5850] font-medium text-white opacity-50 cursor-not-allowed"
-                        onClick={() => setModal(true)}
-                        disabled
+                        className="bg-[#0B5850] border-[1px] border-[#0B5850] font-medium text-white  cursor-pointer transition hover:bg-green-700"
+                        onClick={handleRent}
                     >
                         Rent Now
                     </button>

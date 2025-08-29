@@ -1,285 +1,449 @@
-import { FiDownloadCloud, FiEdit2, FiPlus, FiUploadCloud } from "react-icons/fi"
-import "../../styles/dashboard/Inventory.css"
-import "../../styles/dashboard/Rentals.css"
-import { ChevronRightIcon, EllipsisVerticalIcon, MagnifyingGlassIcon, UserMinusIcon } from "@heroicons/react/24/outline"
+import { FiDownloadCloud, FiEdit2, FiPlus, FiUploadCloud } from "react-icons/fi";
+import "../../styles/dashboard/Inventory.css";
+import "../../styles/dashboard/Rentals.css";
+import { ChevronRightIcon, EllipsisVerticalIcon, MagnifyingGlassIcon, UserMinusIcon } from "@heroicons/react/24/outline";
 import { FaCheck, FaMinus } from "react-icons/fa6";
-import { BsFilter } from "react-icons/bs"
-import { IoIosArrowRoundDown, IoIosArrowRoundUp, IoMdArrowDown } from "react-icons/io"
-import { RiDeleteBinLine } from "react-icons/ri"
-import { FaCircle } from "react-icons/fa"
-import { useState } from "react";
+import { BsFilter } from "react-icons/bs";
+import { IoIosArrowRoundDown, IoIosArrowRoundUp, IoMdArrowDown } from "react-icons/io";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { FaCircle } from "react-icons/fa";
+import { useState, useEffect } from "react";
 import SuspendUserModal from "../../components/Modals/SuspendUserModal";
 import { NavLink } from "react-router-dom";
-
+import { toast } from "react-toastify";
+import api from "../../AxiosInstance";
+import Cookies from "js-cookie";
 
 const DashboardBookings = () => {
-    const [tableMenu, setTableMenu] = useState(false)
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    // Function to toggle between check and minus
-    const toggleTableMenu = (rowId) => {
-        setTableMenu(prev => prev === rowId ? null : rowId); // Toggle menu for the clicked row
-    };
+  const [tableMenu, setTableMenu] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(null);
+  const [downloading, setDownloading] = useState(false)
+  const [bookings, setBookings] = useState([]);
+  const [filteredBookings, setFilteredBookings] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [meta, setMeta] = useState({ total: 0, page: 1, pageSize: 10, totalPages: 0 });
+  const [pagination, setpagination] = useState({ total: 0, page: 1, pageSize: 10, totalPages: 0 });
+  const [search, setSearch] = useState("");
+  const [activeTab, setActiveTab] = useState("Rentals");
+  const [tabCounts, setTabCounts] = useState({ Rentals: 0, Services: 0, Packages: 0 });
 
-    const bookingsData = [
-    {
-        id: "BK-2025-001",
-        itemName: "Banquet Chairs",
-        category: "Furniture",
-        imageUrl: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        bookedBy: "Martin Yellow",
-        email: "sophieokosodo@gmail.com",
-        quantity: 500,
-        location: "Port Harcourt, Rivers State",
-        status: "Pending",
-        startDate: "5th May, 2025",
-        endDate: "8th May, 2025"
-    },
-    {
-        id: "BK-2025-002",
-        itemName: "LED Projector",
-        category: "Electronics",
-        imageUrl: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        bookedBy: "Chioma Eze",
-        email: "chioma.e@example.com",
-        quantity: 3,
-        location: "Victoria Island, Lagos",
-        status: "Approved",
-        startDate: "12th June, 2025",
-        endDate: "15th June, 2025"
-    },
-    {
-        id: "BK-2025-003",
-        itemName: "10x10 Canopy Tent",
-        category: "Event Equipment",
-        imageUrl: "https://images.unsplash.com/photo-1531058020387-3be344556be6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        bookedBy: "Emeka Okafor",
-        email: "emeka.o@example.com",
-        quantity: 8,
-        location: "GRA, Benin City",
-        status: "In Use",
-        startDate: "20th March, 2025",
-        endDate: "22nd March, 2025"
-    },
-    {
-        id: "BK-2025-004",
-        itemName: "Portable PA System",
-        category: "Audio Equipment",
-        imageUrl: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        bookedBy: "Amina Yusuf",
-        email: "amina.y@example.com",
-        quantity: 2,
-        location: "Kano Municipal",
-        status: "Completed",
-        startDate: "7th July, 2025",
-        endDate: "9th July, 2025"
-    },
-    {
-        id: "BK-2025-005",
-        itemName: "6ft Round Tables",
-        category: "Furniture",
-        imageUrl: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        bookedBy: "Gbenga Olawale",
-        email: "gbenga.o@example.com",
-        quantity: 30,
-        location: "Ikeja, Lagos",
-        status: "Pending",
-        startDate: "18th August, 2025",
-        endDate: "20th August, 2025"
-    },
-    {
-        id: "BK-2025-006",
-        itemName: "10ft LED Wall",
-        category: "Electronics",
-        imageUrl: "https://images.unsplash.com/photo-1592155931584-901ac15763e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        bookedBy: "Folake Adeleke",
-        email: "folake.a@example.com",
-        quantity: 1,
-        location: "Central Business District, Abuja",
-        status: "Approved",
-        startDate: "3rd September, 2025",
-        endDate: "5th September, 2025"
-    },
-    {
-        id: "BK-2025-007",
-        itemName: "Commercial Blender Set",
-        category: "Kitchen Equipment",
-        imageUrl: "https://images.unsplash.com/photo-1592078615290-033ee584e267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        bookedBy: "Ngozi Okonkwo",
-        email: "ngozi.o@example.com",
-        quantity: 5,
-        location: "Aba, Abia State",
-        status: "Cancelled",
-        startDate: "14th October, 2025",
-        endDate: "16th October, 2025"
-    },
-    {
-        id: "BK-2025-008",
-        itemName: "Modular Stage",
-        category: "Event Equipment",
-        imageUrl: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        bookedBy: "Ikechukwu Nwankwo",
-        email: "ikechukwu.n@example.com",
-        quantity: 12,
-        location: "Enugu Metropolis",
-        status: "Delivered",
-        startDate: "22nd November, 2025",
-        endDate: "24th November, 2025"
-    },
-    {
-        id: "BK-2025-009",
-        itemName: "Chiavari Chairs",
-        category: "Furniture",
-        imageUrl: "https://images.unsplash.com/photo-1517705008128-361805f42e86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        bookedBy: "Yemi Alade",
-        email: "yemi.a@example.com",
-        quantity: 150,
-        location: "Lekki Phase 1, Lagos",
-        status: "Pending ",
-        startDate: "5th December, 2025",
-        endDate: "7th December, 2025"
-    },
-    {
-        id: "BK-2025-010",
-        itemName: "Wireless Microphone Set",
-        category: "Audio Equipment",
-        imageUrl: "https://images.unsplash.com/photo-1593784991095-a205069470b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        bookedBy: "Oluwatobi Johnson",
-        email: "oluwatobi.j@example.com",
-        quantity: 6,
-        location: "Uyo, Akwa Ibom",
-        status: "Approved",
-        startDate: "10th January, 2026",
-        endDate: "12th January, 2026"
+  const tabCategories = {
+    Rentals: "RENTALS",
+    Services: "SERVICES",
+    Packages: "PACKAGES",
+  };
+
+  const fetchBookings = async () => {
+    const role = Cookies.get("role");
+    if (!Cookies.get("token") || !role) {
+      toast.error("Please login first");
+      return;
     }
-    ];
 
-     return <>
-        {showDeleteModal && (
-            <SuspendUserModal
-            onClose={() => setShowDeleteModal(false)}
-            onConfirm={() => {
-                handleDeleteItem();
-                setShowDeleteModal(false);
-            }}
-            />
-        )}
-        <div className="adminInventoryWrapper ">
-            
-            
-            <div className="adminInventoryHeading">
-                <div className="leftInventoryHeading">
-                    <h2>Dashboard <ChevronRightIcon/>
-                    <span className="text-gray-600">Bookings</span></h2>
-                    <p className="text-gray-500">Keep track of bookings made by users and remember to approve or reject those pending requests</p>
-                </div>
-                <div className="rightInventoryHeading">
-                    <button className="border-[#0B544C] border-[1px] bg-[#0B544C] text-white hover:bg-green-800 "><FiDownloadCloud /> Download</button>
-                </div>
-            </div>
+    setLoading(true);
+    try {
+      const category = tabCategories[activeTab];
+      const url =
+        role === "ADMIN"
+          ? `/booking/admin/${page}/${meta.pageSize}/${category}`
+          : `/booking/vendor/${page}/${meta.pageSize}/${category}`;
+      const response = await api.get(url);
+      console.log(response)
+      setBookings(response.data.data);
+      setMeta(response.data.meta);
+      setpagination(response.data.meta);
 
-            <div className="inventorySubHeading">
-                <div className="inventoryTabWrapper bg-white border-[1px] border-gray-300 ">
-                    <p className="text-black">Rentals</p>
-                    <p className="border-r-[1px] border-l-[1px] border-gray-300 text-gray-700">Services</p>
-                    <p className="text-gray-700">Packages</p>
-                </div>
+    } catch (err) {
+        console.log(err)
+      setError(err.response?.data?.message || "Failed to fetch bookings");
+      toast.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                <div className="inventoryRightSubHeading">
-                    <form action="" className="text-gray-500 border-[1px] bg-white border-gray-300">
-                        <MagnifyingGlassIcon/>
-                        <input type="search" placeholder="Search" name="" id="" />
-                    </form>
-                </div>
-            </div>
+  useEffect(() => {
+    fetchBookings();
+  }, [page, activeTab]);
 
-            <div className="relative overflow-x-auto mt-[-20px]">
-                <table className="w-full">
-                    <thead className="text-gray-500">
-                        <tr className="border-b-[1px] border-gray-200">
-                            <th scope="col">
-                                <div className="tableHeadingDiv">
-                                    <p>Item</p>
-                                </div>
-                            </th>
-                            <th scope="col" className="">
-                                Booked by
-                            </th>
-                            <th scope="col" className="">
-                                Quantity
-                            </th>
-                            <th scope="col" className="max-w-[120px]">
-                                Location
-                            </th>
-                            <th scope="col" className="">
-                                Status
-                            </th>
-                            <th scope="col" className="">
-                                Start Date
-                            </th>
-                            <th scope="col" className="">
-                                End Date
-                            </th>
-                            <th scope="col" className="w-1"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {bookingsData.map((item) => (
-                            <tr key={item.id} className="bg-white border-b-[1px] border-gray-200">
-                                <td scope="row" className="font-medium whitespace-nowrap text-gray-800">
-                                    <div className="tableProductDetails">
-                                        
-                                        <img src={item.imageUrl} alt="" />
-                                        <p>{item.itemName} <br/><span className="text-gray-500 text-[11px]">{item.category}</span></p>
-                                    </div>
-                                </td>
-                                <td >
-                                    <div className="tableProductDetails">
-                                        <p>{item.bookedBy} <br/><span className="text-gray-500 text-[11px]">{item.email}</span></p>
-                                    </div>
-                                </td>
-                                <td className="text-gray-500">
-                                    {item.quantity}
-                                </td>
-                                <td className="text-gray-500">
-                                    {item.location}
-                                </td>
-                                <td className="text-gray-500">
-                                    <div className={`coloredColumn ${item.status === 'Completed' ? 'bg-[#ECFDF3] text-green-600' : item.status === 'Approved' ? 'bg-[#ECFDF3] text-green-600' : item.status === "Cancelled" ? 'bg-red-50 text-red-600': item.status === "In Use" ? 'bg-blue-50 text-blue-600' : 'bg-yellow-50 text-yellow-600'}`}>
-                                        <FaCircle />
-                                        {item.status}
-                                    </div>
-                                </td>
-                                <td className="text-gray-500">
-                                    {item.startDate}
-                                </td>
-                                <td className="text-gray-500">
-                                    {item.endDate}
-                                </td>
-                                <td><EllipsisVerticalIcon className="w-[17px]" onClick={() => toggleTableMenu(item.id)} />
-                                <div className={tableMenu === item.id ? "tableMenu bg-white border-[1px] border-gray-300 cursor-pointer" : "hide"}>
-                                    <NavLink>View Item</NavLink>
-                                    <NavLink>Approve Request</NavLink>
-                                    <NavLink>Cancel Booking</NavLink>
-                                    <NavLink>Update Status</NavLink>
-                                </div>
-                            </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+  // Filter bookings based on search term
+  useEffect(() => {
+    if (!search.trim()) {
+      setFilteredBookings(bookings);
+      setMeta({...pagination});
+      return;
+    }
 
-            <div className="inventoryPagination">
-                <p className="text-gray-700">Page 1 of 4</p>
+    const searchTerm = search.toLowerCase();
+    const filtered = bookings.filter(
+      (booking) =>
+        booking.item.title.toLowerCase().includes(searchTerm) ||
+        booking.address.toLowerCase().includes(searchTerm)
+    );
 
-                <div className="inventoryPaginationButtons">
-                    <button className="border-[1px] border-gray-300">Previous</button>
-                    <button className="border-[1px] border-gray-300">Next</button>
-                </div>
-            </div>
+    setFilteredBookings(filtered);
+    setMeta((prev) => ({
+      ...prev,
+      total: filtered.length,
+      totalPages: Math.ceil(filtered.length / prev.pageSize),
+    }));
+    if (page > Math.ceil(filtered.length / meta.pageSize)) {
+      setPage(1);
+    }
+
+    console.log(meta)
+  }, [search, bookings, meta.pageSize, page]);
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setPage(1);
+    setSearch("");
+  };
+
+  const toggleTableMenu = (rowId) => {
+    setTableMenu((prev) => (prev === rowId ? null : rowId));
+  };
+
+  const handleApproveRequest = async (bookingId) => {
+    try {
+      await api.patch(`/api/v1/booking/approve/${bookingId}`);
+      toast.success("Booking approved successfully");
+      fetchBookings();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to approve booking");
+    }
+  };
+
+  const handleCancelBooking = async (bookingId) => {
+    try {
+      await api.patch(`/api/v1/booking/cancel/${bookingId}`);
+      toast.success("Booking cancelled successfully");
+      setShowDeleteModal(null);
+      fetchBookings();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to cancel booking");
+    }
+  };
+
+  const handleUpdateStatus = async (bookingId, status) => {
+    try {
+      await api.patch(`/api/v1/booking/update/${bookingId}`, { status });
+      toast.success(`Booking status updated to ${status}`);
+      fetchBookings();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to update status");
+    }
+  };
+
+  const handleDownload = async () => {
+    setDownloading(true)
+    try {
+        
+      const response = await api.get("/booking/download");
+      const blob = new Blob([response.data], { type: "text/csv" });
+      setDownloading(false)
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "bookings.csv";
+      console.log(response)
+      link.click();
+      window.URL.revokeObjectURL(url);
+      toast.success("Bookings downloaded successfully");
+    } catch (err) {
+        setDownloading(false)
+      toast.error(err.response?.data?.message || "Failed to download bookings");
+    }
+  };
+
+  const goToPage = (pageNum) => {
+    if (pageNum >= 1 && pageNum <= meta.totalPages) {
+      setPage(pageNum);
+    }
+  };
+
+  const renderPaginationButtons = () => {
+    const buttons = [];
+    const maxVisibleButtons = 5;
+    let startPage = Math.max(1, page - Math.floor(maxVisibleButtons / 2));
+    let endPage = Math.min(meta.totalPages, startPage + maxVisibleButtons - 1);
+
+    if (endPage - startPage + 1 < maxVisibleButtons) {
+      startPage = Math.max(1, endPage - maxVisibleButtons + 1);
+    }
+
+    buttons.push(
+      <button
+        key="prev"
+        className={`border-[1px] border-gray-300 ${page === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+        onClick={() => goToPage(page - 1)}
+        disabled={page === 1}
+      >
+        Previous
+      </button>
+    );
+
+    if (startPage > 1) {
+      buttons.push(
+        <button
+          key={1}
+          className={`border-[1px] border-gray-300 ${1 === page ? "bg-[#0B5850] text-white" : ""}`}
+          onClick={() => goToPage(1)}
+        >
+          1
+        </button>
+      );
+      if (startPage > 2) {
+        buttons.push(<span key="left-ellipsis" className="px-2">...</span>);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      buttons.push(
+        <button
+          key={i}
+          className={`border-[1px] border-gray-300 ${i === page ? "bg-[#0B5850] text-white" : ""}`}
+          onClick={() => goToPage(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    if (endPage < meta.totalPages) {
+      if (endPage < meta.totalPages - 1) {
+        buttons.push(<span key="right-ellipsis" className="px-2">...</span>);
+      }
+      buttons.push(
+        <button
+          key={meta.totalPages}
+          className={`border-[1px] border-gray-300 ${meta.totalPages === page ? "bg-[#0B5850] text-white" : ""}`}
+          onClick={() => goToPage(meta.totalPages)}
+        >
+          {meta.totalPages}
+        </button>
+      );
+    }
+
+    buttons.push(
+      <button
+        key="next"
+        className={`border-[1px] border-gray-300 ${page === meta.totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
+        onClick={() => goToPage(page + 1)}
+        disabled={page === meta.totalPages}
+      >
+        Next
+      </button>
+    );
+
+    return buttons;
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0B5850]"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="text-center py-10">{error}</div>;
+  }
+
+  return (
+    <>
+      {showDeleteModal && (
+        <SuspendUserModal
+          onClose={() => setShowDeleteModal(null)}
+          onConfirm={() => handleCancelBooking(showDeleteModal)}
+        />
+      )}
+      <div className="adminInventoryWrapper">
+        <div className="adminInventoryHeading">
+          <div className="leftInventoryHeading">
+            <h2>
+              Dashboard <ChevronRightIcon className="h-5 w-5 inline" />{" "}
+              <span className="text-gray-600">Bookings</span>
+            </h2>
+            <p className="text-gray-500">
+              Keep track of bookings made by users and remember to approve or reject those pending requests
+            </p>
+          </div>
+          <div className="rightInventoryHeading">
+            {Cookies.get("role") === "ADMIN" && (
+              <button
+                className={`border-[#0B544C] border-[1px] bg-[#0B544C] text-white hover:bg-green-800 cursor-pointer ${downloading && "opacity-50"}`}
+                onClick={handleDownload}
+                disabled={downloading}
+              >
+                <FiDownloadCloud /> {downloading ? "Downloading" : "Download"}
+              </button>
+            )}
+          </div>
         </div>
-    </>;
 
-}
+        <div className="inventorySubHeading">
+          <div className="inventoryTabWrapper bg-white border-[1px] border-gray-300">
+            {Object.keys(tabCategories).map((tab) => (
+              <p
+                key={tab}
+                className={activeTab === tab ? "text-black border-b-[2px] border-[#0B544C]" : "text-gray-700"}
+                onClick={() => handleTabChange(tab)}
+              >
+                {tab} <small className="border-[1px] border-gray-300 rounded-2xl px-1">{tabCounts[tab] || 0}</small>
+              </p>
+            ))}
+          </div>
+
+          <div className="inventoryRightSubHeading">
+            <form className="text-gray-500 border-[1px] bg-white border-gray-300">
+              <MagnifyingGlassIcon className="h-5 w-5" />
+              <input
+                type="search"
+                placeholder="Search by item or address..."
+                value={search}
+                onChange={handleSearch}
+              />
+            </form>
+          </div>
+        </div>
+
+        <div className="relative overflow-x-auto mt-[-20px]">
+          <table className="w-full">
+            <thead className="text-gray-500">
+              <tr className="border-b-[1px] border-gray-200">
+                <th scope="col">
+                  <div className="tableHeadingDiv">
+                    <p>Item</p>
+                  </div>
+                </th>
+                <th scope="col">Booked by</th>
+                <th scope="col">Quantity</th>
+                <th scope="col" className="max-w-[120px]">
+                  Location
+                </th>
+                <th scope="col">Status</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col" className="w-1"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredBookings.length === 0 && search.trim() ? (
+                <tr>
+                  <td colSpan={8} className="text-center py-10">
+                    No bookings match your search
+                  </td>
+                </tr>
+              ) : (
+                filteredBookings.map((item) => (
+                  <tr key={item.id} className="bg-white border-b-[1px] border-gray-200">
+                    <td scope="row" className="font-medium whitespace-nowrap text-gray-800">
+                      <div className="tableProductDetails">
+                        <img
+                          src={item.item.images?.[0] || "https://via.placeholder.com/150"}
+                          alt={item.item.title}
+                        />
+                        <p>
+                          {item.item.title} <br />
+                          <span className="text-gray-500 text-[11px]">{item.item.categoryType}</span>
+                        </p>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="tableProductDetails">
+                        <p>
+                          {item.user.name} <br />
+                          <span className="text-gray-500 text-[11px]">{item.user.email}</span>
+                        </p>
+                      </div>
+                    </td>
+                    <td className="text-gray-500">
+                      {item.quantity || Math.round(item.totalPrice / (item.item.price * 1.1))}
+                    </td>
+                    <td className="text-gray-500">{item.address}</td>
+                    <td className="text-gray-500">
+                      <div
+                        className={`coloredColumn ${
+                          item.status === "COMPLETED" 
+                            ? "bg-[#ECFDF3] text-green-600"
+                            : item.status === "CANCELLED"
+                            ? "bg-red-50 text-red-600"
+                            : item.status === "IN_USE"
+                            ? "bg-blue-50 text-blue-600"
+                            : "bg-yellow-50 text-yellow-600"
+                        }`}
+                      >
+                        <FaCircle />
+                        {item.request === "PENDING" ? "PENDING APPROVAL" : item.paymentStatus === "PENDING" ? "PENDING PAYMENT" : item.status === 'PENDING' ? "PENDING RENTAL COMPLETION" : item.status}
+                      </div>
+                    </td>
+                    <td className="text-gray-500">
+                      {new Date(item.startDate).toLocaleDateString("en-US", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </td>
+                    <td className="text-gray-500">
+                      {new Date(item.endDate).toLocaleDateString("en-US", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </td>
+                    <td className="relative">
+                      <EllipsisVerticalIcon
+                        className="w-[17px] cursor-pointer"
+                        onClick={() => toggleTableMenu(item.id)}
+                      />
+                      <div
+                        className={
+                          tableMenu === item.id
+                            ? "tableMenu bg-white border-[1px] border-gray-300 cursor-pointer"
+                            : "hide"
+                        }
+                      >
+                        <NavLink to={`/item/details/${item.item.id}`}>View Item</NavLink>
+                        {item.request === "PENDING" && Cookies.get("role") === "VENDOR" && (
+                          <NavLink onClick={() => handleApproveRequest(item.id)}>Approve Request</NavLink>
+                        )}
+                        <NavLink onClick={() => setShowDeleteModal(item.id)}>Cancel Booking</NavLink>
+                        <NavLink
+                          onClick={() =>
+                            handleUpdateStatus(
+                              item.id,
+                              item.status === "PENDING" ? "IN_USE" : item.status === "IN_USE" ? "COMPLETED" : "PENDING"
+                            )
+                          }
+                        >
+                          Update Status
+                        </NavLink>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="inventoryPagination">
+          <p className="text-gray-700">
+            Page {meta.page} of {meta.totalPages}
+          </p>
+          <div className="inventoryPaginationButtons flex-wrap">{renderPaginationButtons()}</div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default DashboardBookings;
