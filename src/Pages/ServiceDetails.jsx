@@ -1,411 +1,500 @@
-
-import { StarIcon } from "@heroicons/react/16/solid"
-import "../styles/Details.css"
-import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
-import { toast } from "react-toastify"
-import api from "../AxiosInstance"
-import Cookies from "js-cookie"
-import RentItemModal from "../components/Modals/RentItemModal"
+import { StarIcon } from "@heroicons/react/16/solid";
+import "../styles/Details.css";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import api from "../AxiosInstance";
+import Cookies from "js-cookie";
+import RentItemModal from "../components/Modals/RentItemModal";
 
 const ServiceDetails = () => {
-    const { id } = useParams(); // Get service ID from URL
-    const [modal, setModal] = useState(false)
-    const [service, setService] = useState(null);
-    const [showRentModal, setShowRentModal] = useState(false)
-    const [loading, setLoading] = useState(false);
-    const [image, setImage] = useState("");
-    const [rentalDuration, setRentalDuration] = useState({
-        startDate: "",
-        endDate: "",
-    });
-    const [totalPrice, setTotalPrice] = useState(0);
+  const { id } = useParams(); // Get service ID from URL
+  const [modal, setModal] = useState(false);
+  const [service, setService] = useState(null);
+  const [showRentModal, setShowRentModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState("");
+  const [rentalDuration, setRentalDuration] = useState({
+    startDate: "",
+    endDate: "",
+  });
+  const [totalPrice, setTotalPrice] = useState(0);
+  // State to track wishlist loading and status for the service
+  const [wishlistStatus, setWishlistStatus] = useState({ isInWishlist: false, isLoading: false });
 
-    const handleRent = () => {
-            if(!Cookies.get("token")){
-                toast.error("Please login first")
-                return
-            }
-            setShowRentModal(true)
-        }
-    
+  // State for reviews and pagination
+  const [reviews, setReviews] = useState([]);
+  const [reviewStats, setReviewStats] = useState({
+    avgRating: 0,
+    totalReview: 0,
+    star5: 0,
+    star4: 0,
+    star3: 0,
+    star2: 0,
+    star1: 0,
+  });
+  const [pagination, setPagination] = useState({
+    current_page: 1,
+    last_page: 1,
+    total: 0,
+    pageSize: 3, // Default page size, adjust as needed
+  });
+  const [reviewsLoading, setReviewsLoading] = useState(false);
 
-    // Fetch service details
-    const fetchServiceDetails = async () => {
-        setLoading(true);
-        try {
-            const response = await api.get(`/item/details/${id}`);
-            console.log("Service data fetched:", response.data);
-            setService(response.data);
-            setImage(response.data.images?.[0] || "");
-        } catch (error) {
-            console.error("Error fetching service details:", error);
-            toast.error(error.response?.data?.message || "Failed to fetch service details");
-        } finally {
-            setLoading(false);
-        }
-    };
+  const handleRent = () => {
+    if (!Cookies.get("token")) {
+      toast.error("Please login first");
+      return;
+    }
+    setShowRentModal(true);
+  };
 
-    useEffect(() => {
-        fetchServiceDetails();
-    }, [id]);
+  // Fetch service details
+  const fetchServiceDetails = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get(`/item/details/${id}`);
+      console.log("Service data fetched:", response.data);
+      setService(response.data);
+      setImage(response.data.images?.[0] || "");
+    } catch (error) {
+      console.error("Error fetching service details:", error);
+      toast.error(error.response?.data?.message || "Failed to fetch service details");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    // Handle input changes for rental duration
-    const handleRentalDurationChange = (e) => {
-        const { name, value } = e.target;
-        console.log(`Rental duration changed: ${name} = ${value}`);
-        setRentalDuration((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
+  // Fetch reviews for the service
+  const fetchReviews = async (page = 1) => {
+    setReviewsLoading(true);
+    try {
+      const response = await api.get(`/review/item/${id}/${page}/${pagination.pageSize}`);
+      const { data, meta, stats } = response.data;
+      setReviews(data);
+      setPagination({
+        current_page: meta.page,
+        last_page: meta.totalPages,
+        total: meta.total,
+        pageSize: meta.pageSize,
+      });
+      setReviewStats({
+        avgRating: stats.avgRating,
+        totalReview: stats.totalReview,
+        star5: stats.star5,
+        star4: stats.star4,
+        star3: stats.star3,
+        star2: stats.star2,
+        star1: stats.star1,
+      });
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      toast.error(error.response?.data?.message || "Failed to fetch reviews");
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
 
-    // Calculate total price based on rental duration
-    useEffect(() => {
-        if (service && rentalDuration.startDate && rentalDuration.endDate) {
-            const start = new Date(rentalDuration.startDate);
-            const end = new Date(rentalDuration.endDate);
-            if (start < end) {
-                const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-                const price = service.price * days;
-                setTotalPrice(price);
-            } else {
-                setTotalPrice(0);
-                toast.error("End date must be after start date");
-            }
-        } else {
-            setTotalPrice(0);
-        }
-    }, [rentalDuration, service]);
+  useEffect(() => {
+    fetchServiceDetails();
+    fetchReviews(pagination.current_page);
+  }, [id]);
 
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0B5850]"></div>
+  // Handle input changes for rental duration
+  const handleRentalDurationChange = (e) => {
+    const { name, value } = e.target;
+    console.log(`Rental duration changed: ${name} = ${value}`);
+    setRentalDuration((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleAddToWishlist = () => {
+    if (!Cookies.get("token")) {
+      toast.error("Please login first");
+      return;
+    }
+
+    setWishlistStatus((prev) => ({ ...prev, isLoading: true }));
+
+    api
+      .post(`/wishlist/add/${id}`)
+      .then((response) => {
+        setWishlistStatus({ isInWishlist: true, isLoading: false });
+        toast.success(response.data || "Service added to wishlist successfully");
+      })
+      .catch((err) => {
+        setWishlistStatus((prev) => ({ ...prev, isLoading: false }));
+        toast.error(err.response?.data?.message || "Failed to add service to wishlist");
+      });
+  };
+
+  // Calculate total price based on rental duration
+  useEffect(() => {
+    if (service && rentalDuration.startDate && rentalDuration.endDate) {
+      const start = new Date(rentalDuration.startDate);
+      const end = new Date(rentalDuration.endDate);
+      if (start < end) {
+        const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+        const price = service.price * days;
+        setTotalPrice(price);
+      } else {
+        setTotalPrice(0);
+        toast.error("End date must be after start date");
+      }
+    } else {
+      setTotalPrice(0);
+    }
+  }, [rentalDuration, service]);
+
+  // Pagination handlers
+  const goToPage = (pageNum) => {
+    if (pageNum >= 1 && pageNum <= pagination.last_page) {
+      setPagination((prev) => ({ ...prev, current_page: pageNum }));
+      fetchReviews(pageNum);
+    }
+  };
+
+  const setPreviousPage = () => goToPage(pagination.current_page - 1);
+  const setNextPage = () => goToPage(pagination.current_page + 1);
+
+  const renderPaginationButtons = () => {
+    const buttons = [];
+    const totalPages = pagination.last_page;
+    const currentPage = pagination.current_page;
+    const maxVisibleButtons = 5;
+
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisibleButtons - 1);
+
+    if (endPage - startPage + 1 < maxVisibleButtons) {
+      startPage = Math.max(1, endPage - maxVisibleButtons + 1);
+    }
+
+    buttons.push(
+      <button
+        key="prev"
+        className={`inline-flex items-center justify-center py-2 px-4 rounded-md text-xs sm:text-sm font-medium ${
+          currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-stone-800/5"
+        }`}
+        onClick={setPreviousPage}
+        disabled={currentPage === 1}
+      >
+        <svg className="mr-1.5 h-4 w-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M15 6L9 12L15 18" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        Previous
+      </button>
+    );
+
+    if (startPage > 1) {
+      buttons.push(
+        <button
+          key={1}
+          className={`inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium ${
+            1 === currentPage ? "bg-[#0B5850] text-white" : "hover:bg-stone-800/5"
+          }`}
+          onClick={() => goToPage(1)}
+        >
+          1
+        </button>
+      );
+      if (startPage > 2) {
+        buttons.push(<span key="left-ellipsis" className="px-2">...</span>);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      buttons.push(
+        <button
+          key={i}
+          className={`inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium ${
+            i === currentPage ? "bg-[#0B5850] text-white" : "hover:bg-stone-800/5"
+          }`}
+          onClick={() => goToPage(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        buttons.push(<span key="right-ellipsis" className="px-2">...</span>);
+      }
+      buttons.push(
+        <button
+          key={totalPages}
+          className={`inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium ${
+            totalPages === currentPage ? "bg-[#0B5850] text-white" : "hover:bg-stone-800/5"
+          }`}
+          onClick={() => goToPage(totalPages)}
+        >
+          {totalPages}
+        </button>
+      );
+    }
+
+    buttons.push(
+      <button
+        key="next"
+        className={`inline-flex items-center justify-center py-2 px-4 rounded-md text-xs sm:text-sm font-medium ${
+          currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-stone-800/5"
+        }`}
+        onClick={setNextPage}
+        disabled={currentPage === totalPages}
+      >
+        Next
+        <svg className="ml-1.5 h-4 w-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M9 6L15 12L9 18" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+    );
+
+    return buttons;
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0B5850]"></div>
+      </div>
+    );
+  }
+
+  if (!service) {
+    return <div className="text-center py-10">Service not found</div>;
+  }
+
+  return (
+    <>
+      {showRentModal && (
+        <RentItemModal
+          unit={service?.pricingUnit?.toLowerCase()}
+          onClose={() => setShowRentModal(false)}
+          onConfirm={(formData) => {
+            setShowRentModal(false);
+          }}
+          item={service}
+        />
+      )}
+      <section className="topRentalDetails">
+        <div className="leftRentalDetails">
+          <div className="smallImageRentalDetails">
+            {service.images?.map((img, index) => (
+              <img
+                key={index}
+                src={img || "https://via.placeholder.com/150"}
+                alt={`Service ${index}`}
+                className="cursor-pointer"
+                onClick={() => setImage(img)}
+              />
+            ))}
+          </div>
+          <img src={image || "https://via.placeholder.com/300"} alt={service.title} className="bigImage" />
+        </div>
+
+        <div className="rightRentalDetails">
+          <div className="rightRentalDetailsHeading">
+            <small className="text-gray-600">{service.categoryType?.toUpperCase()}</small>
+            <h1>{service.title || "Service"}</h1>
+            <div className="rightRentalRatingSystem">
+              {[...Array(5)].map((_, i) => (
+                <StarIcon
+                  key={i}
+                  className={i < Math.round(service.avgRating) ? "text-yellow-600" : "text-gray-300"}
+                />
+              ))}
+              <small className="text-gray-600">[{service.avgRating || "0.0"}]</small>
+              <small className="text-[#0B5850] font-medium">{service._count?.reviews || 0} reviews</small>
             </div>
-        );
-    }
+          </div>
+          <h3 className="text-[#0B5850] font-medium">
+            <small className="text-gray-600 font-medium">From:</small> N{service.price?.toLocaleString() || 0}
+          </h3>
+          <div className="detailsHolder">
+            <h4>Description:</h4>
+            <p className="text-gray-700">{service.description || "No description available"}</p>
+          </div>
 
-    if (!service) {
-        return <div className="text-center py-10">Service not found</div>;
-    }
+          <div className="detailsHolder">
+            <h4>What this service offers:</h4>
+            <ul className="text-gray-700">
+              {service.offers?.length ? (
+                service.offers.map((offer, index) => <li key={index}>{offer}</li>)
+              ) : (
+                <li>No offers available</li>
+              )}
+            </ul>
+          </div>
 
-    return <>
-         {showRentModal && (
-            <RentItemModal
-                unit={item?.pricingUnit?.toLowerCase()}
-                onClose={() => setShowRentModal(false)}
-                onConfirm={(formData) => {
-                    setShowRentModal(false);
-                }}
-                item={service}
-            />
-        )}
-        <section className="topRentalDetails">
-            <div className="leftRentalDetails">
-                <div className="smallImageRentalDetails">
-                    {service.images?.map((img, index) => (
-                        <img key={index} src={img || "https://via.placeholder.com/150"} alt={`Rental ${index}`} className="cursor-pointer" onClick={() => setImage(img)}/>
+          <div className="detailsHolder">
+            <h4>Prices:</h4>
+            <ul className="text-gray-700">
+              {service.prices?.length ? (
+                service.prices.map((price, index) => <li key={index}>{price}</li>)
+              ) : (
+                <li>No prices listed</li>
+              )}
+            </ul>
+          </div>
+
+          <div className="detailsHolder">
+            <h4>Qualifications:</h4>
+            <p className="text-gray-700">
+              <span>Experience: </span> {service.experience || "N/A"} <br />
+              <span>Career highlight: </span> {service.careerHighlight || "N/A"} <br />
+              <span>Education and training: </span> {service.education || "N/A"}
+            </p>
+          </div>
+
+          <div className="detailsHolder">
+            <h4>Locations Service is offered:</h4>
+            <p className="text-gray-700">{service.locations?.join(", ") || "No locations specified"}</p>
+          </div>
+
+          <div className="detailsHolder">
+            <h4>Vendor Details:</h4>
+            <p className="text-gray-700">
+              <span>Name: </span> {service.vendor?.companyName || "N/A"} <br />
+              <span>Location: </span> {service.vendor?.address || "N/A"}
+            </p>
+          </div>
+
+          <div className="detailsHolder">
+            <h4>Rental Duration:</h4>
+            <div className="inputContainer">
+              <input
+                type="date"
+                name="startDate"
+                id="startDate"
+                placeholder="Rent Start Date"
+                className="border-[1px] border-gray-300"
+                value={rentalDuration.startDate}
+                onChange={handleRentalDurationChange}
+              />
+              -
+              <input
+                type="date"
+                name="endDate"
+                id="endDate"
+                placeholder="Rent End Date"
+                className="border-[1px] border-gray-300"
+                value={rentalDuration.endDate}
+                onChange={handleRentalDurationChange}
+              />
+            </div>
+          </div>
+
+          <h4 className="totalRentalPrice">Total: N{totalPrice.toLocaleString()}</h4>
+
+          <div className="buttonHolder">
+            <button
+              className="bg-[#0B5850] border-[1px] border-[#0B5850] font-medium text-white cursor-pointer transition hover:bg-green-700"
+              onClick={handleRent}
+            >
+              Rent Now
+            </button>
+            <button
+              className={`border-[1px] border-[#0B5850] font-medium ${
+                wishlistStatus.isInWishlist ? "text-red-600" : "text-[#0B5850]"
+              } ${wishlistStatus.isLoading ? "opacity-50 cursor-not-allowed" : "hover:text-red-600"}`}
+              onClick={handleAddToWishlist}
+              disabled={wishlistStatus.isLoading}
+            >
+              {wishlistStatus.isLoading ? "Loading..." : "Save for Later"}
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <hr className="rentalDetailLine border-[1px] border-gray-200" />
+
+      <section className="bottomRentalDetails">
+        <h2>Ratings & Reviews</h2>
+        <div className="bottomRentalDetailsHolder">
+          <div className="leftRentalDetailsRatings">
+            <div className="ratingHeadline">
+              <h1>
+                {reviewStats.avgRating.toFixed(1)} <small className="text-gray-700"> /5</small>
+              </h1>
+              <div className="ratingHeadlineStars">
+                {[...Array(5)].map((_, i) => (
+                  <StarIcon key={i} className={i < Math.round(reviewStats.avgRating) ? "text-yellow-600" : "text-gray-300"} />
+                ))}
+              </div>
+              <p className="text-gray-700">{reviewStats.totalReview} reviews</p>
+            </div>
+            <div className="ratingHeadlineProgress">
+              {[5, 4, 3, 2, 1].map((rating) => {
+                const percentage = reviewStats.totalReview > 0
+                  ? (reviewStats[`star${rating}`] / reviewStats.totalReview) * 100
+                  : 0;
+                return (
+                  <div key={rating} className="headlineProgressWrap">
+                    <div className="headlineProgressStar">
+                      <StarIcon className="text-yellow-600" />
+                      {rating}
+                    </div>
+                    <div className="headlineProgress bg-gray-300">
+                      <div
+                        className="headlineInnerProgress bg-[#0B5850]"
+                        style={{ width: `${percentage}%` }}
+                      ></div>
+                    </div>
+                    <span>{reviewStats[`star${rating}`]}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="rightDetailsRatingsWrapper">
+            {reviewsLoading ? (
+              <div className="flex justify-center items-center h-32">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#0B5850]"></div>
+              </div>
+            ) : reviews.length === 0 ? (
+              <p className="text-gray-700">No reviews available.</p>
+            ) : (
+              reviews.map((review) => (
+                <div key={review.id} className="rightDetailsRatings">
+                  <div className="rightDetailsRatingsInfo">
+                    <img
+                      src={review.user.profile || "https://via.placeholder.com/50"}
+                      alt={review.user.name}
+                    />
+                    <div className="rightDetailsRatingsInfoDetails">
+                      <h3>{review.user.name}</h3>
+                      <small>{review.user.verified ? "Verified Buyer" : "Unverified"}</small>
+                    </div>
+                  </div>
+                  <div className="rightStarRating">
+                    {[...Array(5)].map((_, i) => (
+                      <StarIcon
+                        key={i}
+                        className={i < review.rating ? "text-yellow-600" : "text-gray-300"}
+                      />
                     ))}
+                    <small>{new Date(review.createdAt).toLocaleDateString()}</small>
+                  </div>
+                  <p className="text-gray-700">{review.comment}</p>
+                  <hr className="border-gray-200 border-[1px]" />
                 </div>
-                <img src={image} alt="" className="bigImage" />
-            </div>
+              ))
+            )}
+          </div>
+        </div>
 
-            <div className="rightRentalDetails">
-                <div className="rightRentalDetailsHeading">
-                    <small className="text-gray-600">{service.categoryType?.toUpperCase()}</small>
-                    <h1>{service.title}</h1>
-                    <div className="rightRentalRatingSystem">
-                        {[...Array(5)].map((_, i) => (
-                            <StarIcon
-                                key={i}
-                                className={i < Math.round(service.avgRating) ? "text-yellow-600" : "text-gray-300"}
-                            />
-                        ))}
-                        <small className="text-gray-600">[{service.avgRating}]</small>
-                        <small className="text-[#0B5850] font-medium">{service._count?.reviews || 500} reviews</small>
-                    </div>
-                </div>
-                <h3 className="text-[#0B5850] font-medium"><small className="text-gray-600 font-medium">From:</small> N{service.price} </h3>
-                <div className="detailsHolder">
-                    <h4>Description:</h4>
-                    <p className="text-gray-700">{service.description}</p>
-                </div>
-
-                <div className="detailsHolder">
-                    <h4>What this service offers:</h4>
-                    <ul className="text-gray-700">
-                        {service.offers?.length && service.offers.map((offer, index) => (
-                            <li key={index}>{offer}</li>
-                        ))}
-                    </ul>
-                </div>
-
-                <div className="detailsHolder">
-                    <h4>Prices:</h4>
-                    <ul className="text-gray-700">
-                        {service.prices?.length && service.prices.map((price, index) => (
-                            <li key={index}>{price}</li>
-                        )) }
-                    </ul>
-                </div>
-
-                <div className="detailsHolder">
-                    <h4>Qualifications:</h4>
-                    <p className="text-gray-700">
-                        <span>Experience: </span> {service.experience} <br />
-                        <span>Career highlight: </span> {service.careerHighlight} <br />
-                        <span>Education and training: </span> {service.education}
-                    </p>
-                </div>
-
-                <div className="detailsHolder">
-                    <h4>Locations Service is offered:</h4>
-                    <p className="text-gray-700">{service.locations?.join(", ")}</p>
-                </div>
-
-                <div className="detailsHolder">
-                    <h4>Vendor Details:</h4>
-                    <p className="text-gray-700">
-                        <span>Name: </span> {service.vendor?.companyName || ""} <br />
-                        <span>Location: </span> {service.vendor?.address || ""}
-                    </p>
-                </div>
-
-                <div className="detailsHolder">
-                    <h4>Rental Duration:</h4>
-
-                    <div className="inputContainer">
-                        <input
-                            type="date"
-                            name="startDate"
-                            placeholder="Rent Start Date"
-                            className="border-[1px] border-gray-300"
-                            value={rentalDuration.startDate}
-                            onChange={handleRentalDurationChange}
-                        />
-                        -
-                        <input
-                            type="date"
-                            name="endDate"
-                            placeholder="Rent End Date"
-                            className="border-[1px] border-gray-300"
-                            value={rentalDuration.endDate}
-                            onChange={handleRentalDurationChange}
-                        />
-                    </div>
-                </div>
-
-                <h4 className="totalRentalPrice">Total: N{totalPrice.toLocaleString()}</h4>
-
-                <div className="buttonHolder">
-                    <button
-                        className="bg-[#0B5850] border-[1px] border-[#0B5850] font-medium text-white  cursor-pointer transition hover:bg-green-700"
-                        onClick={handleRent}
-                    >
-                        Rent Now
-                    </button>
-                    <button
-                        className="border-[1px] border-[#0B5850] text-[#0B5850] font-medium opacity-50 cursor-not-allowed"
-                        disabled
-                    >
-                        Save for Later
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <hr className="rentalDetailLine border-[1px] border-gray-200"/>
-
-        <section className="bottomRentalDetails">
-            <h2>Ratings & Reviews</h2>
-            <div className="bottomRentalDetailsHolder">
-                <div className="leftRentalDetailsRatings">
-                    <div className="ratingHeadline">
-                        <h1>4.8 <small className="text-gray-700"> /5</small></h1>
-                        <div className="ratingHeadlineStars">
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                        </div>
-                        <p className="text-gray-700">500 reviews</p>
-                    </div>
-                    <div className="ratingHeadlineProgress">
-                        <div className="headlineProgressWrap">
-                            <div className="headlineProgressStar">  <StarIcon className="text-yellow-600"/>
-                                5
-                            </div>
-                            <div className="headlineProgress bg-gray-300">
-                                <div className="headlineInnerProgress bg-[#0B5850] w-[70%]"></div>
-                            </div>
-                            <span>102</span>
-                        </div>
-                        <div className="headlineProgressWrap">
-                            <div className="headlineProgressStar">  <StarIcon className="text-yellow-600"/>
-                                4
-                            </div>
-                            <div className="headlineProgress bg-gray-300">
-                                <div className="headlineInnerProgress bg-[#0B5850] w-[80%]"></div>
-                            </div>
-                            <span>102</span>
-                        </div>
-                        <div className="headlineProgressWrap">
-                            <div className="headlineProgressStar">  <StarIcon className="text-yellow-600"/>
-                                3
-                            </div>
-                            <div className="headlineProgress bg-gray-300">
-                                <div className="headlineInnerProgress bg-[#0B5850] w-[60%]"></div>
-                            </div>
-                            <span>102</span>
-                        </div>
-                        <div className="headlineProgressWrap">
-                            <div className="headlineProgressStar">  <StarIcon className="text-yellow-600"/>
-                                2
-                            </div>
-                            <div className="headlineProgress bg-gray-300">
-                                <div className="headlineInnerProgress bg-[#0B5850] w-[90%]"></div>
-                            </div>
-                            <span>102</span>
-                        </div>
-                        <div className="headlineProgressWrap">
-                            <div className="headlineProgressStar">  <StarIcon className="text-yellow-600"/>
-                                1
-                            </div>
-                            <div className="headlineProgress bg-gray-300">
-                                <div className="headlineInnerProgress bg-[#0B5850] w-[10%]"></div>
-                            </div>
-                            <span>102</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="rightDetailsRatingsWrapper">
-                    <div className="rightDetailsRatings">
-                        <div className="rightDetailsRatingsInfo">
-                            <img src="" alt="" />
-                            <div className="rightDetailsRatingsInfoDetails">
-                                <h3>Sophia</h3>
-                                <small>Verified Buyer</small>
-                            </div>
-                        </div>
-                        <div className="rightStarRating">
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <small>3 days ago</small>
-                        </div>
-                        <p className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                    </div>
-                    <hr className="border-gray-200 border-[1px]"/>
-                    <div className="rightDetailsRatings">
-                        <div className="rightDetailsRatingsInfo">
-                            <img src="" alt="" />
-                            <div className="rightDetailsRatingsInfoDetails">
-                                <h3>Sophia</h3>
-                                <small>Verified Buyer</small>
-                            </div>
-                        </div>
-                        <div className="rightStarRating">
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <small>3 days ago</small>
-                        </div>
-                        <p className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                    </div>
-                    <hr  className="border-gray-200 border-[1px]"/>
-                    <div className="rightDetailsRatings">
-                        <div className="rightDetailsRatingsInfo">
-                            <img src="" alt="" />
-                            <div className="rightDetailsRatingsInfoDetails">
-                                <h3>Sophia</h3>
-                                <small>Verified Buyer</small>
-                            </div>
-                        </div>
-                        <div className="rightStarRating">
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <StarIcon className="text-yellow-600"/>
-                            <small>3 days ago</small>
-                        </div>
-                        <p className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div className="detailsPagination pagination flex flex-col items-end sm:items-end w-full">
-                <div className="flex flex-wrap justify-center sm:justify-end items-center gap-1">
-                    {/* Previous Button */}
-                    <button
-                    className="inline-flex items-center justify-center py-2 px-4 rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent border-transparent hover:bg-stone-800/5 hover:border-stone-800/5 transition disabled:opacity-50"
-                    >
-                    <svg
-                        className="mr-1.5 h-4 w-4 stroke-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                        d="M15 6L9 12L15 18"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        />
-                    </svg>
-                    Previous
-                    </button>
-
-                    {/* Page Buttons */}
-                    <button className="inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md  text-xs sm:text-sm font-medium text-stone-800 bg-transparent hover:bg-stone-800/5 transition">
-                    1
-                    </button>
-
-                    <button className="inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium bg-[#0B5850] text-white hover:bg-stone-700 transition">
-                    2
-                    </button>
-
-                    <button className="hidden sm:inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent hover:bg-stone-800/5 transition">
-                    3
-                    </button>
-
-                    <button className="hidden sm:inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent hover:bg-stone-800/5 transition">
-                    4
-                    </button>
-
-                    <button className="hidden md:inline-grid place-items-center min-w-[30px] min-h-[30px] rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent hover:bg-stone-800/5 transition">
-                    5
-                    </button>
-
-                    {/* Next Button */}
-                    <button
-                    className="inline-flex items-center justify-center py-2 px-4 rounded-md text-xs sm:text-sm font-medium text-stone-800 bg-transparent border-transparent hover:bg-stone-800/5 hover:border-stone-800/5 transition disabled:opacity-50"
-                    >
-                    Next
-                    <svg
-                        className="ml-1.5 h-4 w-4 stroke-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                        d="M9 6L15 12L9 18"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        />
-                    </svg>
-                    </button>
-                </div>
-            </div>
-        </section>
+        <div className="detailsPagination pagination flex flex-col items-end sm:items-end w-full">
+          <div className="flex flex-wrap justify-center sm:justify-end items-center gap-1">
+            {renderPaginationButtons()}
+          </div>
+        </div>
+      </section>
     </>
-}
+  );
+};
 
-export default ServiceDetails
+export default ServiceDetails;

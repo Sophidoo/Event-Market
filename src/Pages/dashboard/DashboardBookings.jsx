@@ -9,10 +9,11 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { FaCircle } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import SuspendUserModal from "../../components/Modals/SuspendUserModal";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../AxiosInstance";
 import Cookies from "js-cookie";
+import CancelBooking from "../../components/Modals/CancelBooking";
 
 const DashboardBookings = () => {
   const [tableMenu, setTableMenu] = useState(null);
@@ -28,6 +29,7 @@ const DashboardBookings = () => {
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState("Rentals");
   const [tabCounts, setTabCounts] = useState({ Rentals: 0, Services: 0, Packages: 0 });
+  const navigate = useNavigate();
 
   const tabCategories = {
     Rentals: "RENTALS",
@@ -111,8 +113,9 @@ const DashboardBookings = () => {
   };
 
   const handleApproveRequest = async (bookingId) => {
+    toast.loading("Processing, Please Wait")
     try {
-      await api.patch(`/api/v1/booking/approve/${bookingId}`);
+      await api.patch(`/booking/approve/${bookingId}`);
       toast.success("Booking approved successfully");
       fetchBookings();
     } catch (err) {
@@ -122,7 +125,7 @@ const DashboardBookings = () => {
 
   const handleCancelBooking = async (bookingId) => {
     try {
-      await api.patch(`/api/v1/booking/cancel/${bookingId}`);
+      await api.patch(`/booking/cancel/${bookingId}`);
       toast.success("Booking cancelled successfully");
       setShowDeleteModal(null);
       fetchBookings();
@@ -132,8 +135,9 @@ const DashboardBookings = () => {
   };
 
   const handleUpdateStatus = async (bookingId, status) => {
+    toast.loading("Processing, Please Wait")
     try {
-      await api.patch(`/api/v1/booking/update/${bookingId}`, { status });
+      await api.patch(`/booking/update/${bookingId}`, { status });
       toast.success(`Booking status updated to ${status}`);
       fetchBookings();
     } catch (err) {
@@ -260,7 +264,7 @@ const DashboardBookings = () => {
   return (
     <>
       {showDeleteModal && (
-        <SuspendUserModal
+        <CancelBooking
           onClose={() => setShowDeleteModal(null)}
           onConfirm={() => handleCancelBooking(showDeleteModal)}
         />
@@ -345,7 +349,7 @@ const DashboardBookings = () => {
               ) : (
                 filteredBookings.map((item) => (
                   <tr key={item.id} className="bg-white border-b-[1px] border-gray-200">
-                    <td scope="row" className="font-medium whitespace-nowrap text-gray-800">
+                    <td scope="row" className="font-medium whitespace-nowrap text-gray-800 cursor-pointer" onClick={() => navigate(`${item.id}`)}>
                       <div className="tableProductDetails">
                         <img
                           src={item.item.images?.[0] || "https://via.placeholder.com/150"}
@@ -382,7 +386,7 @@ const DashboardBookings = () => {
                         }`}
                       >
                         <FaCircle />
-                        {item.request === "PENDING" ? "PENDING APPROVAL" : item.paymentStatus === "PENDING" ? "PENDING PAYMENT" : item.status === 'PENDING' ? "PENDING RENTAL COMPLETION" : item.status}
+                        {item.status === "CANCELLED" ? item.status : item.request === "PENDING" ? "PENDING APPROVAL" : item.paymentStatus === "PENDING" ? "PENDING PAYMENT" : item.status === 'PENDING' ? "PENDING RENTAL COMPLETION" : item.status}
                       </div>
                     </td>
                     <td className="text-gray-500">
@@ -411,8 +415,8 @@ const DashboardBookings = () => {
                             : "hide"
                         }
                       >
-                        <NavLink to={`/item/details/${item.item.id}`}>View Item</NavLink>
-                        {item.request === "PENDING" && Cookies.get("role") === "VENDOR" && (
+                        <NavLink onClick={() => navigate(`${item.id}`)}>View Booking</NavLink>
+                        {item.request === "PENDING" && Cookies.get("role") === "VENDOR" || "ADMIN" && (
                           <NavLink onClick={() => handleApproveRequest(item.id)}>Approve Request</NavLink>
                         )}
                         <NavLink onClick={() => setShowDeleteModal(item.id)}>Cancel Booking</NavLink>
@@ -420,7 +424,7 @@ const DashboardBookings = () => {
                           onClick={() =>
                             handleUpdateStatus(
                               item.id,
-                              item.status === "PENDING" ? "IN_USE" : item.status === "IN_USE" ? "COMPLETED" : "PENDING"
+                              item.status === "PENDING" ?  "COMPLETED" : "PENDING"
                             )
                           }
                         >

@@ -32,6 +32,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import DashboardCreateItem from './Pages/dashboard/DashboardCreateItem'
 import DashboardEditItem from './Pages/dashboard/DashboardEditItem'
+import BookingDetails from './Pages/BookingDetails'
+import DashboardBookingDetails from './Pages/dashboard/DashboardBookingDetails'
 
 
 
@@ -48,6 +50,7 @@ function App() {
         <Route path='service/details/:id' element={<ServiceDetails/>}/>
         <Route path='package/details/:id' element={<PackageDetails/>}/>
         <Route path='my-bookings' element={<Bookings/>}/>
+        <Route path='my-bookings/:id' element={<BookingDetails/>}/>
         <Route path='my-wishlist' element={<Wishlist/>}/>
         <Route path='profile' element={<Profile/>}/>
       </Route>
@@ -67,8 +70,9 @@ function App() {
         <Route path='inventory/services/:id' element={<DashboardServicesDetails/>}/>
         <Route path='packages' element={<DashboardPackages/>}/>
         <Route path='inventory/packages/:id' element={<DashboardPackagesDetails/>}/>
-        <Route path='bookings' element={<DashboardBookings/>}/>
         <Route path='users' element={<DashboardUsers/>}/>
+        <Route path='bookings' element={<DashboardBookings/>}/>
+        <Route path='bookings/:id' element={<DashboardBookingDetails/>}/>
         <Route path='transactions' element={<DashboardTransactions/>}/>
         <Route path='reviews' element={<DashboardReviews/>}/>
         <Route path='inventory' element={<DashboardInventory/>}/>

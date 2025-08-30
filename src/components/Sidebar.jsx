@@ -50,7 +50,7 @@ const Sidebar = () => {
         </NavLink> */}
         <NavLink 
           to="/dashboard/bookings"
-          end
+          
           className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
         >
           <PrinterIcon/>

@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import api from "../AxiosInstance";
+import api from "../../AxiosInstance";
 import Cookies from "js-cookie";
 import PaystackPop from "@paystack/inline-js";
-import AddReviewModal from "../components/Modals/AddReviewModal";
 
-const BookingDetails = () => {
+const DashboardBookingDetails = () => {
   const { id } = useParams(); // Get booking ID from URL
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [reviewModal, setReviewModal] = useState(false);
+  const [isApproving, setIsApproving] = useState(false);
   const [error, setError] = useState(null);
   const popup = new PaystackPop();
   const public_key = "pk_test_2739888aa5ce16964b6b127633df5176ffe74ea2"
@@ -39,43 +38,16 @@ const BookingDetails = () => {
     fetchBookingDetails();
   }, [id]);
 
-  const handlePayment = async () => {
+  const handleApproveRequest = async () => {
+    setIsApproving(true)
     try {
-      const reference = crypto.randomUUID();
-      popup.newTransaction({
-        key: public_key,
-        email: booking.user.email,
-        amount: Math.round(booking.totalPrice * 100),
-        reference,
-        metadata: {
-          bookingId: booking.id,
-          userId: booking.user.id,
-        },
-        onSuccess: async (transaction) => {
-          try {
-            const verifyRes = await api.get(`/transaction/verify?reference=${transaction.reference}`);
-            console.log(verifyRes)
-            if (verifyRes.data.data.data.status === "success") {
-              toast.success("Payment successful");
-              fetchBookingDetails(); // Refresh bookings
-            } else {
-              toast.error("Payment failed verification");
-            }
-          } catch (err) {
-            console.log(err)
-            toast.error("Verification error");
-          }
-        },
-        onCancel: () => {
-          toast.info("Payment cancelled");
-        },
-        onClose: () => {
-          toast.info("Payment modal closed");
-        },
-      });
+        await api.patch(`/booking/approve/${booking.id}`);
+        setIsApproving(false)
+        toast.success("Booking approved successfully");
+        fetchBookingDetails();
     } catch (err) {
-        console.log(err)
-      toast.error(err.response?.data?.message || "Failed to initiate payment");
+        setIsApproving(false)
+        toast.error(err.response?.data?.message || "Failed to approve booking");
     }
   };
 
@@ -95,7 +67,7 @@ const BookingDetails = () => {
     return <div className="text-center py-10">No booking data available</div>;
   }
 
-  const { item, address, startDate, endDate, request, status, totalPrice, createdAt, payment, vendor } = booking;
+  const { item, address, startDate, endDate, request, status, totalPrice, createdAt, payment, vendor, user } = booking;
   const isServiceOrPackage = item.category === "SERVICES" || item.category === "PACKAGES";
   const isService = item.category === "SERVICES";
   const isPackage = item.category === "PACKAGES";
@@ -104,21 +76,9 @@ const BookingDetails = () => {
     payment && booking.paymentStatus !== "COMPLETED" ? "Retry Payment" : "Make Payment";
   const isPaymentDisabled = booking.paymentStatus === "COMPLETED";
 
-
-  const handleAddReview = () => {
-    setReviewModal(true)
-  }
-
-  return <>
-  {
-    reviewModal && <AddReviewModal
-      id={item.id}
-      onClose={() => setReviewModal(false)}
-      onConfirm={() => setReviewModal(false)}
-    />
-  }
-    <div className="flex flex-col md:flex-row gap-x-10 justify-between items-start py-[30px] px-[3%]">
-      <section className="flex flex-col gap-y-5 w-full md:w-2/3">
+  return (
+    <div className="flex flex-col gap-y-5 lg:flex-row gap-x-3 justify-between items-start ">
+      <section className="flex flex-col gap-y-5 w-full lg:w-2/3">
         <div className="flex flex-col gap-y-5">
           <img
             src={item.images[0] || "https://via.placeholder.com/300"}
@@ -226,7 +186,7 @@ const BookingDetails = () => {
 
         </section>
 
-        <section className="flex flex-col gap-y-5 w-full md:w-1/3 border border-gray-200 p-5 rounded-md">
+        <section className="flex flex-col gap-y-5 w-full lg:w-1/3 border border-gray-200 p-5 rounded-md">
           <div className="flex flex-col gap-y-1">
             <h2 className="text-sm sm:text-base md:text-lg font-medium">Booking Details</h2>
             <p className="text-gray-600 text-xs sm:text-[13px]">
@@ -324,42 +284,39 @@ const BookingDetails = () => {
 
           <div className="flex flex-col gap-y-4">
             <div className="flex justify-between flex-wrap items-center gap-y-1">
-              <h3 className="text-xs sm:text-[13px] font-medium">Vendor Name:</h3>
-              <p className="text-xs sm:text-[13px]">{vendor.companyName || vendor.user.name}</p>
+              <h3 className="text-xs sm:text-[13px] font-medium">Booked By:</h3>
+              <p className="text-xs sm:text-[13px]">{user.name || vendor.user.name}</p>
             </div>
             <div className="flex justify-between flex-wrap items-center gap-y-1">
-              <h3 className="text-xs sm:text-[13px] font-medium">Vendor Email:</h3>
-              <p className="text-xs sm:text-[13px]">{vendor.contactEmail || "Not specified"}</p>
+              <h3 className="text-xs sm:text-[13px] font-medium">Email:</h3>
+              <p className="text-xs sm:text-[13px]">{user.email || "Not specified"}</p>
             </div>
             <div className="flex justify-between flex-wrap items-center gap-y-1">
-              <h3 className="text-xs sm:text-[13px] font-medium">Vendor Phone:</h3>
-              <p className="text-xs sm:text-[13px]">{vendor.contactPhone || "Not specified"}</p>
+              <h3 className="text-xs sm:text-[13px] font-medium">Phone:</h3>
+              <p className="text-xs sm:text-[13px]">{user.phone || "Not specified"}</p>
             </div>
           </div>
 
-          <hr className="border border-gray-200" />
-
           {
-            status === "COMPLETED" ?
-            <button
-            className={`bg-[#0B5850] text-white text-[10px] sm:text-[11px] font-medium p-2 rounded-sm hover:bg-green-800 cursor-pointer`}
-            onClick={handleAddReview}
-          >
-            Give Review
-          </button> :
-          <button
-            className={`bg-[#0B5850] text-white text-[10px] sm:text-[11px] font-medium p-2 rounded-sm hover:bg-green-800 ${
-              isPaymentDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-            }`}
-            onClick={handlePayment}
-            disabled={isPaymentDisabled}
-          >
-            {paymentButtonText}
-          </button>
+            request === "PENDING" && (
+                <>
+                    <hr className="border border-gray-200" />
+
+                    <button
+                        className={`bg-[#0B5850] text-white text-[10px] sm:text-[11px] font-medium p-2 rounded-sm hover:bg-green-800 cursor-pointer`}
+                        onClick={handleApproveRequest}
+                        disabled={isApproving}
+                        
+                    >
+                        {isApproving ? "Approving..." : "Approve Booking Request"}
+                    </button>
+                </>
+
+            )
           }
         </section>
       </div>
-    </>;
+    );
 };
 
-export default BookingDetails;
+export default DashboardBookingDetails;

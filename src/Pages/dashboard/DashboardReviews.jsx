@@ -1,326 +1,323 @@
-import { ChevronRightIcon } from "@heroicons/react/24/outline"
-import "../../styles/dashboard/Reveiw.css"
-import review from "../../assets/images/satisfaction.png"
+import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import "../../styles/dashboard/Reveiw.css";
+import review from "../../assets/images/satisfaction.png";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import "../../styles/dashboard/Inventory.css"
-import { useState } from "react";
+import "../../styles/dashboard/Inventory.css";
+import { useState, useEffect } from "react";
 import DeleteReviewModal from "../../components/Modals/DeleteReviewModal";
+import api from "../../AxiosInstance";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const DashboardReviews = () => {
-    
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [reviewToDelete, setReviewToDelete] = useState(null); // New state for review ID
+  const [reviewStats, setReviewStats] = useState({
+    avgRating: 0,
+    totalReview: 0,
+    star5: 0,
+    star4: 0,
+    star3: 0,
+    star2: 0,
+    star1: 0,
+  });
+  const [pagination, setPagination] = useState({
+    current_page: 1,
+    last_page: 1,
+    total: 0,
+    pageSize: 10,
+  });
+  const [reviewsLoading, setReviewsLoading] = useState(false);
 
-    const reviews = [
-        {
-            id: 1,
-            productName: "Brown Hat",
-            productImage: "https://images.unsplash.com/photo-1595642527925-4d41cb781653", // Hat image
-            customerName: "Ananda Harvey",
-            customerImage: "https://randomuser.me/api/portraits/women/44.jpg", // Customer avatar
-            email: "amanda@site.com",
-            review: "Just love it! I bought this hat for my boyfriend, but kept it after a breakup. Fits perfectly!",
-            date: "Aug 17, 2020, 5:48",
-            status: "Completed",
-            category: "Rentals", // Rentals/Services/Packages
-            rating: 5, // 1-5 stars
-            quantity: 1,
-            location: "Lagos, Nigeria"
-        },
-        {
-            id: 2,
-            productName: "Calvin Klein T-Shirt",
-            productImage: "https://images.unsplash.com/photo-1576566588028-4147f3842f27", // T-shirt image
-            customerName: "Anne Richard",
-            customerImage: "https://randomuser.me/api/portraits/women/68.jpg",
-            email: "anne@site.com",
-            review: "Really nice. Comfortable and stylish.",
-            date: "Aug 04, 2020, 3:17",
-            status: "Pending",
-            category: "Services", 
-            rating: 4,
-            quantity: 2,
-            location: "Abuja, Nigeria"
-        },
-        {
-            id: 3,
-            productName: "Clarks Shoes",
-            productImage: "https://images.unsplash.com/photo-1549298916-f52d724204b4", // Shoes image
-            customerName: "David Harrison",
-            customerImage: "https://randomuser.me/api/portraits/men/32.jpg",
-            email: "david@site.com",
-            review: "Well-built and comfortable. Great for daily wear.",
-            date: "June 18, 2020, 09:19",
-            status: "Approved",
-            category: "Packages",
-            rating: 5,
-            quantity: 1,
-            location: "Port Harcourt, Nigeria"
-        },
-        {
-            id: 4,
-            productName: "Leather Jacket",
-            productImage: "https://images.unsplash.com/photo-1551028719-00167b16eac5", // Jacket image
-            customerName: "Michael Brown",
-            customerImage: "https://randomuser.me/api/portraits/men/75.jpg",
-            email: "michael@site.com",
-            review: "Premium quality leather. Worth every penny!",
-            date: "Sep 12, 2020, 14:22",
-            status: "Completed",
-            category: "Rentals",
-            rating: 5,
-            quantity: 1,
-            location: "Kano, Nigeria"
-        },
-        {
-            id: 5,
-            productName: "Smart Watch",
-            productImage: "https://images.unsplash.com/photo-1523275335684-37898b6baf30", // Watch image
-            customerName: "Sarah Johnson",
-            customerImage: "https://randomuser.me/api/portraits/women/90.jpg",
-            email: "sarah@site.com",
-            review: "Sleek design, but battery life could be better.",
-            date: "Jul 05, 2020, 10:45",
-            status: "Pending",
-            category: "Services",
-            rating: 3,
-            quantity: 1,
-            location: "Enugu, Nigeria"
-        },
-        {
-            id: 6,
-            productName: "Wireless Earbuds",
-            productImage: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df", // Earbuds image
-            customerName: "James Wilson",
-            customerImage: "https://randomuser.me/api/portraits/men/46.jpg",
-            email: "james@site.com",
-            review: "Good sound quality, but connectivity issues occasionally.",
-            date: "Oct 30, 2020, 08:33",
-            status: "Approved",
-            category: "Packages",
-            rating: 4,
-            quantity: 2,
-            location: "Ibadan, Nigeria"
-        },
-        {
-            id: 7,
-            productName: "Yoga Mat",
-            productImage: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f", // Yoga mat image
-            customerName: "Emily Davis",
-            customerImage: "https://randomuser.me/api/portraits/women/33.jpg",
-            email: "emily@site.com",
-            review: "Non-slip and durable. Perfect for my workouts!",
-            date: "Nov 15, 2020, 16:12",
-            status: "Completed",
-            category: "Rentals",
-            rating: 5,
-            quantity: 1,
-            location: "Benin City, Nigeria"
-        },
-        {
-            id: 8,
-            productName: "Blender",
-            productImage: "https://images.unsplash.com/photo-1563213126-a4273aed2016", // Blender image
-            customerName: "Robert Taylor",
-            customerImage: "https://randomuser.me/api/portraits/men/88.jpg",
-            email: "robert@site.com",
-            review: "Powerful motor, but noisy operation.",
-            date: "Dec 03, 2020, 11:27",
-            status: "Pending",
-            category: "Services",
-            rating: 3,
-            quantity: 1,
-            location: "Uyo, Nigeria"
-        },
-        {
-            id: 9,
-            productName: "Backpack",
-            productImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62", // Backpack image
-            customerName: "Olivia Martinez",
-            customerImage: "https://randomuser.me/api/portraits/women/29.jpg",
-            email: "olivia@site.com",
-            review: "Spacious and water-resistant. Highly recommend!",
-            date: "Jan 22, 2021, 09:05",
-            status: "Approved",
-            category: "Packages",
-            rating: 5,
-            quantity: 1,
-            location: "Calabar, Nigeria"
-        },
-        {
-            id: 10,
-            productName: "Camera Lens",
-            productImage: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32", // Lens image
-            customerName: "Daniel Anderson",
-            customerImage: "https://randomuser.me/api/portraits/men/81.jpg",
-            email: "daniel@site.com",
-            review: "Crystal clear optics. Perfect for professional photography.",
-            date: "Feb 14, 2021, 13:50",
-            status: "Completed",
-            category: "Rentals",
-            rating: 5,
-            quantity: 1,
-            location: "Abeokuta, Nigeria"
-        }
-    ];
+  // Fetch reviews based on user role
+  const fetchReviews = async (page = 1) => {
+    setReviewsLoading(true);
+    try {
+      const role = Cookies.get("role");
+      const endpoint =
+        role === "ADMIN"
+          ? `/review/all/${page}/${pagination.pageSize}`
+          : `/review/vendor/${page}/${pagination.pageSize}`;
 
-    const StarRating = ({ rating }) => {
-        const totalStars = 5;
-        return (
-            <div className="flex items-center">
-            {[...Array(totalStars)].map((_, index) => (
-                <svg
-                key={index}
-                className={`w-4 h-4 ${index < rating ? 'text-yellow-400' : 'text-gray-300'}`}
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-            ))}
-            </div>
-        );
-        };
+      const response = await api.get(endpoint);
+      const { data, meta, stats } = response.data;
+      setReviews(data);
+      setPagination({
+        current_page: meta.page,
+        last_page: meta.totalPages,
+        total: meta.total,
+        pageSize: meta.pageSize,
+      });
+      setReviewStats({
+        avgRating: stats.avgRating,
+        totalReview: stats.totalReview,
+        star5: stats.star5,
+        star4: stats.star4,
+        star3: stats.star3,
+        star2: stats.star2,
+        star1: stats.star1,
+      });
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      toast.error(error.response?.data?.message || "Failed to fetch reviews");
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
 
-    return<>
-        {showDeleteModal && (
-            <DeleteReviewModal
-            onClose={() => setShowDeleteModal(false)}
-            onConfirm={() => {
-                handleDeleteItem();
-                setShowDeleteModal(false);
-            }}
-            />
-        )}
-        <div className="dashboardReviewContainer">
-            <div className="overviewHeader flex-col">
-                <h1>
-                    Dashboard <ChevronRightIcon/>
-                    <span className="text-gray-600">Reviews</span>
-                </h1>
-                <p className="text-gray-500 text-[12px] sm:text-[13px]">Keep track and manage reviews made by users.</p>
-            </div>
+  useEffect(() => {
+    fetchReviews(pagination.current_page);
+  }, []);
+
+  // Handle review deletion
+  const handleDeleteItem = async () => {
+    if (!reviewToDelete) return;
+    toast.info("Deleting..., Please wait")
+
+    try {
+      const response = await api.delete(`/review/delete/${reviewToDelete}`);
+      toast.success(response.data || "Review deleted successfully");
+      setShowDeleteModal(false);
+      setReviewToDelete(null);
+      fetchReviews(pagination.current_page); // Refresh reviews
+    } catch (error) {
+      console.error("Error deleting review:", error);
+      toast.error(error.response?.data?.message || "Failed to delete review");
+    }
+  };
+
+  // Pagination handlers
+  const goToPage = (pageNum) => {
+    if (pageNum >= 1 && pageNum <= pagination.last_page) {
+      setPagination((prev) => ({ ...prev, current_page: pageNum }));
+      fetchReviews(pageNum);
+    }
+  };
+
+  const setPreviousPage = () => goToPage(pagination.current_page - 1);
+  const setNextPage = () => goToPage(pagination.current_page + 1);
+
+  const StarRating = ({ rating }) => {
+    const totalStars = 5;
+    return (
+      <div className="flex items-center">
+        {[...Array(totalStars)].map((_, index) => (
+          <svg
+            key={index}
+            className={`w-4 h-4 ${
+              index < rating ? "text-yellow-400" : "text-gray-300"
+            }`}
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <>
+      {showDeleteModal && (
+        <DeleteReviewModal
+          onClose={() => {
+            setShowDeleteModal(false);
+            setReviewToDelete(null);
+          }}
+          onConfirm={handleDeleteItem}
+        />
+      )}
+      <div className="dashboardReviewContainer">
+        <div className="overviewHeader flex-col">
+          <h1>
+            Dashboard <ChevronRightIcon />
+            <span className="text-gray-600">Reviews</span>
+          </h1>
+          <p className="text-gray-500 text-[12px] sm:text-[13px]">
+            Keep track and manage reviews made by users.
+          </p>
+        </div>
+      </div>
+
+      <div className="reviewSummary border-[1px] border-gray-200">
+        <div className="leftReviewSummaryContainer">
+          <img src={review} alt="" />
+          <div className="leftReviewSummary">
+            <h1>{reviewStats.avgRating.toFixed(2)}</h1>
+            <p className="text-gray-600"> {reviewStats.totalReview} reviews </p>
+          </div>
         </div>
 
-        <div className="reviewSummary border-[1px] border-gray-200">
-            <div className="leftReviewSummaryContainer">
-                <img src={review} alt="" />
-                <div className="leftReviewSummary">
-                    <h1>4.84</h1>
-                    <p className="text-gray-600">- of 7 reviews </p>
+        <div className="rightReviewSummary">
+          {[5, 4, 3, 2, 1].map((rating) => {
+            const percentage =
+              reviewStats.totalReview > 0
+                ? (reviewStats[`star${rating}`] / reviewStats.totalReview) * 100
+                : 0;
+            return (
+              <div key={rating} className="reviewBarWrap">
+                <small>{rating} Star</small>
+                <div className="reviewBar">
+                  <div
+                    className="reviewInnerBar"
+                    style={{ width: `${percentage}%` }}
+                  ></div>
                 </div>
-            </div>
+                <small>{reviewStats[`star${rating}`]}</small>
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
-            <div className="rightReviewSummary">
-            
-                <div className="reviewBarWrap">
-                    <small>5 Star</small>
-                    <div className="reviewBar">
-                        <div className="reviewInnerBar w-[80%]"></div>
+      <div className="adminInventoryWrapper">
+        <div className="relative overflow-x-auto mt-[-10px]">
+          <table className="w-full">
+            <thead className="text-gray-500">
+              <tr className="border-b-[1px] border-gray-200">
+                <th scope="col">
+                  <div className="tableHeadingDiv">
+                    <p>Item</p>
+                  </div>
+                </th>
+                <th scope="col" className="">
+                  Reviewer
+                </th>
+                <th scope="col" className="w-[500px]">
+                  Review
+                </th>
+                <th scope="col" className="">
+                  Date
+                </th>
+                {
+                    Cookies.get("role") === "ADMIN" &&
+                    <th scope="col" className="w-1"></th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              {reviewsLoading ? (
+                <tr>
+                  <td colSpan="5" className="text-center py-4">
+                    <div className="flex justify-center items-center h-32">
+                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#0B5850]"></div>
                     </div>
-                    <small>920</small>
-                </div>
-
-                <div className="reviewBarWrap">
-                    <small>4 Star</small>
-                    <div className="reviewBar">
-                        <div className="reviewInnerBar w-[70%]"></div>
-                    </div>
-                    <small>800</small>
-                </div>
-
-                <div className="reviewBarWrap">
-                    <small>3 Star</small>
-                    <div className="reviewBar">
-                        <div className="reviewInnerBar w-[10%]"></div>
-                    </div>
-                    <small>4</small>
-                </div>
-
-                <div className="reviewBarWrap">
-                    <small>2 Star</small>
-                    <div className="reviewBar">
-                        <div className="reviewInnerBar w-[50%]"></div>
-                    </div>
-                    <small>504</small>
-                </div>
-
-                <div className="reviewBarWrap">
-                    <small>1 Star</small>
-                    <div className="reviewBar">
-                        <div className="reviewInnerBar w-[18%]"></div>
-                    </div>
-                    <small>23</small>
-                </div>
-
-            </div>
+                  </td>
+                </tr>
+              ) : reviews.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="text-center py-4 text-gray-700">
+                    No reviews available.
+                  </td>
+                </tr>
+              ) : (
+                reviews.map((el) => (
+                  <tr
+                    key={el.id}
+                    className="bg-white border-b-[1px] border-gray-200"
+                  >
+                    <td
+                      scope="row"
+                      className="font-medium whitespace-nowrap text-gray-800"
+                    >
+                      <div className="tableProductDetails">
+                        <img
+                          src={el.item?.images && el.item?.images[0] || "https://via.placeholder.com/50"}
+                          alt=""
+                          className="object-cover"
+                        />
+                        <p>
+                          {el.item?.title || "N/A"}{" "}
+                          <br />
+                          <span className="text-gray-500 text-[11px]">
+                            {el.item?.category}
+                          </span>
+                        </p>
+                      </div>
+                    </td>
+                    <td
+                      scope="row"
+                      className="font-medium whitespace-nowrap text-gray-800"
+                    >
+                      <div className="tableProductDetails">
+                        <img
+                          src={
+                            el.user?.profile || "https://via.placeholder.com/50"
+                          }
+                          alt=""
+                        />
+                        <p>
+                          {el.user?.name || "N/A"}{" "}
+                          <br />
+                          <span className="text-gray-500 text-[11px]">
+                            {el.user?.email || "N/A"}
+                          </span>
+                        </p>
+                      </div>
+                    </td>
+                    <td scope="row" className="text-gray-500">
+                      <div className="flex-col items-start">
+                        <StarRating rating={el.rating} />
+                        <p className="mt-[5px]">{el.comment}</p>
+                      </div>
+                    </td>
+                    <td className="text-gray-500">
+                      {new Date(el.createdAt).toLocaleString()}
+                    </td>
+                    {
+                        Cookies.get("role") === "ADMIN" &&
+                        <td
+                        className="text-gray-600 hover:text-red-700 cursor-pointer"
+                        onClick={() => {
+                            setReviewToDelete(el.id); // Set the review ID to delete
+                            setShowDeleteModal(true);
+                        }}
+                        >
+                        <RiDeleteBin6Line className="w-[17px] cursor-pointer" />
+                        </td>
+                    }
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
 
-        <div className="adminInventoryWrapper">
-            <div className="relative overflow-x-auto mt-[-10px]">
-                <table className="w-full">
-                    <thead className="text-gray-500">
-                        <tr className="border-b-[1px] border-gray-200">
-                            <th scope="col">
-                                <div className="tableHeadingDiv">
-                                    <p>Item</p>
-                                </div>
-                            </th>
-                            <th scope="col" className="">
-                                Reviewer
-                            </th>
-                            <th scope="col" className="w-[500px]">
-                                Review
-                            </th>
-                            <th scope="col" className="">
-                                Date
-                            </th>
-                            <th scope="col" className="w-1"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {reviews.map((el) => (
-                            <tr key={el.id} className="bg-white border-b-[1px] border-gray-200">
-                                <td scope="row" className="font-medium whitespace-nowrap text-gray-800">
-                                    <div className="tableProductDetails">
-                                        
-                                        <img src={el.productImage} alt="" />
-                                        <p>{el.productName} <br/><span className="text-gray-500 text-[11px]">{el.category}</span></p>
-                                    </div>
-                                </td>
-                                <td scope="row" className="font-medium whitespace-nowrap text-gray-800">
-                                    <div className="tableProductDetails">
-                                        
-                                        <img src={el.customerImage} alt="" />
-                                        <p>{el.customerName} <br/><span className="text-gray-500 text-[11px]">{el.email}</span></p>
-                                    </div>
-                                </td>
-                                <td scope="row" className="text-gray-500">
-                                    <div className=" flex-col items-start">
-                                        <StarRating rating={el.rating} />
-                                        <p className="mt-[5px]">{el.review}</p>
-                                    </div>
-                                </td>
-                                <td className="text-gray-500 ">{el.date}</td>
-                                <td className="text-gray-600 hover:text-red-700 cursor-pointer" onClick={() => setShowDeleteModal(true)}>
-                                    <RiDeleteBin6Line className="w-[17px] cursor-pointer"/>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+        <div className="inventoryPagination">
+          <p className="text-gray-700">
+            Page {pagination.current_page} of {pagination.last_page}
+          </p>
 
-            <div className="inventoryPagination">
-                <p className="text-gray-700">Page 1 of 4</p>
-
-                <div className="inventoryPaginationButtons">
-                    <button className="border-[1px] border-gray-300">Previous</button>
-                    <button className="border-[1px] border-gray-300">Next</button>
-                </div>
-            </div>
+          <div className="inventoryPaginationButtons">
+            <button
+              className={`border-[1px] border-gray-300 ${
+                pagination.current_page === 1
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+              onClick={setPreviousPage}
+              disabled={pagination.current_page === 1}
+            >
+              Previous
+            </button>
+            <button
+              className={`border-[1px] border-gray-300 ${
+                pagination.current_page === pagination.last_page
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+              onClick={setNextPage}
+              disabled={pagination.current_page === pagination.last_page}
+            >
+              Next
+            </button>
+          </div>
         </div>
+      </div>
     </>
+  );
+};
 
-}
-
-export default DashboardReviews
+export default DashboardReviews;

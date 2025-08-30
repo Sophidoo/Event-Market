@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
 import "../styles/Bookings.css";
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../AxiosInstance";
 import Cookies from "js-cookie";
@@ -17,6 +17,7 @@ const Bookings = () => {
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState("Rentals");
   const popup = new PaystackPop();
+  const navigate = useNavigate()
   const public_key = "pk_test_2739888aa5ce16964b6b127633df5176ffe74ea2"
 
   const fetchBookings = async () => {
@@ -257,7 +258,7 @@ const Bookings = () => {
 
       <section className="bookings">
         {Object.entries(filteredBookings).map(([date, bookingsList]) => (
-          <div key={date} className="bookingHolder border-b-[1px] border-gray-300">
+          <div key={date} className="bookingHolder border-b-[1px] border-gray-300 ">
             <h2>
               <CalendarDaysIcon className="h-5 w-5 inline mr-2" />
               {new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
@@ -268,17 +269,18 @@ const Bookings = () => {
                 const quantity = Math.round(booking.totalPrice / (unitPrice * 1.1)); // Assuming 10% deposit
                 const securityDeposit = booking.totalPrice * 0.1;
                 return (
-                  <div key={booking.id} className="bookingInformation border-[1px] border-gray-200">
+                  <div key={booking.id} className="bookingInformation border-[1px] border-gray-200 cursor-pointer hover:scale-105 transition"  >
                     <img
                       src={booking.item.images?.[0] || "https://via.placeholder.com/150"}
                       alt={booking.item.title}
+                      onClick={() => navigate(`${booking.id}`)}
                     />
                     <div className="bookingDetails">
-                      <div className="bookingDetailsHeading">
+                      <div className="bookingDetailsHeading" onClick={() => navigate(`${booking.id}`)}>
                         <h3>{booking.item.title}</h3>
                         <p>{booking.address}</p>
                       </div>
-                      <div className="bookingOrderInfo">
+                      <div className="bookingOrderInfo" onClick={() => navigate(`${booking.id}`)}>
                         <h4>Order Details</h4>
                         <p>
                           <span>Qty: {quantity}</span>
@@ -287,7 +289,7 @@ const Bookings = () => {
                           <span>Security Deposit: N{securityDeposit.toFixed(2)}</span>
                         </p>
                       </div>
-                      <div className="bookingVendorContact">
+                      <div className="bookingVendorContact" >
                         <h4>Vendor Contact</h4>
                         <div className="bookingVendorInfo">
                           <p>
