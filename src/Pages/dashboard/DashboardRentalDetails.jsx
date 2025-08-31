@@ -4,6 +4,7 @@ import "../../styles/Details.css";
 import { toast } from "react-toastify";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../AxiosInstance";
+import Loading from "../../components/Loading";
 
 const DashboardRentalDetails = () => {
   const { id } = useParams();
@@ -41,7 +42,7 @@ const DashboardRentalDetails = () => {
   }, [id, navigate]);
 
   if (loading) {
-    return <div>Loading item details...</div>;
+    return <Loading/>;
   }
 
   if (!item) {

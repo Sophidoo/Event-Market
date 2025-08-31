@@ -8,6 +8,7 @@ import SuspendUserModal from "../../components/Modals/SuspendUserModal";
 import UnsuspendUserModal from "../../components/Modals/UnsuspendUserModal";
 import api from "../../AxiosInstance"; // Import the axios instance
 import { toast } from "react-toastify";
+import Loading from "../../components/Loading";
 
 const DashboardUsers = () => {
   const [checkedRows, setCheckedRows] = useState({});
@@ -160,6 +161,7 @@ const DashboardUsers = () => {
   }, [page]);
 
   return (
+    loading ? <Loading/> :
     <>
       {showDeleteModal && (
         <SuspendUserModal
@@ -219,7 +221,7 @@ const DashboardUsers = () => {
           </div>
         </div>
 
-        {loading && <p>Loading users...</p>}
+        
         {error && <p className="text-red-600">{error}</p>}
         {!loading && !error && (
           <div className="relative overflow-x-auto mt-[-20px]">

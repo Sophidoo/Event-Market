@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import api from "../../AxiosInstance";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import Loading from "../../components/Loading";
 
 const Overview = () => {
   const [stats, setStats] = useState({
@@ -259,9 +260,7 @@ const Overview = () => {
       </div>
 
       {loading ? (
-        <div className="flex justify-center items-center h-32">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#0B5850]"></div>
-        </div>
+        <Loading/>
       ) : (
         <>
           <div className="overviewSummaryCardWrapper">

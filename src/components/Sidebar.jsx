@@ -1,14 +1,16 @@
 import { NavLink } from "react-router-dom";
 import "../styles/componentStyle/Sidebar.css";
 import { ArrowRightStartOnRectangleIcon, BriefcaseIcon, ClipboardDocumentListIcon, Cog6ToothIcon, InboxStackIcon, PrinterIcon, Squares2X2Icon, StarIcon, UserIcon } from "@heroicons/react/24/outline";
+import logo from "../assets/images/logo3.png"
 import { BanknotesIcon } from "@heroicons/react/24/outline";
+import Cookies from "js-cookie"
 
 const Sidebar = () => {
 
   return <>
     <div className="sidebarWrapper bg-[#0B544C] text-white">
       <div className="sidebarLogo">
-        <img src={null} alt="" />
+        <img src={logo} alt="" />
       </div>
       <div className="sidebarLinks">
         <NavLink 
@@ -56,14 +58,17 @@ const Sidebar = () => {
           <PrinterIcon/>
           <span>Bookings</span>
         </NavLink>
-        <NavLink 
-          to="/dashboard/users"
-          end
-          className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
-        >
-          <UserIcon/>
-          <span>Users</span>
-        </NavLink>
+        {
+          Cookies.get("role") === "ADMIN" && 
+          <NavLink 
+            to="/dashboard/users"
+            end
+            className={({isActive}) => `${isActive ? 'bg-[#f6f6f6] text-[#0B544C]' : 'hover:bg-[#f6f6f6]  hover:text-[#0B544C]'}`}
+          >
+            <UserIcon/>
+            <span>Users</span>
+          </NavLink>
+        }
         <NavLink 
           to="/dashboard/reviews"
           end

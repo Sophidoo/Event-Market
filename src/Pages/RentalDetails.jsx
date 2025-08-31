@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import api from "../AxiosInstance";
 import Cookies from "js-cookie";
 import RentItemModal from "../components/Modals/RentItemModal";
+import Loading from "../components/Loading";
 
 const RentalDetails = () => {
   const { id } = useParams(); // Get item ID from URL
@@ -256,9 +257,7 @@ const RentalDetails = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0B5850]"></div>
-      </div>
+      <Loading/>
     );
   }
 

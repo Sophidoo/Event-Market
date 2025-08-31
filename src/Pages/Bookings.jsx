@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import api from "../AxiosInstance";
 import Cookies from "js-cookie";
 import PaystackPop from "@paystack/inline-js";
+import Loading from "../components/Loading";
 
 const Bookings = () => {
   const [bookings, setBookings] = useState({});
@@ -222,9 +223,7 @@ const Bookings = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0B5850]"></div>
-      </div>
+      <Loading/>
     );
   }
 

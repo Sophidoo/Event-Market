@@ -4,6 +4,7 @@ import "../styles/componentStyle/Navbar.css"
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import Cookies from "js-cookie"
 import { useEffect, useState } from 'react'
+import logo from "../assets/images/logo3.png"
 
 const Navbar = () => {
     const [showMenu, setShowMenu] = useState(false)
@@ -31,7 +32,7 @@ const Navbar = () => {
     return<>
         <nav className="text-white bg-[#0B5850] flex justify-between">
             <div className="leftNav">
-                <img src="" alt="" />
+                <img src={logo} alt="" className='object-cover'/>
                 <ul>
                     <NavLink
                         to="/"

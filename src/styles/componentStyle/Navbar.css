@@ -6,9 +6,8 @@ nav{
     z-index: 20;
 }
 nav .leftNav img{
-    width: 120px;
+    width: auto;
     height: 30px;
-    background-color: gray;
 }
 nav .leftNav{
     display: flex;

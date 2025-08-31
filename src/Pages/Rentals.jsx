@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import api from "../AxiosInstance";
 import "../styles/Rentals.css";
+import Loading from "../components/Loading";
 
 const Rentals = () => {
   const [loading, setLoading] = useState(false);
@@ -270,9 +271,7 @@ const Rentals = () => {
 
       <section className="rentalsWrapper">
         {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0B5850]"></div>
-          </div>
+          <Loading h="0"/>
         ) : rentals.length > 0 ? (
           rentals.map((el) => (
             <div key={el.id} className="rentalCard" onClick={() => navigate(`/rental/details/${el.id}`)}>

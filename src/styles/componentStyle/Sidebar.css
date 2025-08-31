@@ -12,10 +12,9 @@
     padding: 18px 30px;
 }
 .sidebarLogo img{
-    width: 300px;
+    width: auto;
     height: 40px;
     object-fit: cover;
-    background-color: gray;
 }
 .sidebarLinks{
     display: flex;

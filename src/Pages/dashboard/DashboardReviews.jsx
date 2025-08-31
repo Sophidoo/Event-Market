@@ -8,6 +8,7 @@ import DeleteReviewModal from "../../components/Modals/DeleteReviewModal";
 import api from "../../AxiosInstance";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import Loading from "../../components/Loading";
 
 const DashboardReviews = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -119,6 +120,7 @@ const DashboardReviews = () => {
   };
 
   return (
+    reviewsLoading ? <Loading/> :
     <>
       {showDeleteModal && (
         <DeleteReviewModal
@@ -198,15 +200,7 @@ const DashboardReviews = () => {
               </tr>
             </thead>
             <tbody>
-              {reviewsLoading ? (
-                <tr>
-                  <td colSpan="5" className="text-center py-4">
-                    <div className="flex justify-center items-center h-32">
-                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#0B5850]"></div>
-                    </div>
-                  </td>
-                </tr>
-              ) : reviews.length === 0 ? (
+              { reviews.length === 0 ? (
                 <tr>
                   <td colSpan="5" className="text-center py-4 text-gray-700">
                     No reviews available.

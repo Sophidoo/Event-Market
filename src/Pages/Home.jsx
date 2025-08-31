@@ -9,11 +9,13 @@ import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import Cookies from "js-cookie"
 import api from "../AxiosInstance";
 import { toast } from "react-toastify";
+import logo from '../assets/images/logo3.png'
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import Loading from '../components/Loading'
 
 const Home = () => {
     const [showMenu, setShowMenu] = useState(false)
@@ -42,9 +44,11 @@ const Home = () => {
             }
         };
 
+        
         window.addEventListener("scroll", handleScroll);
-
+        
         const fetchData = async () => {
+            setLoading(true)
             try {
                 const endpoints = [
                     '/item/booked-rentals/1/10',
@@ -56,6 +60,7 @@ const Home = () => {
                 const [rentalsRes, servicesRes, packagesRes, ratedRes] = await Promise.all(
                     endpoints.map(endpoint => api.get(endpoint))
                 );
+                setLoading(false)
 
                 console.log(rentalsRes.data.data);
                 console.log(servicesRes.data.data);
@@ -67,6 +72,7 @@ const Home = () => {
                 setRated(ratedRes.data.data);
 
             } catch (err) {
+                setLoading(false)
                 console.error(err);
                 toast.error(err.response?.data?.message || "An error occurred");
             }
@@ -106,11 +112,15 @@ const Home = () => {
 
       
 
-    return <>
+    return (
+        loading ? 
+        <Loading h="full" min="90vh"/>
+        :
+        <>
         <section className="homeHeroSection">
             <nav className={`text-white flex justify-between ${scrolled ? "bg-[#0B5850]" : ""}`}>
                 <div className="leftNav">
-                    <img src="" alt="" />
+                    <img src={logo} alt="" />
                     <ul>
                         <NavLink
                             to="/"
@@ -472,7 +482,7 @@ const Home = () => {
                             <HeartIcon className='saveIcon text-black hover:text-red-600'/>
                             <div className="itemCardDetails">
                                 <h3>{el.title}</h3>
-                                <small className='text-gray-600'>{el.description}</small>
+                                <small className='text-gray-600 text-left'>{el.description.split(/\s+/).slice(0, 20).join(" ")}</small>
                                 <p>
                                     <span>
                                         <StarIcon className='text-yellow-600'/>
@@ -547,7 +557,7 @@ const Home = () => {
                             <HeartIcon className='saveIcon text-black hover:text-red-600'/>
                             <div className="itemCardDetails">
                                 <h3>{el.title}</h3>
-                                <small className='text-gray-600'>{el.description}</small>
+                                <small className='text-gray-600 text-left'>{el.description.split(/\s+/).slice(0, 20).join(" ")}</small>
                                 <p>
                                     <span>
                                         <StarIcon className='text-yellow-600'/>
@@ -588,6 +598,7 @@ const Home = () => {
             </div>
         </footer>
     </>
+    )
 
 }
 

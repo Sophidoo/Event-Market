@@ -5,6 +5,7 @@ import { StarIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import api from "../AxiosInstance";
+import Loading from "../components/Loading";
 
 const Packages = () => {
   const [loading, setLoading] = useState(false);
@@ -278,9 +279,7 @@ const Packages = () => {
 
       <section className="packagesWrapper">
         {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0B5850]"></div>
-          </div>
+          <Loading/>
         ) : packages.length > 0 ? (
           packages.map((el) => (
             <div
@@ -304,7 +303,7 @@ const Packages = () => {
                 <h3>
                   {el.title} by {el.vendor?.companyName}
                 </h3>
-                <small className="text-gray-600">{el.description}</small>
+                <small className="text-gray-600">{el.description.split(/\s+/).slice(0, 20).join(" ")}</small>
                 {el.locations?.map((data, index) => (
                   <small key={index} className="text-gray-600">
                     {data}

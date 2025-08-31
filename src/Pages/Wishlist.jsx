@@ -440,7 +440,7 @@ const Wishlist = () => {
                       <XMarkIcon className='saveIcon text-black hover:text-red-600 cursor-pointer' onClick={() => handleRemovefromWishlist(el.item.id, el.item.category)}/>
                       <div className="wishlistRentalCardDetails" onClick={() => navigate(`/package/details/${el.item.id}`)}>
                           <h3>{el.item.title} by {el.item?.vendor?.companyName}</h3>
-                          <small className="text-gray-600">{el.item.description}</small>
+                          <small className="text-gray-600">{el.item.description.split(/\s+/).slice(0, 20).join(" ")}</small>
                           <small className='text-gray-600'>
                             {
                               el.item?.locations?.map((data) => {
